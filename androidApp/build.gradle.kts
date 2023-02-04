@@ -30,16 +30,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
 dependencies {
-    implementation(project(":shared"))
     implementation("androidx.compose.ui:ui:1.3.1")
     implementation("androidx.compose.ui:ui-tooling:1.3.1")
     implementation("androidx.compose.ui:ui-tooling-preview:1.3.1")
