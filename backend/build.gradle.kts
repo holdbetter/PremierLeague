@@ -1,8 +1,4 @@
 val kotlin_version: String by project
-val logback_version: String by project
-val exposed_version: String by project
-val postgresql_version: String by project
-val kodein_version: String by project
 //val compileKotlin: KotlinCompilationTask<*> by tasks
 
 val localBuild = "isLocalBuild"
@@ -10,7 +6,7 @@ val localBuild = "isLocalBuild"
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
-    id("io.ktor.plugin").version(Versions.ktor_version)
+    id("io.ktor.plugin").version(Versions.ktorVersion)
 }
 
 group = "dev.holdbetter"
@@ -32,25 +28,25 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:${Versions.ktor_version}")
-    implementation("io.ktor:ktor-server-core-jvm:${Versions.ktor_version}")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:${Versions.ktor_version}")
-    implementation("io.ktor:ktor-server-netty-jvm:${Versions.ktor_version}")
+    implementation(Deps.Backend.ktorServerCore)
+    implementation(Deps.Backend.ktorJson)
+    implementation(Deps.Backend.ktorContentNegotiation)
+    implementation(Deps.Backend.ktorEngineNetty)
 
-    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
+    implementation(Deps.Backend.exposedCore)
+    implementation(Deps.Backend.exposedDao)
+    implementation(Deps.Backend.exposedJdbc)
 
-    implementation("org.postgresql:postgresql:$postgresql_version")
+    implementation(Deps.Backend.postgreSql)
 
-    implementation("io.ktor:ktor-client-core:${Versions.ktor_version}")
-    implementation("io.ktor:ktor-client-okhttp:${Versions.ktor_version}")
+    implementation(Deps.Network.ktorClient)
+    implementation(Deps.Network.ktorClientOkHttp)
 
-    implementation("org.kodein.di:kodein-di:$kodein_version")
-    implementation("org.kodein.di:kodein-di-framework-ktor-server-jvm:$kodein_version")
+    implementation(Deps.Backend.kodein)
+    implementation(Deps.Backend.kodeinJvm)
 
-    implementation("ch.qos.logback:logback-classic:$logback_version")
-    testImplementation("io.ktor:ktor-server-tests-jvm:${Versions.ktor_version}")
+    implementation(Deps.Backend.logback)
+    testImplementation(Deps.Backend.ktorTest)
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
     implementation(project(":shared:common"))

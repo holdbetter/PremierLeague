@@ -1,6 +1,5 @@
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization")
     id("com.android.library")
 }
 
@@ -12,23 +11,23 @@ kotlin {
             }
         }
     }
-
+    
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "common"
+            baseName = "core-mvi"
         }
     }
-
-    jvm()
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Deps.Common.kotlinSerialization)
+                implementation(Deps.Architecture.mviKotlin)
+                implementation(Deps.Architecture.mviKotlinCoroutines)
+                implementation(project(":shared:common"))
             }
         }
         val commonTest by getting {
@@ -60,7 +59,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.holdbetter.premierleague"
+    namespace = "dev.holdbetter.coreMvi"
     compileSdk = 32
     defaultConfig {
         minSdk = 26
