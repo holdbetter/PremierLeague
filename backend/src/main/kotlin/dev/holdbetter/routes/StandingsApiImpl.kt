@@ -1,8 +1,8 @@
 package dev.holdbetter.routes
 
+import dev.holdbetter.common.LeagueDTO
 import dev.holdbetter.network.RapidResponse.decode
 import dev.holdbetter.network.RapidResponse.response
-import dev.holdbetter.premierleague.LeagueDTO
 import dev.holdbetter.util.add
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -13,7 +13,6 @@ class StandingsApiImpl(
     override val client: HttpClient,
     override val decoder: Json
 ) : StandingsApi {
-
     override suspend fun getLeague(season: Season, league: League): LeagueDTO? {
         return client.get {
             url {

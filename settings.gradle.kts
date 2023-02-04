@@ -15,5 +15,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "PremierLeague"
 include(":androidApp")
-include(":shared")
 include(":backend")
+include(":shared:util")
+include(":shared:common")

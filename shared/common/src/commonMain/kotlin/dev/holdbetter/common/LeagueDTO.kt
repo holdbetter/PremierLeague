@@ -1,6 +1,6 @@
-package dev.holdbetter.premierleague
+package dev.holdbetter.common
 
-import dev.holdbetter.premierleague.util.StandingListUnwrapper
+import dev.holdbetter.common.util.StandingListUnwrapper
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

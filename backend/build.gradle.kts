@@ -53,7 +53,7 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm:${Versions.ktor_version}")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
-    implementation(project(":shared"))
+    implementation(project(":shared:common"))
 }
 
 tasks.register("buildLocalAndRun") {

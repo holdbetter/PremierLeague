@@ -1,6 +1,6 @@
 package dev.holdbetter.routes
 
-import dev.holdbetter.premierleague.LeagueDTO
+import dev.holdbetter.common.LeagueDTO
 import io.ktor.client.*
 import kotlinx.serialization.json.Json
 

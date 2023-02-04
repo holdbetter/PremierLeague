@@ -1,6 +1,6 @@
 package dev.holdbetter.routes
 
-import dev.holdbetter.premierleague.LeagueDTO
+import dev.holdbetter.common.LeagueDTO
 import dev.holdbetter.routes.ApiFootballConfig.CURRENT_SEASON
 import dev.holdbetter.routes.ApiFootballServiceEndpoints.STANDINGS
 import io.ktor.http.*

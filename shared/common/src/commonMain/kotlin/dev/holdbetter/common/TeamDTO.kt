@@ -1,4 +1,4 @@
-package dev.holdbetter.premierleague
+package dev.holdbetter.common
 
 import kotlinx.serialization.Serializable
 
