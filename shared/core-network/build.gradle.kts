@@ -18,14 +18,16 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "core-mvi"
+            baseName = "core-network"
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Deps.Common.kotlinCoroutines)
+                implementation(Deps.Network.ktorClient)
+
+                implementation(Deps.Common.kotlinSerialization)
 
                 implementation(project(":shared:common"))
             }
@@ -35,12 +37,20 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(Deps.Network.ktorClientOkHttp)
+            }
+        }
         val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
+            dependencies {
+                implementation(Deps.Network.ktorClientDarwin)
+            }
+
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
@@ -59,7 +69,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.holdbetter.coreMvi"
+    namespace = "dev.holdbetter.core_network"
     compileSdk = 32
     defaultConfig {
         minSdk = 26

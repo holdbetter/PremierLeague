@@ -26,10 +26,22 @@ object Deps {
     object Network {
         const val ktorClient = "io.ktor:ktor-client-core:${Versions.ktorVersion}"
         const val ktorClientOkHttp = "io.ktor:ktor-client-okhttp:${Versions.ktorVersion}"
+        const val ktorClientDarwin = "io.ktor:ktor-client-darwin:${Versions.ktorVersion}"
     }
 
     object Common {
         const val kotlinSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerializationVersion}"
+        const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutinesVersion}"
+        const val loggerNapier = "io.github.aakira:napier:${Versions.napierVersion}"
+    }
+    
+    object AndroidX {
+        const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
+        const val activityKtx = "androidx.activity:activity-ktx:${Versions.activityKtxVersion}"
+        const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtxVersion}"
+        const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompatVersion}"
+        const val material = "com.google.android.material:material:${Versions.material}"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayoutVersion}"
     }
 }
 
@@ -42,6 +54,15 @@ object Versions {
     const val logbackVersion = "1.2.11"
 
     const val kotlinSerializationVersion = "1.4.1"
+    const val kotlinCoroutinesVersion = "1.6.4"
+    const val napierVersion = "2.6.1"
 
     const val mviKotlinVersion = "3.1.0"
+
+    const val coreKtxVersion = "1.8.0"
+    const val activityKtxVersion = "1.5.1"
+    const val fragmentKtxVersion = "1.5.5"
+    const val appcompatVersion = "1.5.1"
+    const val material = "1.8.0"
+    const val constraintLayoutVersion = "2.1.4"
 }

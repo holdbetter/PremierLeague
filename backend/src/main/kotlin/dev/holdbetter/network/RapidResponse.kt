@@ -1,7 +1,10 @@
 package dev.holdbetter.network
 
 import io.ktor.client.statement.*
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 // TODO: Надо написать тесты
 object RapidResponse {
@@ -42,6 +45,4 @@ object RapidResponse {
             .jsonObject[ERRORS]
             ?.jsonObject
             ?.mapValues { it.value.jsonPrimitive.toString() }
-
-    inline fun <reified T> JsonElement?.decode(json: Json): T? = this?.let { json.decodeFromJsonElement(it) }
 }

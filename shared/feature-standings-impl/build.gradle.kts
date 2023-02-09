@@ -18,7 +18,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "core-mvi"
+            baseName = "feature-standings-impl"
         }
     }
 
@@ -26,7 +26,16 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Deps.Common.kotlinCoroutines)
+                implementation(Deps.Common.kotlinSerialization)
+                implementation(Deps.Common.loggerNapier)
 
+                implementation(Deps.AndroidX.appcompat)
+                implementation(Deps.AndroidX.constraintLayout)
+                implementation(Deps.AndroidX.fragmentKtx)
+
+                implementation(project(":shared:feature-standings-api"))
+                implementation(project(":shared:core-mvi"))
+                implementation(project(":shared:core-network"))
                 implementation(project(":shared:common"))
             }
         }
@@ -59,7 +68,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.holdbetter.coreMvi"
+    namespace = "dev.holdbetter.feature_standings_impl"
     compileSdk = 32
     defaultConfig {
         minSdk = 26

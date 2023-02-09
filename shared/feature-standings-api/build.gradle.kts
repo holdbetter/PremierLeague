@@ -11,14 +11,14 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "core-mvi"
+            baseName = "feature-standings-api"
         }
     }
 
@@ -26,7 +26,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Deps.Common.kotlinCoroutines)
+                implementation(Deps.Common.kotlinSerialization)
 
+                implementation(project(":shared:core-mvi"))
+                implementation(project(":shared:core-network"))
                 implementation(project(":shared:common"))
             }
         }
@@ -59,7 +62,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.holdbetter.coreMvi"
+    namespace = "dev.holdbetter.feature_standings_api"
     compileSdk = 32
     defaultConfig {
         minSdk = 26

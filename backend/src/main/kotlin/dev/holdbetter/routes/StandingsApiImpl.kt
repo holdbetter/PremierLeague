@@ -1,7 +1,7 @@
 package dev.holdbetter.routes
 
 import dev.holdbetter.common.LeagueDTO
-import dev.holdbetter.network.RapidResponse.decode
+import dev.holdbetter.common.util.decode
 import dev.holdbetter.network.RapidResponse.response
 import dev.holdbetter.util.add
 import io.ktor.client.*
