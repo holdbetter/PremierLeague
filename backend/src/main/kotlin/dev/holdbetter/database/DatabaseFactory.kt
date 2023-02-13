@@ -39,10 +39,10 @@ object DatabaseFactory {
     suspend fun <T> dbQuery(block: suspend () -> T): T = newSuspendedTransaction(Dispatchers.IO) { block() }
 
     private fun getPostgresSqlUrl(
-        pgUser: String = "vievseev",
+        pgUser: String = "holdbetter",
         pgPassword: String = "",
         pgHost: String = "localhost",
         pgPort: String = "5432",
-        pgDatabase: String = "vievseev"
+        pgDatabase: String = "holdbetter"
     ) = "jdbc:postgresql://$pgHost:$pgPort/$pgDatabase?user=$pgUser&password=$pgPassword"
 }
