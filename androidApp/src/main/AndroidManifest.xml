@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".PremierLeague"
+        android:name=".PremierLeagueApplication"
         android:allowBackup="false"
         android:label="@string/appName"
         android:supportsRtl="true"

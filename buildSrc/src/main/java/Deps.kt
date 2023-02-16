@@ -65,4 +65,10 @@ object Versions {
     const val appcompatVersion = "1.5.1"
     const val material = "1.8.0"
     const val constraintLayoutVersion = "2.1.4"
+
+    const val diktVersion = "1.0.2"
+}
+
+object Plugins {
+    const val dikt = "io.github.sergeshustoff.dikt"
 }

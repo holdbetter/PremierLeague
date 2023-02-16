@@ -1,28 +1,15 @@
 package dev.holdbetter.feature_standings_impl
 
-import dev.holdbetter.core_network.Provider
 import dev.holdbetter.feature_standings_api.StandingsStore
 import dev.holdbetter.feature_standings_api.StandingsView
-import dev.holdbetter.feature_standings_impl.data.StandingsDataSourceImpl
-import dev.holdbetter.feature_standings_impl.data.StandingsRepositoryImpl
-import dev.holdbetter.feature_standings_impl.domain.StandingsStoreImpl
 import dev.holdbetter.feature_standings_impl.domain.toIntent
 import dev.holdbetter.feature_standings_impl.domain.toModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.map
 
-class StandingsComponent {
+internal class StandingsComponent(private val store: StandingsStore) {
 
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-
-    private val store: StandingsStore = StandingsStoreImpl(
-        repository = StandingsRepositoryImpl(
-            dataSource = StandingsDataSourceImpl(
-                decoder = Provider.decoder,
-                networkInteractor = Provider.networker
-            )
-        )
-    )
 
     private var view: StandingsView? = null
 

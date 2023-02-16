@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id(Plugins.dikt)
 }
 
 android {
@@ -43,4 +44,7 @@ dependencies {
 
     implementation(project(":shared:feature-standings-api"))
     implementation(project(":shared:feature-standings-impl"))
+    implementation(project(":shared:core-network"))
+    implementation(project(":shared:core-di-api"))
+    implementation(project(":shared:core-di-impl"))
 }

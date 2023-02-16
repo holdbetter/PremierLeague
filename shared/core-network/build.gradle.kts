@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id(Plugins.dikt)
 }
 
 kotlin {
@@ -30,6 +31,7 @@ kotlin {
                 implementation(Deps.Common.kotlinSerialization)
 
                 implementation(project(":shared:common"))
+                implementation(project(":shared:core-di-api"))
             }
         }
         val commonTest by getting {
