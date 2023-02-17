@@ -4,9 +4,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlin.contracts.Effect
 
-// TODO: Dispose?
-// TODO: Надо посмотреть что делает actor, потому что возможно навесить сразу нужный диспатчер
-// TODO: Диспатчер повесил, но может стоит это сделать через expect/actual, потому на JVM есть свой IO диспатчер
 @OptIn(FlowPreview::class)
 class StoreHelper<in Intent, in Effect, State>(
     initialState: State,

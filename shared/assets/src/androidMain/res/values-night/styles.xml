@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="LeagueTextAppearance.Subhead">
+        <item name="fontFamily">@font/raleway_bold_italic</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

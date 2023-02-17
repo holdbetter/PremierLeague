@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="standings_header">Results</string>
+    <string name="standings_points_header">P</string>
+    <string name="team_logo_content_desc">team_logo</string>
+</resources>

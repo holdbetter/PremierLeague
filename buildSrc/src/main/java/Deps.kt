@@ -42,6 +42,8 @@ object Deps {
         const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompatVersion}"
         const val material = "com.google.android.material:material:${Versions.material}"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayoutVersion}"
+        const val recycler = "androidx.recyclerview:recyclerview:${Versions.recyclerVersion}"
+        const val glide = "com.github.bumptech.glide:glide:${Versions.glideVersion}"
     }
 }
 
@@ -65,8 +67,10 @@ object Versions {
     const val appcompatVersion = "1.5.1"
     const val material = "1.8.0"
     const val constraintLayoutVersion = "2.1.4"
+    const val recyclerVersion = "1.2.0"
 
     const val diktVersion = "1.0.2"
+    const val glideVersion = "4.14.2"
 }
 
 object Plugins {

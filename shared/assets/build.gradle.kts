@@ -18,11 +18,9 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "util"
+            baseName = "assets"
         }
     }
-
-    jvm()
 
     sourceSets {
         val commonMain by getting
@@ -31,7 +29,13 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(Deps.AndroidX.appcompat)
+                implementation(Deps.AndroidX.glide)
+            }
+        }
+        val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -54,10 +58,10 @@ kotlin {
 }
 
 android {
-    namespace = "dev.holdbetter.util"
+    namespace = "dev.holdbetter.assets"
     compileSdk = 32
     defaultConfig {
-        minSdk = 26
+        minSdk = 24
         targetSdk = 32
     }
 }

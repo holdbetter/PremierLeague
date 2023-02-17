@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".PremierLeagueApplication"
         android:allowBackup="false"
         android:label="@string/appName"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/LeagueTheme">
+
+        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

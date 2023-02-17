@@ -42,6 +42,7 @@ dependencies {
     implementation(Deps.AndroidX.fragmentKtx)
     implementation(Deps.Common.loggerNapier)
 
+    implementation(project(":shared:assets"))
     implementation(project(":shared:feature-standings-api"))
     implementation(project(":shared:feature-standings-impl"))
     implementation(project(":shared:core-network"))

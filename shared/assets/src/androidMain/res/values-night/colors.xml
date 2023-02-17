@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- application-wide colors -->
+    <color name="leagueBackground">@color/black_850</color>
+    <color name="leagueTextColor">@color/white</color>
+    <color name="leagueTextColorSecondary">@color/white</color>
+    <color name="leagueSeparator">@color/purple_700</color>
+</resources>

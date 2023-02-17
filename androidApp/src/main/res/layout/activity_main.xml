@@ -3,6 +3,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root"
-    android:name="dev.holdbetter.feature_standings_impl.StandingsFragment">
-
-</androidx.fragment.app.FragmentContainerView>
+    android:name="dev.holdbetter.feature_standings_impl.StandingsFragment"/>

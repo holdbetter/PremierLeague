@@ -36,6 +36,7 @@ kotlin {
                 implementation(project(":shared:core-di-api"))
                 implementation(project(":shared:core-di-impl"))
                 implementation(project(":shared:common"))
+                implementation(project(":shared:assets"))
             }
         }
         val commonTest by getting {
@@ -48,6 +49,8 @@ kotlin {
                 implementation(Deps.AndroidX.appcompat)
                 implementation(Deps.AndroidX.constraintLayout)
                 implementation(Deps.AndroidX.fragmentKtx)
+                implementation(Deps.AndroidX.recycler)
+                implementation(Deps.AndroidX.glide)
             }
         }
         val androidTest by getting
@@ -78,5 +81,9 @@ android {
     defaultConfig {
         minSdk = 26
         targetSdk = 32
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }

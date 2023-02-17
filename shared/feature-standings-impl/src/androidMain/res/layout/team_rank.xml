@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="5dp"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/rank"
+        android:layout_width="44dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textAppearance="@style/LeagueTextAppearance.Subhead"
+        tools:text="1" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginVertical="14dp"
+        android:layout_marginStart="5dp"
+        android:contentDescription="@string/team_logo_content_desc"
+        tools:ignore="MissingConstraints"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/team"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:textAppearance="@style/LeagueTextAppearance.Title"
+        tools:text="Chelsea FC" />
+
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:gravity="center"
+        android:maxLength="3"
+        android:textAlignment="center"
+        android:textAppearance="@style/LeagueTextAppearance.Accent"
+        android:textSize="26sp"
+        tools:text="147" />
+
+</LinearLayout>

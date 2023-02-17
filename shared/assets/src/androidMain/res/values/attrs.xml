@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="leagueBackground" format="color" />
+    <attr name="leagueSeparator" format="color" />
+    <attr name="leagueTextColor" format="color" />
+    <attr name="leagueTextColorSecondary" format="color" />
+</resources>

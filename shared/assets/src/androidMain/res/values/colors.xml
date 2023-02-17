@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- application-wide colors -->
+    <color name="leagueColorPrimary">@color/purple</color>
+    <color name="leagueBackground">@color/white_50</color>
+    <color name="leagueTextColor">@color/black</color>
+    <color name="leagueTextColorSecondary">@color/black_500</color>
+    <color name="leagueSeparator">@color/purple_100</color>
+
+    <!-- palette -->
+    <color name="black">#000000</color>
+    <color name="black_850">#1A1A1A</color>
+    <color name="black_500">#737373</color>
+    <color name="black_300">#CACACA</color>
+
+    <color name="purple">#3D195B</color>
+    <color name="purple_700">#6D4B89</color>
+    <color name="purple_100">#B1A1BE</color>
+
+    <color name="darkPurple">#200E2E</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="white_50">#FAFAFA</color>
+
+</resources>
