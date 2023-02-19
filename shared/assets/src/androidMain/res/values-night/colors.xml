@@ -3,6 +3,7 @@
     <!-- application-wide colors -->
     <color name="leagueBackground">@color/black_850</color>
     <color name="leagueTextColor">@color/white</color>
+    <color name="leagueTextColorInverse">@color/black</color>
     <color name="leagueTextColorSecondary">@color/white</color>
-    <color name="leagueSeparator">@color/purple_700</color>
+    <color name="leagueSeparator">@color/purple_200</color>
 </resources>

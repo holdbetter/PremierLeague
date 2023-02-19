@@ -1,6 +1,8 @@
 package dev.holdbetter.feature_standings_impl
 
+import android.animation.ValueAnimator
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.view.isVisible
 import dev.holdbetter.coreMvi.AbstractMviView
 import dev.holdbetter.feature_standings_api.StandingsView
@@ -13,10 +15,19 @@ internal class StandingsViewImpl(view: View) :
     private val binding = StandingsFragmentBinding.bind(view)
     private val adapter = StandingsAdapter()
 
+    private val loaderAnimator = ValueAnimator.ofFloat(1f, 0.2f).apply {
+        interpolator = AccelerateDecelerateInterpolator()
+        duration = 700
+        repeatMode = ValueAnimator.REVERSE
+        repeatCount = ValueAnimator.INFINITE
+
+        addUpdateListener {
+            binding.loader.alpha = it.animatedValue as Float
+        }
+    }
+
     init {
         with(binding) {
-            header.clipToOutline = true
-
             standingsList.adapter = adapter
             standingsList.addItemDecoration(StandingsDecorator(view.context))
         }
@@ -27,10 +38,23 @@ internal class StandingsViewImpl(view: View) :
         Napier.d(message = model::toString)
 
         model.standings?.teams?.let(adapter::submitList)
+        loading(model.isLoading)
+        content(model)
+    }
 
+    private fun loading(isLoading: Boolean) {
         with(binding) {
-            loader.isVisible = model.isLoading
-            contentReadyGroup.isVisible = !model.isLoading
+            loadingGroup.isVisible = isLoading
+
+            if (isLoading) {
+                loaderAnimator.start()
+            } else {
+                loaderAnimator.cancel()
+            }
         }
+    }
+
+    private fun content(model: StandingsView.Model) {
+        binding.contentReadyGroup.isVisible = !model.isLoading
     }
 }

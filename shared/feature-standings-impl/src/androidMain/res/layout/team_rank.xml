@@ -33,21 +33,49 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:layout_weight="1"
+        android:paddingEnd="8dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textAppearance="@style/LeagueTextAppearance.Title"
-        tools:text="Chelsea FC" />
+        tools:text="Manchester United Football" />
+
+    <FrameLayout
+        android:layout_width="18sp"
+        android:layout_height="18sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/purple_400">
+
+        <TextView
+            android:id="@+id/matches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="1dp"
+            android:maxLength="2"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textAppearance="@style/LeagueTextAppearance.Accent"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="17" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/points"
-        android:layout_width="80dp"
+        android:layout_width="50sp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:gravity="center"
+        android:layout_marginRight="8dp"
         android:maxLength="3"
         android:textAlignment="center"
         android:textAppearance="@style/LeagueTextAppearance.Accent"
         android:textSize="26sp"
-        tools:text="147" />
+        tools:text="76" />
 
 </LinearLayout>

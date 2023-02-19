@@ -8,9 +8,11 @@
         <item name="android:textColorSecondary">?leagueTextColorSecondary</item>
         <item name="colorControlHighlight">?leagueSeparator</item>
         <item name="android:statusBarColor">@color/purple</item>
+        <item name="android:navigationBarColor">@color/purple</item>
 
         <!-- application provided attributes -->
         <item name="leagueTextColor">@color/leagueTextColor</item>
+        <item name="leagueTextColorInverse">@color/leagueTextColorInverse</item>
         <item name="leagueTextColorSecondary">@color/leagueTextColorSecondary</item>
         <item name="leagueBackground">@color/leagueBackground</item>
         <item name="leagueSeparator">@color/leagueSeparator</item>

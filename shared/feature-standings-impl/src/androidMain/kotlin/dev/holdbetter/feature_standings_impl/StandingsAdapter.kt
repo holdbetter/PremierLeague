@@ -38,6 +38,7 @@ internal class StandingsAdapter :
                 logo.loadWithPlaceholder(teamRank.team.logoUrl, R.drawable.league_logo_mini)
                 team.text = teamRank.team.name
                 points.text = teamRank.points.toString()
+                matches.text = teamRank.allStats.played.toString()
             }
         }
 

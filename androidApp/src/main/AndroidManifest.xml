@@ -7,7 +7,7 @@
         android:name=".PremierLeagueApplication"
         android:allowBackup="false"
         android:label="@string/appName"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/LeagueTheme">
 
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts" />

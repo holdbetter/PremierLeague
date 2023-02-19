@@ -3,5 +3,6 @@
     <attr name="leagueBackground" format="color" />
     <attr name="leagueSeparator" format="color" />
     <attr name="leagueTextColor" format="color" />
+    <attr name="leagueTextColorInverse" format="color" />
     <attr name="leagueTextColorSecondary" format="color" />
 </resources>
