@@ -6,6 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/content_ready_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:constraint_referenced_ids="header, points_mark, standings_list" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/loading_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:constraint_referenced_ids="loader" />
+
+    <ImageView
+        android:id="@+id/loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/premier_league_logo_content_desc"
+        android:src="@drawable/league_logo_mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/header"
         android:layout_width="0dp"
@@ -30,12 +55,13 @@
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
+        android:id="@+id/points_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="35dp"
         android:text="@string/standings_points_header"
         android:textAppearance="@style/LeagueTextAppearance.Title"
         android:textSize="14sp"
-        android:layout_marginRight="35dp"
         app:layout_constraintBottom_toBottomOf="@id/header"
         app:layout_constraintRight_toRightOf="parent" />
 

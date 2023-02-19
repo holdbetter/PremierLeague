@@ -7,6 +7,7 @@ import dev.holdbetter.feature_standings_api.StandingsStore.Intent
 import dev.holdbetter.feature_standings_api.StandingsStore.State
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlin.contracts.Effect
 
 @OptIn(FlowPreview::class)
 internal class StandingsStoreImpl(
@@ -46,11 +47,12 @@ internal class StandingsStoreImpl(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun handleIntent(state: State, intent: Intent): Flow<Effect> =
         when (intent) {
             is Intent.OpenTeamDetail -> openTeamDetail(state, intent.teamId)
-            Intent.Reload -> reload()
-        }.flowOn(dispatcher)
+            Intent.Reload -> withLoading(::reload)
+        }
 
     private fun reduce(state: State, effect: Effect) =
         when (effect) {
@@ -87,5 +89,10 @@ internal class StandingsStoreImpl(
         } else {
             null
         }
+    }
+
+    private fun withLoading(block: suspend () -> Flow<Effect>): Flow<Effect> = flow {
+        emit(Effect.LoadingStarted)
+        emitAll(block())
     }
 }

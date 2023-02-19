@@ -1,5 +1,6 @@
 package dev.holdbetter.coreMvi
 
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlin.contracts.Effect
@@ -31,6 +32,8 @@ class StoreHelper<in Intent, in Effect, State>(
     }
 
     private suspend fun onEffect(effect: Effect) {
+        // TODO: add debug flags
+        Napier.d { "onEffect: $effect"}
         stateFlow.emit(reducer(stateFlow.value, effect))
     }
 }

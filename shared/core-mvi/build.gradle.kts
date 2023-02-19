@@ -26,6 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Deps.Common.kotlinCoroutines)
+                implementation(Deps.Common.loggerNapier)
 
                 implementation(project(":shared:common"))
             }
