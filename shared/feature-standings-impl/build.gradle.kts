@@ -51,6 +51,7 @@ kotlin {
                 implementation(Deps.AndroidX.fragmentKtx)
                 implementation(Deps.AndroidX.recycler)
                 implementation(Deps.AndroidX.glide)
+                implementation(Deps.AndroidX.pullToRefresh)
             }
         }
         val androidTest by getting

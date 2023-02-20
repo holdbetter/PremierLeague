@@ -13,6 +13,7 @@ interface StandingsStore : Store<Intent, State> {
 
     data class State(
         val isLoading: Boolean = false,
+        val isRefreshEnabled: Boolean = false,
         val data: Data? = null,
         val selectedTeam: Data.Standings.TeamRank? = null
     ) {
@@ -22,8 +23,7 @@ interface StandingsStore : Store<Intent, State> {
                 val name: String,
                 val country: String,
                 val logoUrl: String,
-                val teams: List<TeamRank>,
-                val update: String
+                val teams: List<TeamRank>
             ) : Data {
 
                 data class TeamRank(
@@ -32,7 +32,8 @@ interface StandingsStore : Store<Intent, State> {
                     val team: Team,
                     val allStats: Stats,
                     val homeStats: Stats,
-                    val awayStats: Stats
+                    val awayStats: Stats,
+                    val update: String
                 )
 
                 data class Team(

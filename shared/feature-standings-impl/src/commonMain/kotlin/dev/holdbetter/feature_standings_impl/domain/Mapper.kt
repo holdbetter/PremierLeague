@@ -12,8 +12,7 @@ internal object Mapper {
                 name = name,
                 country = country,
                 logoUrl = logo,
-                teams = mapStandingsToTeamRanks(standings),
-                update = leagueDTO.standings.firstOrNull()?.update ?: ""
+                teams = mapStandingsToTeamRanks(standings)
             )
         }
 
@@ -28,7 +27,8 @@ internal object Mapper {
                 team = mapStandingToTeam(team),
                 allStats = mapStatsDtoToStats(stats),
                 homeStats = mapStatsDtoToStats(homeStats),
-                awayStats = mapStatsDtoToStats(awayStats)
+                awayStats = mapStatsDtoToStats(awayStats),
+                update = update
             )
         }
 
@@ -72,6 +72,7 @@ internal fun StandingsStore.State.toModel() =
         is StandingsStore.State.Data.Error -> {
             StandingsView.Model(
                 isLoading = isLoading,
+                isRefreshEnabled = isRefreshEnabled,
                 isError = true,
                 standings = null
             )
@@ -79,6 +80,7 @@ internal fun StandingsStore.State.toModel() =
         is StandingsStore.State.Data.Standings -> {
             StandingsView.Model(
                 isLoading = isLoading,
+                isRefreshEnabled = isRefreshEnabled,
                 isError = false,
                 standings = data as StandingsStore.State.Data.Standings
             )
@@ -86,6 +88,7 @@ internal fun StandingsStore.State.toModel() =
         null -> {
             StandingsView.Model(
                 isLoading = isLoading,
+                isRefreshEnabled = isRefreshEnabled,
                 isError = false,
                 standings = null
             )

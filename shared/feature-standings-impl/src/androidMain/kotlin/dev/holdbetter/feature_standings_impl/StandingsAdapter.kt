@@ -50,7 +50,7 @@ internal class StandingsAdapter :
 
     class TeamRankDiffer : DiffUtil.ItemCallback<TeamRank>() {
         override fun areItemsTheSame(oldItem: TeamRank, newItem: TeamRank): Boolean {
-            return oldItem === newItem
+            return oldItem.update == newItem.update
         }
 
         override fun areContentsTheSame(oldItem: TeamRank, newItem: TeamRank): Boolean {

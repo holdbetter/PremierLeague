@@ -3,6 +3,7 @@ package dev.holdbetter.feature_standings_impl
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import dev.holdbetter.core_di_impl.findModuleDependency
 import dev.holdbetter.feature_standings_impl.di.StandingsModule
 import dev.holdbetter.feature_standings_impl.di.StandingsRepositoryModule
@@ -27,7 +28,7 @@ class StandingsFragment : Fragment(R.layout.standings_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        component.onViewCreated(StandingsViewImpl(view))
+        component.onViewCreated(StandingsViewImpl(lifecycleScope, view))
     }
 
     override fun onStart() {

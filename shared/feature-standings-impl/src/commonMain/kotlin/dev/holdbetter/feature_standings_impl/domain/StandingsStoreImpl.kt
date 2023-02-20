@@ -56,13 +56,18 @@ internal class StandingsStoreImpl(
 
     private fun reduce(state: State, effect: Effect) =
         when (effect) {
-            Effect.LoadingStarted -> state.copy(isLoading = true)
+            Effect.LoadingStarted -> state.copy(
+                isLoading = true,
+                isRefreshEnabled = false
+            )
             is Effect.LoadingError -> state.copy(
                 isLoading = false,
+                isRefreshEnabled = true,
                 data = State.Data.Error(effect.throwable)
             )
             is Effect.LoadingFinished -> state.copy(
                 isLoading = false,
+                isRefreshEnabled = true,
                 data = effect.standings
             )
             is Effect.NavigateDetailTeam -> state.copy(
@@ -83,7 +88,7 @@ internal class StandingsStoreImpl(
                 ?.also { emit(Effect.NavigateDetailTeam(it)) }
         }
 
-    private fun State.Data.getTeamById(teamId: Long): State.Data.Standings.TeamRank?  {
+    private fun State.Data.getTeamById(teamId: Long): State.Data.Standings.TeamRank? {
         return if (this is State.Data.Standings) {
             this.teams.firstOrNull { teamRank -> teamRank.team.id == teamId }
         } else {

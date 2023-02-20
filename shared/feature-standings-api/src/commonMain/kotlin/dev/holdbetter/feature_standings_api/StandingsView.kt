@@ -6,6 +6,7 @@ interface StandingsView : MviView<StandingsView.Model, StandingsView.Event> {
 
     data class Model(
         val isLoading: Boolean,
+        val isRefreshEnabled: Boolean,
         val isError: Boolean,
         val standings: StandingsStore.State.Data.Standings?
     )

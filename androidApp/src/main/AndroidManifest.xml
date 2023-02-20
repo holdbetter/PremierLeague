@@ -8,6 +8,7 @@
         android:allowBackup="false"
         android:label="@string/appName"
         android:supportsRtl="false"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/LeagueTheme">
 
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts" />
