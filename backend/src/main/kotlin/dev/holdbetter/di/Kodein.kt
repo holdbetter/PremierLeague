@@ -37,6 +37,8 @@ private fun moduleSerialization() = DI.Module(name = "serialization") {
     bind<LivescoreUnwrapper>() with singleton(sync = false) { LivescoreUnwrapper() }
     bind<Json>() with singleton(ref = weakReference) {
         Json {
+            useAlternativeNames = false
+            encodeDefaults = true
             ignoreUnknownKeys = true
         }
     }
