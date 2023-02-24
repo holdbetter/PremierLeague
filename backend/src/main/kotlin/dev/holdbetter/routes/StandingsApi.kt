@@ -1,13 +1,13 @@
 package dev.holdbetter.routes
 
-import dev.holdbetter.common.LeagueDTO
+import dev.holdbetter.outerApi.model.LivescoreDataResponse
 import io.ktor.client.*
 import kotlinx.serialization.json.Json
 
-interface StandingsApi {
+internal interface StandingsApi {
 
     val client: HttpClient
     val decoder: Json
 
-    suspend fun getLeague(season: Season, league: League): LeagueDTO?
+    suspend fun getLeague(league: League, country: Country): LivescoreDataResponse?
 }

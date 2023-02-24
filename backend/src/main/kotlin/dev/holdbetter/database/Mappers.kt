@@ -1,7 +1,7 @@
 package dev.holdbetter.database
 
-import dev.holdbetter.model.Credentials
-import dev.holdbetter.model.Credit
+import dev.holdbetter.database.model.Credentials
+import dev.holdbetter.innerApi.model.Credit
 import org.jetbrains.exposed.sql.ResultRow
 
 fun mapCredentialsToCredit(row: ResultRow) = Credit(

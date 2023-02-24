@@ -1,8 +1,6 @@
 package dev.holdbetter.routes
 
-import dev.holdbetter.common.LeagueDTO
-import dev.holdbetter.routes.ApiFootballConfig.CURRENT_SEASON
-import dev.holdbetter.routes.ApiFootballServiceEndpoints.STANDINGS
+import dev.holdbetter.routes.PremierLeagueBackendEndpoints.STANDINGS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -17,13 +15,13 @@ fun Routing.home() = get("/") {
 fun Routing.standings() = get("/$STANDINGS") {
     val kodein = closestDI()
     val api: StandingsApi by kodein.instance()
-    val currentSeason: Season by kodein.instance(arg = CURRENT_SEASON)
+    val country: Country by kodein.instance()
     val league: League by kodein.instance()
 
-    val leagueDTO: LeagueDTO? = api.getLeague(currentSeason, league)
+    val livescoreData = api.getLeague(league, country)
 
-    if (leagueDTO != null) {
-        call.respond(leagueDTO)
+    if (livescoreData != null) {
+        call.respond(livescoreData)
     } else {
         call.respond(HttpStatusCode.NotFound, "Can't be deserialized")
     }

@@ -1,12 +1,6 @@
-package dev.holdbetter.model
+package dev.holdbetter.database.model
 
 import org.jetbrains.exposed.sql.Table
-
-data class Credit(
-    val apiKey: String,
-    val host: String,
-    val service: String?
-)
 
 object Credentials : Table("CredentialsBasic") {
     val id = integer("id").autoIncrement()

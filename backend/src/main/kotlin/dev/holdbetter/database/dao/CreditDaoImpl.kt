@@ -1,8 +1,8 @@
 package dev.holdbetter.database.dao
 
 import dev.holdbetter.database.mapCredentialsToCredit
-import dev.holdbetter.model.Credentials
-import dev.holdbetter.routes.ApiFootballConfig
+import dev.holdbetter.database.model.Credentials
+import dev.holdbetter.network.ApiFootballConfig
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
