@@ -1,18 +1,28 @@
 package dev.holdbetter.routes
 
-interface Parameter  {
+import dev.holdbetter.network.ApiFootballConfig
+
+interface Parameter {
     val value: String
     val name: String
 }
 
 @JvmInline
-value class Season(override val value: String) : Parameter {
+value class Category(override val value: String = ApiFootballConfig.SPORT_CATEGORY) : Parameter {
     override val name: String
-        get() = "season"
+        get() = "Category"
 }
 
 @JvmInline
-value class League(override val value: String = ApiFootballConfig.PREMIER_LEAGUE_ID) : Parameter {
+value class Country(
+    override val value: String = ApiFootballConfig.PREMIER_LEAGUE_QUALIFIER_COUNTRY
+) : Parameter {
     override val name: String
-        get() = "league"
+        get() = "Ccd"
+}
+
+@JvmInline
+value class League(override val value: String = ApiFootballConfig.PREMIER_LEAGUE_QUALIFIER_NAME) : Parameter {
+    override val name: String
+        get() = "Scd"
 }

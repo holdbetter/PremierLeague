@@ -1,5 +1,5 @@
 package dev.holdbetter.routes
 
-object ApiFootballServiceEndpoints {
+object PremierLeagueBackendEndpoints {
     const val STANDINGS = "standings"
 }
