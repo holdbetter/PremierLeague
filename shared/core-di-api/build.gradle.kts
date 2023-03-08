@@ -11,7 +11,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -21,6 +21,8 @@ kotlin {
             baseName = "core-di-api"
         }
     }
+
+    jvm()
 
     sourceSets {
         val commonMain by getting

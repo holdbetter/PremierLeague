@@ -36,11 +36,9 @@ dependencies {
     implementation(Deps.Backend.exposedCore)
     implementation(Deps.Backend.exposedDao)
     implementation(Deps.Backend.exposedJdbc)
+    implementation(Deps.Backend.exposedTime)
 
     implementation(Deps.Backend.postgreSql)
-
-    implementation(Deps.Network.ktorClient)
-    implementation(Deps.Network.ktorClientOkHttp)
 
     implementation(Deps.Backend.kodein)
     implementation(Deps.Backend.kodeinJvm)
@@ -50,6 +48,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
     implementation(project(":shared:common"))
+    implementation(project(":shared:core-network"))
+    implementation(project(":shared:core-di-api"))
 }
 
 tasks.register("buildLocalAndRun") {

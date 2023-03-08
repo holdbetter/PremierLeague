@@ -1,10 +1,6 @@
 package dev.holdbetter.core_network
 
-import io.ktor.client.*
-import io.ktor.client.engine.okhttp.*
+import dev.holdbetter.core_network.di.ClientModule
+import dev.holdbetter.core_network.di.ClientModuleImpl
 
-actual fun getHttpClient() = HttpClient(OkHttp) {
-    engine {
-        addInterceptor(OkHttpInterceptor())
-    }
-}
+actual fun getClientModule(): ClientModule = ClientModuleImpl()

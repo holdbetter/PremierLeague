@@ -12,7 +12,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -22,6 +22,8 @@ kotlin {
             baseName = "core-network"
         }
     }
+
+    jvm()
 
     sourceSets {
         val commonMain by getting {
@@ -66,6 +68,15 @@ kotlin {
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
+        }
+        val jvmMain by getting {
+            dependencies {
+                implementation(Deps.Network.ktorClientOkHttp)
+
+                implementation(Deps.Backend.exposedCore)
+                implementation(Deps.Backend.exposedDao)
+                implementation(Deps.Backend.exposedJdbc)
+            }
         }
     }
 }
