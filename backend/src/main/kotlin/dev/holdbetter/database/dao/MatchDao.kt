@@ -1,13 +1,13 @@
 package dev.holdbetter.database.dao
 
-import dev.holdbetter.innerApi.model.Matchday
+import dev.holdbetter.common.MatchdayDTO
 
 internal interface MatchDao : ExposedDao {
 
-    suspend fun getMatches(): List<Matchday>
+    suspend fun getMatches(): List<MatchdayDTO>
 
-    suspend fun insertMatches(matches: List<Matchday>)
-    suspend fun updateMatches(matches: List<Matchday>)
+    suspend fun insertMatches(matches: List<MatchdayDTO>)
+    suspend fun updateMatches(matches: List<MatchdayDTO>)
 
     suspend fun hasData(): Boolean
 }

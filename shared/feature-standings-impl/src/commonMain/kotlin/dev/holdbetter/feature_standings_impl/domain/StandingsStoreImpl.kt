@@ -47,7 +47,6 @@ internal class StandingsStoreImpl(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun handleIntent(state: State, intent: Intent): Flow<Effect> =
         when (intent) {
             is Intent.OpenTeamDetail -> openTeamDetail(state, intent.teamId)
@@ -81,16 +80,16 @@ internal class StandingsStoreImpl(
             .map<State.Data.Standings, Effect>(Effect::LoadingFinished)
             .onCompletion { reason -> reason?.let(Effect::LoadingError) }
 
-    private fun openTeamDetail(state: State, teamId: Long): Flow<Effect> =
+    private fun openTeamDetail(state: State, teamId: String): Flow<Effect> =
         flow {
             state.data
                 ?.getTeamById(teamId)
                 ?.also { emit(Effect.NavigateDetailTeam(it)) }
         }
 
-    private fun State.Data.getTeamById(teamId: Long): State.Data.Standings.TeamRank? {
+    private fun State.Data.getTeamById(teamId: String): State.Data.Standings.TeamRank? {
         return if (this is State.Data.Standings) {
-            this.teams.firstOrNull { teamRank -> teamRank.team.id == teamId }
+            this.teams.firstOrNull { teamRank -> teamRank.id == teamId }
         } else {
             null
         }

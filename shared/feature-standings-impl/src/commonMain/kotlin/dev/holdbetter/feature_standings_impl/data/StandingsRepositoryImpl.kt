@@ -12,7 +12,7 @@ internal class StandingsRepositoryImpl(
 
     override suspend fun getStandings(): Flow<StandingsStore.State.Data.Standings> {
         return flow {
-            val standings = dataSource.getStandings().run(Mapper::mapDtoToState)
+            val standings = Mapper.toState(dataSource.getStandings())
             emit(standings)
         }
     }

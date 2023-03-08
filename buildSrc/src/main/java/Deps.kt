@@ -9,8 +9,7 @@ object Deps {
         const val exposedCore = "org.jetbrains.exposed:exposed-core:${Versions.exposedVersion}"
         const val exposedDao = "org.jetbrains.exposed:exposed-dao:${Versions.exposedVersion}"
         const val exposedJdbc = "org.jetbrains.exposed:exposed-jdbc:${Versions.exposedVersion}"
-        const val exposedTime =
-            "org.jetbrains.exposed:exposed-kotlin-datetime:${Versions.exposedVersion}"
+        const val exposedTime = "org.jetbrains.exposed:exposed-kotlin-datetime:${Versions.exposedVersion}"
 
         const val kodein = "org.kodein.di:kodein-di:${Versions.kodeinVersion}"
         const val kodeinJvm = "org.kodein.di:kodein-di-framework-ktor-server-jvm:${Versions.kodeinVersion}"
@@ -35,8 +34,7 @@ object Deps {
         const val kotlinSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerializationVersion}"
         const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutinesVersion}"
         const val loggerNapier = "io.github.aakira:napier:${Versions.napierVersion}"
-        const val kotlinTime =
-            "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinTimeVersion}"
+        const val kotlinTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinTimeVersion}"
     }
 
     object AndroidX {

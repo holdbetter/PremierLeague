@@ -1,13 +1,13 @@
 package dev.holdbetter.outerApi
 
-import dev.holdbetter.innerApi.model.Matchday
-import dev.holdbetter.innerApi.model.TeamRank
+import dev.holdbetter.common.MatchdayDTO
+import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.outerApi.model.LivescoreDataResponse
 
 internal object Mapper {
-    fun LivescoreDataResponse.getTeams(): List<TeamRank> =
+    fun LivescoreDataResponse.getTeams(): List<TeamRankDTO> =
         standings.map {
-            TeamRank(
+            TeamRankDTO(
                 id = it.id,
                 rank = it.rank,
                 name = it.name,
@@ -23,9 +23,9 @@ internal object Mapper {
             )
         }
 
-    fun LivescoreDataResponse.getMatches(): List<Matchday> =
+    fun LivescoreDataResponse.getMatches(): List<MatchdayDTO> =
         matches.map {
-            Matchday(
+            MatchdayDTO(
                 id = it.id,
                 resultHome = it.resultHome,
                 resultAway = it.resultAway,

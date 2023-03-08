@@ -1,12 +1,12 @@
 package dev.holdbetter.database.dao
 
+import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.database.Mapper.toModel
 import dev.holdbetter.database.Mapper.toTeamWithMatches
 import dev.holdbetter.database.entity.Match
 import dev.holdbetter.database.entity.Team
 import dev.holdbetter.database.query
 import dev.holdbetter.database.table.Standings
-import dev.holdbetter.innerApi.model.TeamRank
 import kotlinx.coroutines.CoroutineDispatcher
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.sql.*
@@ -17,7 +17,7 @@ internal class TeamDaoImpl(
     private val database: Database
 ) : TeamDao {
 
-    override suspend fun getTeams(): List<TeamRank> = database.query(dispatcher) {
+    override suspend fun getTeams(): List<TeamRankDTO> = database.query(dispatcher) {
         Team.all()
             .orderBy(Standings.points to SortOrder.DESC)
             .map(::toModel)
@@ -37,7 +37,7 @@ internal class TeamDaoImpl(
             )?.toTeamWithMatches()
         }
 
-    override suspend fun insertTeams(teams: List<TeamRank>) {
+    override suspend fun insertTeams(teams: List<TeamRankDTO>) {
         database.query(dispatcher) {
             Standings.batchInsert(
                 data = teams,
@@ -47,7 +47,7 @@ internal class TeamDaoImpl(
         }
     }
 
-    override suspend fun updateTeams(teams: List<TeamRank>) {
+    override suspend fun updateTeams(teams: List<TeamRankDTO>) {
         database.query(dispatcher) {
             Standings.batchReplace(
                 data = teams,
@@ -56,7 +56,7 @@ internal class TeamDaoImpl(
         }
     }
 
-    private fun BaseBatchInsertStatement.statementMapper(teamRank: TeamRank) {
+    private fun BaseBatchInsertStatement.statementMapper(teamRank: TeamRankDTO) {
         this[Standings.id] = teamRank.id
         this[Standings.rank] = teamRank.rank
         this[Standings.name] = teamRank.name

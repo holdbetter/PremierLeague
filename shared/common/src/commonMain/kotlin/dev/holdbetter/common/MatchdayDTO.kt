@@ -1,8 +1,8 @@
-package dev.holdbetter.innerApi.model
+package dev.holdbetter.common
 
 import kotlinx.datetime.LocalDateTime
 
-internal data class Matchday(
+data class MatchdayDTO(
     val id: String,
     val resultHome: String,
     val resultAway: String,
@@ -13,6 +13,6 @@ internal data class Matchday(
     val whoWon: Int,
     val startDate: LocalDateTime?,
     val endDate: LocalDateTime?,
-    val teamHome: TeamRank? = null,
-    val teamAway: TeamRank? = null
+    val teamHome: TeamRankDTO? = null,
+    val teamAway: TeamRankDTO? = null
 )

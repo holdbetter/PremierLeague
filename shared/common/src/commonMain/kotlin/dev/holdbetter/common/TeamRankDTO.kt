@@ -1,9 +1,9 @@
-package dev.holdbetter.innerApi.model
+package dev.holdbetter.common
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class TeamRank(
+data class TeamRankDTO(
     val id: String,
     val rank: Int,
     val name: String,

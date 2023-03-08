@@ -1,12 +1,12 @@
 package dev.holdbetter.presenter
 
+import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.database.dao.*
 import dev.holdbetter.database.query
 import dev.holdbetter.database.table.DayLimits
 import dev.holdbetter.database.table.Matches
 import dev.holdbetter.database.table.Standings
 import dev.holdbetter.innerApi.model.Limit
-import dev.holdbetter.innerApi.model.TeamRank
 import dev.holdbetter.interactor.DatabaseGateway
 import dev.holdbetter.outerApi.Mapper.getMatches
 import dev.holdbetter.outerApi.Mapper.getTeams
@@ -29,7 +29,7 @@ internal class DatabaseGatewayImpl(
     private val matchDao: MatchDao = MatchDaoImpl(dispatcher, database)
     private val dayLimitDao: DayLimitDao = DayLimitDaoImpl(dispatcher, database)
 
-    override suspend fun getStandings(): List<TeamRank> {
+    override suspend fun getStandings(): List<TeamRankDTO> {
         return teamDao.getTeams()
     }
 

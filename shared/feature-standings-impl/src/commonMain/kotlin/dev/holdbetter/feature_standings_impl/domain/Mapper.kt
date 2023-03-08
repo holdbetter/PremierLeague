@@ -1,64 +1,31 @@
 package dev.holdbetter.feature_standings_impl.domain
 
-import dev.holdbetter.common.LeagueDTO
-import dev.holdbetter.common.TeamDTO
+import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.feature_standings_api.StandingsStore
 import dev.holdbetter.feature_standings_api.StandingsView
 
 internal object Mapper {
-    fun mapDtoToState(leagueDTO: LeagueDTO): StandingsStore.State.Data.Standings =
-        with(leagueDTO) {
-            StandingsStore.State.Data.Standings(
-                name = name,
-                country = country,
-                logoUrl = logo,
-                teams = mapStandingsToTeamRanks(standings)
-            )
-        }
+    fun toState(standings: List<TeamRankDTO>): StandingsStore.State.Data.Standings =
+        StandingsStore.State.Data.Standings(
+            teams = standings.map(::dtoToState)
+        )
 
-    private fun mapStandingsToTeamRanks(standings: List<LeagueDTO.StandingDTO>) =
-        standings.map(Mapper::standingToTeamTank)
-
-    private fun standingToTeamTank(standingDTO: LeagueDTO.StandingDTO) =
-        with(standingDTO) {
-            StandingsStore.State.Data.Standings.TeamRank(
-                rank = rank,
-                points = points,
-                team = mapStandingToTeam(team),
-                allStats = mapStatsDtoToStats(stats),
-                homeStats = mapStatsDtoToStats(homeStats),
-                awayStats = mapStatsDtoToStats(awayStats),
-                update = update
-            )
-        }
-
-    private fun mapStandingToTeam(teamDTO: TeamDTO) =
-        with(teamDTO) {
-            StandingsStore.State.Data.Standings.Team(
-                id = id,
-                name = name,
-                logoUrl = logo
-            )
-        }
-
-    private fun mapStatsDtoToStats(statsDTO: LeagueDTO.StatsDTO) =
-        with(statsDTO) {
-            StandingsStore.State.Data.Standings.Stats(
-                played = played,
-                win = win,
-                draw = draw,
-                lose = lose,
-                goals = mapGoalsDtoToGoals(goals)
-            )
-        }
-
-    private fun mapGoalsDtoToGoals(goalsDTO: LeagueDTO.GoalsDTO) =
-        with(goalsDTO) {
-            StandingsStore.State.Data.Standings.Goals(
-                goalsFor = goalsFor,
-                against = against
-            )
-        }
+    private fun dtoToState(teamRank: TeamRankDTO) = with(teamRank) {
+        StandingsStore.State.Data.Standings.TeamRank(
+            id = id,
+            rank = rank,
+            name = name,
+            image = image,
+            gamePlayed = gamePlayed,
+            points = points,
+            wins = wins,
+            loses = loses,
+            draws = draws,
+            goalsFor = goalsFor,
+            goalsAgainst = goalsAgainst,
+            goalsDiff = goalsDiff
+        )
+    }
 }
 
 internal fun StandingsView.Event.toIntent() =

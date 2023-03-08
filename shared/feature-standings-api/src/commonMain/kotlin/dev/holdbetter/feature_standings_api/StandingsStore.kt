@@ -8,7 +8,7 @@ interface StandingsStore : Store<Intent, State> {
 
     sealed interface Intent {
         object Reload : Intent
-        data class OpenTeamDetail(val teamId: Long) : Intent
+        data class OpenTeamDetail(val teamId: String) : Intent
     }
 
     data class State(
@@ -20,39 +20,22 @@ interface StandingsStore : Store<Intent, State> {
 
         sealed interface Data {
             data class Standings(
-                val name: String,
-                val country: String,
-                val logoUrl: String,
                 val teams: List<TeamRank>
             ) : Data {
 
                 data class TeamRank(
+                    val id: String,
                     val rank: Int,
-                    val points: Int,
-                    val team: Team,
-                    val allStats: Stats,
-                    val homeStats: Stats,
-                    val awayStats: Stats,
-                    val update: String
-                )
-
-                data class Team(
-                    val id: Long,
                     val name: String,
-                    val logoUrl: String
-                )
-
-                data class Stats(
-                    val played: Int,
-                    val win: Int,
-                    val draw: Int,
-                    val lose: Int,
-                    val goals: Goals
-                )
-
-                data class Goals(
-                    val goalsFor: Long,
-                    val against: Long
+                    val image: String,
+                    val gamePlayed: Int,
+                    val points: Int,
+                    val wins: Int,
+                    val loses: Int,
+                    val draws: Int,
+                    val goalsFor: Int,
+                    val goalsAgainst: Int,
+                    val goalsDiff: Int
                 )
             }
 

@@ -35,10 +35,10 @@ internal class StandingsAdapter :
             with(binding) {
                 clear(logo)
                 rank.text = teamRank.rank.toString()
-                logo.loadWithPlaceholder(teamRank.team.logoUrl, R.drawable.league_logo_mini)
-                team.text = teamRank.team.name
+                logo.loadWithPlaceholder(teamRank.image, R.drawable.league_logo_mini)
+                team.text = teamRank.name
                 points.text = teamRank.points.toString()
-                matches.text = teamRank.allStats.played.toString()
+                matches.text = teamRank.gamePlayed.toString()
             }
         }
 
@@ -50,7 +50,7 @@ internal class StandingsAdapter :
 
     class TeamRankDiffer : DiffUtil.ItemCallback<TeamRank>() {
         override fun areItemsTheSame(oldItem: TeamRank, newItem: TeamRank): Boolean {
-            return oldItem.update == newItem.update
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: TeamRank, newItem: TeamRank): Boolean {

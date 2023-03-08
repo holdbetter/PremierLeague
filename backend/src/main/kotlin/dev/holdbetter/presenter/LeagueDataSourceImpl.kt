@@ -1,11 +1,11 @@
 package dev.holdbetter.presenter
 
+import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.core_network.DataSource.Database
 import dev.holdbetter.core_network.DataSource.Network
 import dev.holdbetter.core_network.model.Country
 import dev.holdbetter.core_network.model.League
 import dev.holdbetter.innerApi.model.Limit
-import dev.holdbetter.innerApi.model.Matchday
 import dev.holdbetter.interactor.DatabaseGateway
 import dev.holdbetter.interactor.LeagueDataSource
 import dev.holdbetter.interactor.NetworkGateway
@@ -13,7 +13,7 @@ import kotlinx.datetime.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
-internal typealias MonthAndDayGroupedMatchesDaySorted = Map<Int, Map<Int, List<Matchday>>>
+internal typealias MonthAndDayGroupedMatchesDaySorted = Map<Int, Map<Int, List<MatchdayDTO>>>
 
 // TODO: Test
 internal class LeagueDataSourceImpl(
@@ -78,7 +78,7 @@ internal class LeagueDataSourceImpl(
     }
 
     private suspend fun makeLimits(
-        notStartedMatches: List<Matchday>,
+        notStartedMatches: List<MatchdayDTO>,
         isLeapYear: Boolean,
         today: LocalDateTime
     ) {
@@ -96,7 +96,7 @@ internal class LeagueDataSourceImpl(
     }
 
     private fun groupMatchesByMonthAndByDay(
-        matches: List<Matchday>,
+        matches: List<MatchdayDTO>,
         excludeToday: Boolean = false
     ): MonthAndDayGroupedMatchesDaySorted {
         val today = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
