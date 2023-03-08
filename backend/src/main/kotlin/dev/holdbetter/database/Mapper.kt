@@ -1,18 +1,19 @@
 package dev.holdbetter.database
 
+import dev.holdbetter.common.MatchdayDTO
+import dev.holdbetter.common.TeamRankDTO
+import dev.holdbetter.common.TeamWithMatchesDTO
+import dev.holdbetter.core_network.model.RemoteLivescoreConfig
 import dev.holdbetter.database.entity.DayLimit
 import dev.holdbetter.database.entity.Match
 import dev.holdbetter.database.entity.Team
 import dev.holdbetter.innerApi.model.Limit
-import dev.holdbetter.innerApi.model.Matchday
-import dev.holdbetter.innerApi.model.TeamRank
-import dev.holdbetter.innerApi.model.TeamWithMatches
 
 internal object Mapper {
 
-    fun toModel(match: Match): Matchday =
+    fun toModel(match: Match): MatchdayDTO =
         with(match) {
-            Matchday(
+            MatchdayDTO(
                 id = id.value,
                 resultHome = resultHome,
                 resultAway = resultAway,
@@ -28,20 +29,20 @@ internal object Mapper {
             )
         }
 
-    fun toModel(team: Team): TeamRank {
-        return TeamRank(
-            team.teamId.value,
-            team.rank,
-            team.name,
-            team.image,
-            team.gamePlayed,
-            team.points,
-            team.wins,
-            team.loses,
-            team.draws,
-            team.goalsFor,
-            team.goalsAgainst,
-            team.goalsDiff
+    fun toModel(team: Team): TeamRankDTO {
+        return TeamRankDTO(
+            id = team.teamId.value,
+            rank = team.rank,
+            name = team.name,
+            image = "${RemoteLivescoreConfig.IMAGE_HOST}${team.image}",
+            gamePlayed = team.gamePlayed,
+            points = team.points,
+            wins = team.wins,
+            loses = team.loses,
+            draws = team.draws,
+            goalsFor = team.goalsFor,
+            goalsAgainst = team.goalsAgainst,
+            goalsDiff = team.goalsDiff
         )
     }
 
@@ -57,9 +58,9 @@ internal object Mapper {
         }
     }
 
-    fun Team.toTeamWithMatches(): TeamWithMatches {
-        return TeamWithMatches(
-            teamRank = TeamRank(
+    fun Team.toTeamWithMatches(): TeamWithMatchesDTO {
+        return TeamWithMatchesDTO(
+            teamRank = TeamRankDTO(
                 id = id.value,
                 rank = rank,
                 name = name,

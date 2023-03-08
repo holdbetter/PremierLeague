@@ -29,6 +29,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Deps.Common.kotlinSerialization)
+                implementation(Deps.Common.kotlinTime)
             }
         }
         val commonTest by getting {

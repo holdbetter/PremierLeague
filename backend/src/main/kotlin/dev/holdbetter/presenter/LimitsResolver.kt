@@ -1,7 +1,7 @@
 package dev.holdbetter.presenter
 
+import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.innerApi.model.Limit
-import dev.holdbetter.innerApi.model.Matchday
 import kotlinx.datetime.*
 import kotlin.math.ceil
 import kotlin.time.Duration
@@ -10,7 +10,7 @@ import kotlin.time.Duration.Companion.minutes
 
 typealias DayLimitMap = Map<LocalDate, Limit>
 private typealias MutableDayLimitMap = LinkedHashMap<LocalDate, Limit>
-private typealias MonthGroup = Map<Int, List<Matchday>>
+private typealias MonthGroup = Map<Int, List<MatchdayDTO>>
 private typealias MonthLimit = Int
 
 // TODO: Test
@@ -156,7 +156,7 @@ internal object LimitsResolver {
     }
 
     private fun countNotMatchDays(
-        monthAndDays: Map.Entry<Int, Map<Int, List<Matchday>>>,
+        monthAndDays: Map.Entry<Int, Map<Int, List<MatchdayDTO>>>,
         leapYear: Boolean
     ): Int {
         val monthLength = Month(monthAndDays.key).length(leapYear)

@@ -1,10 +1,10 @@
 package dev.holdbetter.database.dao
 
+import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.database.Mapper
 import dev.holdbetter.database.entity.Match
 import dev.holdbetter.database.query
 import dev.holdbetter.database.table.Matches
-import dev.holdbetter.innerApi.model.Matchday
 import kotlinx.coroutines.CoroutineDispatcher
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.statements.BaseBatchInsertStatement
@@ -14,11 +14,11 @@ internal class MatchDaoImpl(
     private val database: Database
 ) : MatchDao {
 
-    override suspend fun getMatches(): List<Matchday> =
+    override suspend fun getMatches(): List<MatchdayDTO> =
         database.query(dispatcher) {
             Match.all()
                 .map(Mapper::toModel)
-                .sortedBy(Matchday::startDate)
+                .sortedBy(MatchdayDTO::startDate)
         }
 
     override suspend fun hasData(): Boolean =
@@ -26,7 +26,7 @@ internal class MatchDaoImpl(
             Matches.exists() && Matches.selectAll().empty().not()
         }
 
-    override suspend fun insertMatches(matches: List<Matchday>) {
+    override suspend fun insertMatches(matches: List<MatchdayDTO>) {
         database.query(dispatcher) {
             Matches.batchInsert(
                 data = matches,
@@ -36,7 +36,7 @@ internal class MatchDaoImpl(
         }
     }
 
-    override suspend fun updateMatches(matches: List<Matchday>) {
+    override suspend fun updateMatches(matches: List<MatchdayDTO>) {
         database.query(dispatcher) {
             Matches.batchReplace(
                 data = matches,
@@ -45,7 +45,7 @@ internal class MatchDaoImpl(
         }
     }
 
-    private fun BaseBatchInsertStatement.statementMapper(matchday: Matchday) {
+    private fun BaseBatchInsertStatement.statementMapper(matchday: MatchdayDTO) {
         this[Matches.id] = matchday.id
         this[Matches.resultHome] = matchday.resultHome
         this[Matches.resultAway] = matchday.resultAway

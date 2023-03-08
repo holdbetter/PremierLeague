@@ -1,6 +1,6 @@
 package dev.holdbetter.feature_standings_impl.data
 
-import dev.holdbetter.common.LeagueDTO
+import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.common.util.decode
 import dev.holdbetter.core_network.LeagueBackendEndpoints
 import dev.holdbetter.core_network.NetworkInteractor
@@ -17,6 +17,6 @@ internal class StandingsDataSourceImpl(
         )
     }
 
-    override suspend fun getStandings(): LeagueDTO =
+    override suspend fun getStandings(): List<TeamRankDTO> =
         networkInteractor.get(paths).run(decoder::decode)
 }
