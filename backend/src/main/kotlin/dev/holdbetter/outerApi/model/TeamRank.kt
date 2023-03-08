@@ -18,7 +18,7 @@ internal class TeamRank(
     @SerialName(value = "ptsn")
     val points: Int,
     @SerialName(value = "win")
-    val win: Int,
+    val wins: Int,
     @SerialName(value = "lst")
     val loses: Int,
     @SerialName(value = "drw")

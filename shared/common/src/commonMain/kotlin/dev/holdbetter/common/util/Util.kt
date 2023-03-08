@@ -15,3 +15,7 @@ inline fun <reified T> JsonElement?.decodeWith(
 ): T? = this?.let { json.decodeFromJsonElement(strategy, it) }
 
 inline fun <reified T> Json.decode(jsonString: String): T = this.decodeFromString(jsonString)
+inline fun <reified T> Json.decodeWith(
+    jsonString: String,
+    strategy: DeserializationStrategy<T>
+): T = this.decodeFromString(strategy, jsonString)

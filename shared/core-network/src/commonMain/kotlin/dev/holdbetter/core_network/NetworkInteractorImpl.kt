@@ -1,26 +1,27 @@
 package dev.holdbetter.core_network
 
+import dev.holdbetter.core_network.model.Client
+import dev.holdbetter.core_network.model.Parameter
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 internal class NetworkInteractorImpl(
+    private val client: Client,
     private val httpClient: HttpClient
 ) : NetworkInteractor {
 
-    override suspend fun get(vararg paths: String): Flow<String> {
-        return flow {
-            val response = httpClient.get(ClientEndpoints.CLIENT) {
-                url {
-                    appendPathSegments(components = paths)
-                }
-            }.bodyAsText()
-            emit(response)
-        }.flowOn(Dispatchers.Default)
+    // TODO: Test
+    override suspend fun get(
+        paths: Array<String>,
+        vararg parameters: Parameter
+    ): String {
+        return httpClient.get(client.value) {
+            url {
+                appendPathSegments(components = paths)
+                parameters.forEach(this.parameters::add)
+            }
+        }.bodyAsText()
     }
 }
