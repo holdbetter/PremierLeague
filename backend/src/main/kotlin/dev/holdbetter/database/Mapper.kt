@@ -34,7 +34,7 @@ internal object Mapper {
             id = team.teamId.value,
             rank = team.rank,
             name = team.name,
-            image = "${RemoteLivescoreConfig.IMAGE_HOST}${team.image}",
+            image = team.alterImage ?: "${RemoteLivescoreConfig.IMAGE_HOST}${team.image}",
             gamePlayed = team.gamePlayed,
             points = team.points,
             wins = team.wins,
