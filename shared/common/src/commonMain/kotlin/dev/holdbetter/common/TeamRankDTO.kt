@@ -15,5 +15,6 @@ data class TeamRankDTO(
     val draws: Int,
     val goalsFor: Int,
     val goalsAgainst: Int,
-    val goalsDiff: Int
+    val goalsDiff: Int,
+    val alterImageId: Int?
 )

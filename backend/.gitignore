@@ -1,3 +1,4 @@
 build/
 /src/main/kotlin/dev/holdbetter/Test.kt
+/src/main/kotlin/dev/holdbetter/Admin.kt
 /src/main/kotlin/dev/holdbetter/JsonGrand.kt

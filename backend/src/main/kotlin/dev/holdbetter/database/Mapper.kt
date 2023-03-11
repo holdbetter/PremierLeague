@@ -3,7 +3,6 @@ package dev.holdbetter.database
 import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.common.TeamWithMatchesDTO
-import dev.holdbetter.core_network.model.RemoteLivescoreConfig
 import dev.holdbetter.core_network.model.RemoteLivescoreConfig.ALTER_IMAGE_HOST
 import dev.holdbetter.core_network.model.RemoteLivescoreConfig.IMAGE_HOST
 import dev.holdbetter.database.entity.DayLimit
@@ -44,7 +43,8 @@ internal object Mapper {
             draws = team.draws,
             goalsFor = team.goalsFor,
             goalsAgainst = team.goalsAgainst,
-            goalsDiff = team.goalsDiff
+            goalsDiff = team.goalsDiff,
+            alterImageId = team.alterImageId
         )
     }
 
@@ -74,7 +74,8 @@ internal object Mapper {
                 draws = draws,
                 goalsFor = goalsFor,
                 goalsAgainst = goalsAgainst,
-                goalsDiff = goalsDiff
+                goalsDiff = goalsDiff,
+                alterImageId = alterImageId
             ),
             teamMatches = homeMatches.map(::toModel) + awayMatches.map(::toModel)
         )

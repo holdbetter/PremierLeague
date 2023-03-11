@@ -19,7 +19,8 @@ internal object Mapper {
                 draws = it.draws,
                 goalsFor = it.goalsFor,
                 goalsAgainst = it.goalsAgainst,
-                goalsDiff = it.goalsDiff
+                goalsDiff = it.goalsDiff,
+                alterImageId = null
             )
         }
 
