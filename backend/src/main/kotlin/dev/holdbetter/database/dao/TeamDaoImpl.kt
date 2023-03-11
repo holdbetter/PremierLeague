@@ -19,7 +19,7 @@ internal class TeamDaoImpl(
 
     override suspend fun getTeams(): List<TeamRankDTO> = database.query(dispatcher) {
         Team.all()
-            .orderBy(Standings.points to SortOrder.DESC)
+            .orderBy(Standings.rank to SortOrder.ASC)
             .map(::toModel)
     }
 
