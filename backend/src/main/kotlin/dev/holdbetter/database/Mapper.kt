@@ -4,6 +4,8 @@ import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.common.TeamWithMatchesDTO
 import dev.holdbetter.core_network.model.RemoteLivescoreConfig
+import dev.holdbetter.core_network.model.RemoteLivescoreConfig.ALTER_IMAGE_HOST
+import dev.holdbetter.core_network.model.RemoteLivescoreConfig.IMAGE_HOST
 import dev.holdbetter.database.entity.DayLimit
 import dev.holdbetter.database.entity.Match
 import dev.holdbetter.database.entity.Team
@@ -34,7 +36,7 @@ internal object Mapper {
             id = team.teamId.value,
             rank = team.rank,
             name = team.name,
-            image = team.alterImage ?: "${RemoteLivescoreConfig.IMAGE_HOST}${team.image}",
+            image = imageResolver(team.alterImageId, team.image),
             gamePlayed = team.gamePlayed,
             points = team.points,
             wins = team.wins,
@@ -77,4 +79,8 @@ internal object Mapper {
             teamMatches = homeMatches.map(::toModel) + awayMatches.map(::toModel)
         )
     }
+
+    private fun imageResolver(alterImageId: Int?, image: String) =
+        alterImageId?.let { ALTER_IMAGE_HOST.replace("\${id}", it.toString()) }
+            ?: "$IMAGE_HOST$image"
 }

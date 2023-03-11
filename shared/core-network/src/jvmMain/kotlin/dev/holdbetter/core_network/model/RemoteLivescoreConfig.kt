@@ -4,6 +4,7 @@ object RemoteLivescoreConfig {
     const val SERVICE_NAME = "livescore"
     const val CLIENT = "https://livescore6.p.rapidapi.com"
     const val IMAGE_HOST = "https://lsm-static-prod.livescore.com/high/"
+    const val ALTER_IMAGE_HOST = "https://media.api-sports.io/football/teams/\${id}.png"
 
     const val API_KEY_HEADER = "X-RapidAPI-Key"
     const val API_HOST_HEADER = "X-RapidAPI-Host"
