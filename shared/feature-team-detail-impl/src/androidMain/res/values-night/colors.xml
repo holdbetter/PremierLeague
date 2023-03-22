@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="result_month_header_win">@color/acid</color>
+    <color name="result_month_header_lose">@color/red</color>
+    <color name="result_month_header_draw">@color/black_500</color>
+
+    <color name="result_month_header_text_win">@color/white</color>
+    <color name="result_month_header_text_lose">@color/white</color>
+    <color name="result_month_header_text_draw">@color/white</color>
+</resources>

@@ -36,7 +36,6 @@ kotlin {
                 implementation(project(":shared:core-di-api"))
                 implementation(project(":shared:core-di-impl"))
                 implementation(project(":shared:common"))
-                implementation(project(":shared:assets"))
             }
         }
         val commonTest by getting {
@@ -46,6 +45,8 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(project(":shared:assets"))
+
                 implementation(Deps.AndroidX.appcompat)
                 implementation(Deps.AndroidX.constraintLayout)
                 implementation(Deps.AndroidX.fragmentKtx)

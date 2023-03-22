@@ -7,8 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import dev.holdbetter.assets.R
-import dev.holdbetter.assets.R.color
+import dev.holdbetter.assets.assetsColor
 import dev.holdbetter.coreMvi.AbstractMviView
 import dev.holdbetter.feature_standings_api.StandingsView
 import dev.holdbetter.feature_standings_api.StandingsView.Event
@@ -81,9 +80,9 @@ internal class StandingsViewImpl(
         lifecycleScope: CoroutineScope,
     ) {
         pullToRefresh.apply {
-            val color = ContextCompat.getColor(context, color.purple_400)
+            val color = ContextCompat.getColor(context, assetsColor.purple_400)
             setProgressBackgroundColorSchemeColor(color)
-            setColorSchemeResources(R.color.white)
+            setColorSchemeResources(assetsColor.white)
             setSize(SwipeRefreshLayout.DEFAULT)
 
             doOnLayout {

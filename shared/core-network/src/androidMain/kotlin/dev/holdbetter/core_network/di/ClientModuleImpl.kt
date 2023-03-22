@@ -1,6 +1,6 @@
 package dev.holdbetter.core_network.di
 
-import dev.holdbetter.core_network.LeagueBackendEndpoints
+import dev.holdbetter.core_network.LeagueBackendService
 import dev.holdbetter.core_network.OkHttpClientFactory
 import dev.holdbetter.core_network.OkHttpInterceptor
 import dev.holdbetter.core_network.model.Client
@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 
 internal class ClientModuleImpl : ClientModule {
 
-    override val client = Client(LeagueBackendEndpoints.CLIENT)
+    override val client = Client(LeagueBackendService.CLIENT)
 
     override val decoder by lazy(::getJsonDecoder)
 

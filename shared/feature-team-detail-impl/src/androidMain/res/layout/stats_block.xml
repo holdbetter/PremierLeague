@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:paddingTop="16dp"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/stats_head_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="stats_header, compare_btn" />
+
+    <TextView
+        android:id="@+id/stats_header"
+        style="@style/LeagueUI.TeamDetail.SectionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/stats"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/match_card" />
+
+    <!-- shit font issue-->
+    <LinearLayout
+        android:id="@+id/compare_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="26dp"
+        android:drawablePadding="6dp"
+        android:letterSpacing="0.14"
+        android:paddingLeft="11dp"
+        android:paddingTop="4dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/stats_header"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/stats_header"
+        tools:background="@drawable/shape_team_detail_action"
+        tools:ignore="UseCompoundDrawables">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_bold"
+            android:gravity="center"
+            android:letterSpacing="0.14"
+            android:text="@string/compare"
+            android:textAllCaps="true"
+            android:textColor="?leagueTextColor"
+            android:textSize="8sp"
+            tools:ignore="SmallSp" />
+
+        <ImageView
+            android:layout_width="8sp"
+            android:layout_height="8sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2.2dp"
+            android:contentDescription="@string/goals_against"
+            android:scaleType="centerInside"
+            android:src="@drawable/compare_add"
+            tools:ignore="SmallSp" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/games"
+        layout="@layout/stats_item" />
+
+    <include
+        android:id="@+id/won"
+        layout="@layout/stats_item" />
+
+    <include
+        android:id="@+id/draws"
+        layout="@layout/stats_item" />
+
+    <include
+        android:id="@+id/loses"
+        layout="@layout/stats_item" />
+
+    <include
+        android:id="@+id/goals_for"
+        layout="@layout/stats_item" />
+
+    <include
+        android:id="@+id/goals_against"
+        layout="@layout/stats_item" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/stats_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="21dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="games, won, draws, loses, goals_for, goals_against"
+        app:flow_horizontalAlign="start"
+        app:flow_horizontalBias="0"
+        app:flow_horizontalStyle="spread_inside"
+        app:flow_verticalAlign="top"
+        app:flow_wrapMode="none"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stats_head_barrier"
+        tools:layout_height="64dp"
+        tools:layout_marginTop="0dp" />
+
+</merge>

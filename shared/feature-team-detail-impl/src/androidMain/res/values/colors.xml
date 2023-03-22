@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="result_match_corner_win">@color/acid_200</color>
+    <color name="result_match_corner_lose">@color/red</color>
+    <color name="result_match_corner_draw">@color/black_300</color>
+
+    <color name="result_month_header_win">@color/acid</color>
+    <color name="result_month_header_lose">@color/red</color>
+    <color name="result_month_header_draw">@color/black</color>
+
+    <color name="result_month_header_text_win">@color/result_month_header_win</color>
+    <color name="result_month_header_text_lose">@color/result_month_header_lose</color>
+    <color name="result_month_header_text_draw">@color/result_month_header_draw</color>
+
+    <color name="match_card_default_start_color">#444444</color>
+    <color name="match_card_default_end_color">#0F0F0F</color>
+</resources>

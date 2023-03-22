@@ -58,7 +58,7 @@ android {
     namespace = "dev.holdbetter.core_di_api"
     compileSdk = 32
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
         targetSdk = 32
     }
 }

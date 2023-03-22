@@ -66,7 +66,7 @@ internal object Mapper {
                 id = id.value,
                 rank = rank,
                 name = name,
-                image = image,
+                image = imageResolver(alterImageId, image),
                 gamePlayed = gamePlayed,
                 points = points,
                 wins = wins,
