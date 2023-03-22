@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:paddingTop="16dp"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <TextView
+        android:id="@+id/card_title"
+        style="@style/LeagueUI.TeamDetail.SectionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/next_match"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_barrier" />
+
+    <dev.holdbetter.shared.feature_team_detail_impl.TiledConstraintLayout
+        android:id="@+id/match_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/cards_horizontal_margin"
+        android:layout_marginTop="14dp"
+        android:elevation="4dp"
+        android:outlineProvider="background"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_title"
+        tools:background="#1A000000">
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="14dp"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="time_start, date_start"
+            app:flow_horizontalAlign="start"
+            app:flow_verticalGap="6dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/time_start"
+            style="@style/LeagueUI.TeamDetail.Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="SmallSp"
+            tools:text="7:00 pm" />
+
+        <TextView
+            android:id="@+id/date_start"
+            style="@style/LeagueUI.TeamDetail.Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="SmallSp"
+            tools:text="1/03" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="26dp"
+            android:gravity="end"
+            android:orientation="vertical"
+            android:paddingHorizontal="0dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            app:layout_constraintLeft_toLeftOf="@id/team_title_guide"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/home_team_title"
+                style="@style/LeagueUI.TeamDetail.CardTeam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                tools:foregroundTint="#2A65D8"
+                tools:text="Chelsea" />
+
+            <TextView
+                android:id="@+id/away_team_title"
+                style="@style/LeagueUI.TeamDetail.CardTeam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:foregroundTint="@color/red"
+                tools:text="Manchester United" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/home_corner"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:contentDescription="@string/result_image_indicator_content_desc"
+            android:src="@drawable/triangle"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:tint="#2A65D8" />
+
+        <ImageView
+            android:id="@+id/away_corner"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:contentDescription="@string/result_image_indicator_content_desc"
+            android:rotation="90"
+            android:src="@drawable/triangle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:tint="@color/red" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/team_title_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".25"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    </dev.holdbetter.shared.feature_team_detail_impl.TiledConstraintLayout>
+
+</merge>

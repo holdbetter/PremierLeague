@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <ImageView
+        android:id="@+id/team_logo"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="44dp"
+        android:contentDescription="@string/team_logo_content_desc"
+        android:paddingHorizontal="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/team_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="20dp"
+        android:textAppearance="@style/LeagueTextAppearance.Headline1"
+        app:layout_constraintLeft_toRightOf="@id/team_logo"
+        app:layout_constraintRight_toLeftOf="@id/team_rank"
+        app:layout_constraintTop_toTopOf="@id/team_logo"
+        tools:text="Chelsea FC" />
+
+    <TextView
+        android:id="@+id/team_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="6dp"
+        android:fontFamily="@font/raleway_bold_italic"
+        android:letterSpacing="-0.055"
+        android:textAlignment="viewEnd"
+        android:textAppearance="@style/LeagueTextAppearance"
+        android:textSize="41sp"
+        app:layout_constraintBottom_toBottomOf="@id/team_twitter"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintLeft_toLeftOf="@id/team_favorite"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/team_title"
+        tools:text="10" />
+
+    <TextView
+        android:id="@+id/team_twitter"
+        style="@style/LeagueUI.TeamDetail.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:paddingHorizontal="9dp"
+        android:paddingTop="2.5dp"
+        android:paddingBottom="4dp"
+        android:text="@string/team_twitter"
+        android:textSize="11sp"
+        app:layout_constraintLeft_toLeftOf="@id/team_title"
+        app:layout_constraintTop_toBottomOf="@id/team_title" />
+
+    <FrameLayout
+        android:id="@+id/team_favorite"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/shape_team_detail_action"
+        app:layout_constraintBottom_toBottomOf="@id/team_twitter"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toRightOf="@id/team_twitter"
+        app:layout_constraintTop_toTopOf="@id/team_twitter">
+
+        <ImageView
+            android:id="@+id/team_star"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/team_favorite_content_desc"
+            android:src="@drawable/star_outlined" />
+
+    </FrameLayout>
+
+</merge>

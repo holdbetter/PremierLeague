@@ -19,6 +19,11 @@
     <color name="purple_400">#9747FF</color>
     <color name="purple_100">#B1A1BE</color>
 
+    <color name="acid">#58C63C</color>
+    <color name="acid_200">#ABDE9F</color>
+
+    <color name="red">#D51010</color>
+
     <color name="darkPurple">#200E2E</color>
 
     <color name="white">#FFFFFF</color>

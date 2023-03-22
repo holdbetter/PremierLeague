@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LeagueUI.TeamDetail" />
+
+    <style name="LeagueUI.TeamDetail.Button">
+        <item name="android:gravity">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAppearance">@style/LeagueTextAppearance.Headline1</item>
+        <item name="android:background">@drawable/shape_team_detail_action</item>
+    </style>
+
+    <style name="LeagueUI.TeamDetail.SectionName">
+        <item name="android:layout_marginLeft">26dp</item>
+        <item name="android:letterSpacing">0.14</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAppearance">@style/LeagueTextAppearance.Headline2</item>
+    </style>
+
+    <style name="LeagueUI.TeamDetail.Stats">
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="LeagueUI.TeamDetail.Stats.Value">
+        <item name="android:maxWidth">48sp</item>
+        <item name="android:maxLength">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textAppearance">@style/LeagueTextAppearance.Content.SameNumbers</item>
+    </style>
+
+    <style name="LeagueUI.TeamDetail.Stats.Text">
+        <item name="android:maxWidth">48sp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAppearance">@style/LeagueTextAppearance.Content</item>
+    </style>
+
+    <style name="LeagueUI.TeamDetail.CardTeam">
+        <item name="android:ellipsize">end</item>
+        <item name="android:foreground">@drawable/text_underline</item>
+        <item name="android:gravity">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textAlignment">viewEnd</item>
+        <item name="android:textAppearance">@style/LeagueTextAppearance.Headline2</item>
+    </style>
+
+    <style name="LeagueUI.TeamDetail.Date">
+        <item name="android:background">@drawable/shape_card_date</item>
+        <item name="android:textAppearance">@style/LeagueTextAppearance.Content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:paddingHorizontal">8dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">9sp</item>
+    </style>
+
+    <style name="LeagueUI.TeamDetail.LastMatchScore">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:fontFamily">@font/raleway_extra_bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:fontFeatureSettings">lnum</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">21sp</item>
+    </style>
+
+</resources>

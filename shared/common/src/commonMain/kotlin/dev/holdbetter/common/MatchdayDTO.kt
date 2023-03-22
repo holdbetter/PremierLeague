@@ -1,7 +1,9 @@
 package dev.holdbetter.common
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MatchdayDTO(
     val id: String,
     val resultHome: String,

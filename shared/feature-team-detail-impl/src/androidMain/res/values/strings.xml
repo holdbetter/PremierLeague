@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="team_logo_content_desc">Team Logo</string>
+    <string name="compare_content_desc">Compare</string>
+    <string name="team_home_image_content_desc">Team Home Image</string>
+    <string name="result_image_indicator_content_desc">Result Indicator</string>
+    <string name="team_favorite_content_desc">Team Logo</string>
+    <string name="team_twitter">Team Twitter</string>
+    <string name="stats">Stats</string>
+    <string name="next_match">Next Match</string>
+    <string name="on_going_match">LIVE Match</string>
+    <string name="last_match">Last Match</string>
+    <string name="games">games</string>
+    <string name="won">won</string>
+    <string name="draws">draws</string>
+    <string name="loses">loses</string>
+    <string name="goals_for">goals\nfor</string>
+    <string name="goals_against">goals\nagainst</string>
+    <string name="last_matches">Last Matches</string>
+    <string name="compare">Compare</string>
+</resources>

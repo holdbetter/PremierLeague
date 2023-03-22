@@ -2,6 +2,7 @@ package dev.holdbetter.interactor
 
 import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.common.TeamRankDTO
+import dev.holdbetter.common.TeamWithMatchesDTO
 import dev.holdbetter.core_network.DataSource.Database
 import dev.holdbetter.innerApi.model.Limit
 import dev.holdbetter.outerApi.model.LivescoreDataResponse
@@ -13,6 +14,7 @@ internal interface DatabaseGateway : Database {
     val dispatcher: CoroutineDispatcher
 
     suspend fun getStandings(): List<TeamRankDTO>
+    suspend fun getTeamWithMatches(teamId: String): TeamWithMatchesDTO?
 
     suspend fun createLeague(league: LivescoreDataResponse)
     suspend fun createLimits(dayLimitMap: Map<LocalDate, Limit>)

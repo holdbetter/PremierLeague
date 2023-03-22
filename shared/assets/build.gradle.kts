@@ -33,6 +33,7 @@ kotlin {
             dependencies {
                 implementation(Deps.AndroidX.appcompat)
                 implementation(Deps.AndroidX.glide)
+                implementation(Deps.AndroidX.palette)
             }
         }
         val androidTest by getting
@@ -61,7 +62,7 @@ android {
     namespace = "dev.holdbetter.assets"
     compileSdk = 32
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
         targetSdk = 32
     }
 }

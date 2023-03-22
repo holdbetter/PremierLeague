@@ -1,6 +1,9 @@
 package dev.holdbetter.presenter
 
+import dev.holdbetter.common.Status.FULL_TIME
+import dev.holdbetter.common.Status.POSTPONED
 import dev.holdbetter.common.TeamRankDTO
+import dev.holdbetter.common.TeamWithMatchesDTO
 import dev.holdbetter.database.dao.*
 import dev.holdbetter.database.query
 import dev.holdbetter.database.table.DayLimits
@@ -11,8 +14,6 @@ import dev.holdbetter.interactor.DatabaseGateway
 import dev.holdbetter.outerApi.Mapper.getMatches
 import dev.holdbetter.outerApi.Mapper.getTeams
 import dev.holdbetter.outerApi.model.LivescoreDataResponse
-import dev.holdbetter.outerApi.model.StatusId.FULL_TIME
-import dev.holdbetter.outerApi.model.StatusId.POSTPONED
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.exceptions.ExposedSQLException
@@ -29,9 +30,10 @@ internal class DatabaseGatewayImpl(
     private val matchDao: MatchDao = MatchDaoImpl(dispatcher, database)
     private val dayLimitDao: DayLimitDao = DayLimitDaoImpl(dispatcher, database)
 
-    override suspend fun getStandings(): List<TeamRankDTO> {
-        return teamDao.getTeams()
-    }
+    override suspend fun getStandings(): List<TeamRankDTO> = teamDao.getTeams()
+
+    override suspend fun getTeamWithMatches(teamId: String): TeamWithMatchesDTO? =
+        teamDao.getTeamWithMatches(teamId)
 
     override suspend fun hasCache(): Boolean =
         database.query(dispatcher) {

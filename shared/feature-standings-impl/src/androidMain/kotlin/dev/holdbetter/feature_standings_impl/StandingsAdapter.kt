@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import dev.holdbetter.assets.assetsDrawable
 import dev.holdbetter.assets.loadWithPlaceholder
 import dev.holdbetter.feature_standings_api.StandingsStore.State.Data.Standings.TeamRank
 import dev.holdbetter.feature_standings_impl.databinding.TeamRankBinding
@@ -35,7 +36,7 @@ internal class StandingsAdapter :
             with(binding) {
                 clear(logo)
                 rank.text = teamRank.rank.toString()
-                logo.loadWithPlaceholder(teamRank.image, R.drawable.league_logo_mini)
+                logo.loadWithPlaceholder(teamRank.image, assetsDrawable.league_logo_mini)
                 team.text = teamRank.name
                 points.text = teamRank.points.toString()
                 matches.text = teamRank.gamePlayed.toString()

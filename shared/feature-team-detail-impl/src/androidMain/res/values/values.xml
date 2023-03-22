@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="result_header_style">1</integer>
+    <item name="match_card_tile_angle" format="float" type="dimen">-19.0</item>
+</resources>

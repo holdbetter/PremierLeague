@@ -34,30 +34,9 @@ internal fun StandingsView.Event.toIntent() =
         StandingsView.Event.Reload -> StandingsStore.Intent.Reload
     }
 
-internal fun StandingsStore.State.toModel() =
-    when (data) {
-        is StandingsStore.State.Data.Error -> {
-            StandingsView.Model(
-                isLoading = isLoading,
-                isRefreshEnabled = isRefreshEnabled,
-                isError = true,
-                standings = null
-            )
-        }
-        is StandingsStore.State.Data.Standings -> {
-            StandingsView.Model(
-                isLoading = isLoading,
-                isRefreshEnabled = isRefreshEnabled,
-                isError = false,
-                standings = data as StandingsStore.State.Data.Standings
-            )
-        }
-        null -> {
-            StandingsView.Model(
-                isLoading = isLoading,
-                isRefreshEnabled = isRefreshEnabled,
-                isError = false,
-                standings = null
-            )
-        }
-    }
+internal fun StandingsStore.State.toModel() = StandingsView.Model(
+    isLoading = isLoading,
+    isRefreshEnabled = isRefreshEnabled,
+    isError = data != null && data is Throwable,
+    standings = data as? StandingsStore.State.Data.Standings
+)

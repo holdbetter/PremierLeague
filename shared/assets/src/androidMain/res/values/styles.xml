@@ -1,29 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="LeagueUI"/>
+
     <style name="LeagueTextAppearance" parent="TextAppearance.AppCompat.Headline">
         <item name="android:textColor">?leagueTextColor</item>
     </style>
 
-    <style name="LeagueTextAppearance.Header">
+    <style name="LeagueTextAppearance.Headline1">
+        <item name="android:textSize">23sp</item>
         <item name="fontFamily">@font/raleway_bold</item>
-        <item name="android:textSize">26sp</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
     </style>
 
-    <style name="LeagueTextAppearance.Accent">
+    <style name="LeagueTextAppearance.Headline1.SameNumbers">
+        <item name="android:fontFeatureSettings">lnum</item>
+    </style>
+
+    <style name="LeagueTextAppearance.Headline2">
         <item name="fontFamily">@font/raleway_semibold</item>
-        <item name="android:textSize">24sp</item>
-    </style>
-
-    <style name="LeagueTextAppearance.Title">
-        <item name="fontFamily">@font/raleway_medium</item>
-        <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="LeagueTextAppearance.Subhead">
-        <item name="fontFamily">@font/raleway_medium</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">?leagueTextColorSecondary</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="LeagueTextAppearance.Headline2.SameNumbers">
+        <item name="android:fontFeatureSettings">lnum</item>
+    </style>
+
+    <style name="LeagueTextAppearance.Headline3">
+        <item name="fontFamily">@font/raleway_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="LeagueTextAppearance.Headline3.SameNumbers">
+        <item name="android:fontFeatureSettings">lnum</item>
+
+    </style>
+
+    <style name="LeagueTextAppearance.Content">
+        <item name="fontFamily">@font/raleway_medium</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="LeagueTextAppearance.Content.SameNumbers">
+        <item name="android:fontFeatureSettings">lnum</item>
+    </style>
+
+<!--    todo: Legacy-->
+    <style name="LeagueTextAppearance.Rank">
+        <item name="fontFamily">@font/raleway_medium</item>
     </style>
 </resources>

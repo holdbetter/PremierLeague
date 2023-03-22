@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/match_item"
+    android:layout_width="@dimen/match_item"
+    android:layout_height="@dimen/match_item"
+    android:background="@drawable/gradient_last_match"
+    android:elevation="2dp"
+    android:outlineProvider="background"
+    tools:clipToOutline="true">
+
+    <TextView
+        android:id="@+id/day_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4.5dp"
+        android:background="@drawable/shape_date_last_match"
+        android:fontFamily="@font/raleway_semibold"
+        android:gravity="center_horizontal"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:minWidth="20sp"
+        android:paddingLeft="5.5dp"
+        android:paddingTop="1sp"
+        android:paddingRight="6.5dp"
+        android:paddingBottom="1.2sp"
+        android:textColor="@color/black"
+        android:textSize="8sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SmallSp"
+        tools:text="99" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:orientation="vertical"
+        android:paddingLeft="22dp"
+        app:constraint_referenced_ids="home_pair, guest_pair"
+        app:flow_verticalGap="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/home_pair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="home_image, home_score"
+        app:flow_horizontalBias="0"
+        app:flow_horizontalGap="0dp"
+        app:flow_horizontalStyle="packed"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/guest_pair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="away_image, away_score"
+        app:flow_horizontalBias="0"
+        app:flow_horizontalStyle="packed"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/home_image"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:contentDescription="@string/team_home_image_content_desc"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/home_score"
+        style="@style/LeagueUI.TeamDetail.LastMatchScore"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        tools:text="1" />
+
+    <ImageView
+        android:id="@+id/away_image"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:contentDescription="@string/team_home_image_content_desc"
+        android:scaleType="centerCrop"
+        tools:ignore="MissingConstraints"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/away_score"
+        style="@style/LeagueUI.TeamDetail.LastMatchScore"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        tools:text="0" />
+
+    <ImageView
+        android:id="@+id/card_result_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/result_image_indicator_content_desc"
+        android:src="@drawable/match_corner_result"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:tint="@color/result_match_corner_lose" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
