@@ -6,6 +6,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import dev.holdbetter.assets.isDarkMode
+import dev.holdbetter.shared.core_navigation.Destination
+import dev.holdbetter.shared.core_navigation.Endpoint
 import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailModule
 import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailRepositoryModule
 import kotlin.properties.Delegates
@@ -13,12 +15,11 @@ import kotlin.properties.Delegates
 class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
 
     companion object {
-        private const val TEAM_ID_ARG = "teamId"
         val tag = TeamDetailFragment::class.qualifiedName
 
         fun createFragment(teamId: Long): TeamDetailFragment {
             return TeamDetailFragment().apply {
-                arguments = bundleOf(TEAM_ID_ARG to teamId)
+                arguments = bundleOf(Destination.TeamDetail.Arguments.TEAM_ID to teamId)
             }
         }
     }
@@ -30,7 +31,10 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        teamId = requireArguments().getLong(TEAM_ID_ARG)
+        teamId = requireNotNull(
+            arguments?.getString(Destination.TeamDetail.Arguments.TEAM_ID)?.toLong()
+        )
+
         module = TeamDetailModule(teamId, TeamDetailRepositoryModule())
 
         component = TeamDetailComponent(

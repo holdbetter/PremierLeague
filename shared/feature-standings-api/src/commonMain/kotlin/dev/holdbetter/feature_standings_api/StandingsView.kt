@@ -8,7 +8,8 @@ interface StandingsView : MviView<StandingsView.Model, StandingsView.Event> {
         val isLoading: Boolean,
         val isRefreshEnabled: Boolean,
         val isError: Boolean,
-        val standings: StandingsStore.State.Data.Standings?
+        val standings: StandingsStore.State.Data.Standings?,
+        var selectedTeamId: Long?
     )
 
     sealed interface Event {

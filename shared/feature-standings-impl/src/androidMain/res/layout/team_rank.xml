@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<dev.holdbetter.assets.LinearLayoutWithInterception xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,11 +13,11 @@
         android:layout_width="44dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
+        android:includeFontPadding="false"
         android:gravity="center"
         android:textAlignment="center"
-        android:textSize="16sp"
-        android:textColor="?leagueTextColorSecondary"
-        android:textAppearance="@style/LeagueTextAppearance.Rank"
+        android:paddingBottom="1dp"
+        android:textAppearance="@style/LeagueUI.Standings.RankAppearance"
         tools:text="1" />
 
     <ImageView
@@ -34,19 +34,19 @@
         android:id="@+id/team"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
         android:layout_marginStart="12dp"
         android:layout_weight="1"
         android:paddingEnd="8dp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:fontFamily="@font/raleway_medium"
+        android:includeFontPadding="false"
+        android:textAppearance="@style/LeagueTextAppearance.Headline3"
         android:textSize="18sp"
         tools:text="Manchester United Football" />
 
     <FrameLayout
-        android:layout_width="18sp"
-        android:layout_height="18sp"
+        android:layout_width="17sp"
+        android:layout_height="17sp"
         android:layout_gravity="center"
         android:layout_marginTop="12dp"
         android:background="@drawable/circle"
@@ -57,13 +57,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="1dp"
+            android:layout_marginBottom="0dp"
             android:maxLength="2"
             android:maxLines="1"
             android:textAlignment="center"
-            android:fontFamily="@font/raleway_semibold"
+            android:includeFontPadding="false"
+            android:textAppearance="@style/LeagueTextAppearance.Headline2"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="10sp"
+            tools:ignore="SmallSp"
             tools:text="17" />
 
     </FrameLayout>
@@ -76,9 +78,13 @@
         android:gravity="center"
         android:layout_marginRight="8dp"
         android:maxLength="3"
+        android:ellipsize="end"
         android:textAlignment="center"
-        android:fontFamily="@font/raleway_semibold"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:paddingTop="2dp"
+        android:textAppearance="@style/LeagueTextAppearance.Headline2"
         android:textSize="26sp"
         tools:text="76" />
 
-</LinearLayout>
+</dev.holdbetter.assets.LinearLayoutWithInterception>

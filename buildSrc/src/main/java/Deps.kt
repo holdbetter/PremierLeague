@@ -49,6 +49,11 @@ object Deps {
         const val recycler = "androidx.recyclerview:recyclerview:${Versions.recyclerVersion}"
         const val glide = "com.github.bumptech.glide:glide:${Versions.glideVersion}"
         const val pullToRefresh = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.pullToRefreshVersion}"
+        const val navigationKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.navigationVersion}"
+        const val navigationUiKtx = "androidx.navigation:navigation-ui-ktx:${Versions.navigationVersion}"
+        const val navigationRuntimeKtx = "androidx.navigation:navigation-runtime-ktx:${Versions.navigationVersion}"
+        const val navigationFeatureModule = "androidx.navigation:navigation-dynamic-features-fragment:${Versions.navigationVersion}"
+        const val navigationTests = "androidx.navigation:navigation-testing:${Versions.navigationVersion}"
     }
 }
 
@@ -76,6 +81,7 @@ object Versions {
     const val constraintLayoutVersion = "2.1.4"
     const val recyclerVersion = "1.2.0"
     const val pullToRefreshVersion = "1.1.0"
+    const val navigationVersion = "2.5.3"
 
     const val diktVersion = "1.0.2"
     const val glideVersion = "4.14.2"

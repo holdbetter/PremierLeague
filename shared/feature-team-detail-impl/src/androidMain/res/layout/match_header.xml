@@ -23,6 +23,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="20dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textAppearance="@style/LeagueTextAppearance.Headline1"
         app:layout_constraintLeft_toRightOf="@id/team_logo"
         app:layout_constraintRight_toLeftOf="@id/team_rank"
@@ -58,6 +60,7 @@
         android:paddingBottom="4dp"
         android:text="@string/team_twitter"
         android:textSize="11sp"
+        android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="@id/team_title"
         app:layout_constraintTop_toBottomOf="@id/team_title" />
 
@@ -79,7 +82,8 @@
             android:layout_height="13dp"
             android:layout_gravity="center"
             android:contentDescription="@string/team_favorite_content_desc"
-            android:src="@drawable/star_outlined" />
+            android:src="@drawable/star_outlined"
+            app:tint="@color/white" />
 
     </FrameLayout>
 

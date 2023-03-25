@@ -10,9 +10,11 @@ import androidx.core.view.WindowInsetsControllerCompat
 fun Window.updateColors(
     @ColorInt status: Int?,
     @ColorInt navigation: Int?,
-    isDarkMode: Boolean
+    isLightText: Boolean
 ) {
     addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+    val windowInsetsController = WindowCompat.getInsetsController(this, decorView)
 
     if (status == null) {
         addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -22,7 +24,6 @@ fun Window.updateColors(
 
     if (navigation == null) {
         addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-        val windowInsetsController = WindowCompat.getInsetsController(this, decorView)
 
         windowInsetsController.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -30,10 +31,11 @@ fun Window.updateColors(
         windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars())
     } else {
         clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+        windowInsetsController.show(WindowInsetsCompat.Type.navigationBars())
     }
 
-    WindowInsetsControllerCompat(this, decorView).isAppearanceLightStatusBars = !isDarkMode
-    WindowInsetsControllerCompat(this, decorView).isAppearanceLightNavigationBars = !isDarkMode
+    WindowInsetsControllerCompat(this, decorView).isAppearanceLightStatusBars = !isLightText
+    WindowInsetsControllerCompat(this, decorView).isAppearanceLightNavigationBars = !isLightText
 
     status?.let { statusBarColor = status }
     navigation?.let { navigationBarColor = navigation }

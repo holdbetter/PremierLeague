@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import androidx.annotation.ColorInt
-import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.request.FutureTarget
@@ -37,7 +37,7 @@ fun tileColor(@ColorInt dominant: Int, isDarkMode: Boolean): Int {
     return if (!isDarkMode) {
         ColorUtils.colorToHSL(dominant, hsl)
         val (hue, sat, lum) = hsl
-        hsl[1] = sat * .9f
+        hsl[1] = sat * .2f
         val dimmedColor = ColorUtils.HSLToColor(hsl)
         ColorUtils.setAlphaComponent(dimmedColor, (255 * 0.1).roundToInt())
     } else {
@@ -56,8 +56,8 @@ fun cardStartColor(
         ColorUtils.colorToHSL(teamColor, hsl)
         val (hue, sat, lum) = hsl
         hsl[0] = (hue + 20) % 360
-        hsl[1] = .2f
-        hsl[2] = .3f
+        hsl[1] = .25f
+        hsl[2] = .35f
 
         ColorUtils.HSLToColor(hsl)
     } else {
@@ -80,35 +80,16 @@ fun cardEndColor(
 }
 
 fun Context.getActionDrawable(
-    isDarkMode: Boolean,
-    @ColorInt color: Int,
-    isMini: Boolean
+    @ColorInt color: Int
 ): Drawable {
-    val actionDrawable = ResourcesCompat.getDrawable(
-        resources,
+    val actionDrawable = AppCompatResources.getDrawable(
+        this,
         R.drawable.shape_team_detail_action,
-        theme
     ) as GradientDrawable
 
     actionDrawable.apply {
         mutate()
-        val strokeColor = if (isDarkMode) {
-            Color.TRANSPARENT
-        } else {
-            if (isMini) {
-                getColor(R.color.leagueTextColor)
-            } else {
-                color
-            }
-        }
-        val strokeWidth = if (isMini) {
-            resources.getDimension(R.dimen.action_mini_stroke_width)
-        } else {
-            resources.getDimension(R.dimen.action_stroke_width)
-        }
-        val backgroundColor = if (isDarkMode) color else Color.TRANSPARENT
-        actionDrawable.setStroke(strokeWidth.toInt(), strokeColor)
-        actionDrawable.setColor(backgroundColor)
+        setColor(color)
     }
 
     return actionDrawable

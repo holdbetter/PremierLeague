@@ -33,6 +33,7 @@ kotlin {
                 implementation(project(":shared:feature-standings-api"))
                 implementation(project(":shared:core-mvi"))
                 implementation(project(":shared:core-network"))
+                implementation(project(":shared:core-navigation"))
                 implementation(project(":shared:core-di-api"))
                 implementation(project(":shared:core-di-impl"))
                 implementation(project(":shared:common"))
@@ -53,6 +54,8 @@ kotlin {
                 implementation(Deps.AndroidX.recycler)
                 implementation(Deps.AndroidX.glide)
                 implementation(Deps.AndroidX.pullToRefresh)
+                implementation(Deps.AndroidX.navigationKtx)
+                implementation(Deps.AndroidX.navigationRuntimeKtx)
             }
         }
         val androidTest by getting
