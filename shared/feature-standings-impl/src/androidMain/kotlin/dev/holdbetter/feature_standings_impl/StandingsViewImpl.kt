@@ -13,17 +13,19 @@ import dev.holdbetter.feature_standings_api.StandingsView
 import dev.holdbetter.feature_standings_api.StandingsView.Event
 import dev.holdbetter.feature_standings_api.StandingsView.Model
 import dev.holdbetter.feature_standings_impl.databinding.StandingsFragmentBinding
+import dev.holdbetter.shared.core_navigation.Router
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 internal class StandingsViewImpl(
-    lifecycleScope: CoroutineScope,
-    view: View
+    private val lifecycleScope: CoroutineScope,
+    view: View,
+    private val router: Router
 ) : AbstractMviView<Model, Event>(), StandingsView {
 
     private val binding = StandingsFragmentBinding.bind(view)
-    private val adapter = StandingsAdapter()
+    private val adapter = StandingsAdapter(::teamOnStandingClick)
 
     private val loaderAnimator = ValueAnimator.ofFloat(1f, 0.2f).apply {
         interpolator = AccelerateDecelerateInterpolator()
@@ -52,6 +54,7 @@ internal class StandingsViewImpl(
         model.standings?.teams?.let(adapter::submitList)
         loading(model.isLoading)
         content(model)
+        effect(model)
     }
 
     private fun loading(isLoading: Boolean) {
@@ -72,6 +75,16 @@ internal class StandingsViewImpl(
 
             pullToRefresh.isEnabled = model.isRefreshEnabled
             if (model.standings != null) pullToRefresh.isRefreshing = false
+        }
+    }
+
+    private fun effect(model: Model) {
+        model.selectedTeamId?.let(router::navigateToTeam)
+    }
+
+    private fun teamOnStandingClick(teamId: Long) {
+        lifecycleScope.launch {
+            dispatch(Event.TeamSelected(teamId.toString()))
         }
     }
 

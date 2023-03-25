@@ -7,7 +7,6 @@ import dev.holdbetter.feature_standings_api.StandingsStore.Intent
 import dev.holdbetter.feature_standings_api.StandingsStore.State
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlin.contracts.Effect
 
 @OptIn(FlowPreview::class)
 internal class StandingsStoreImpl(
@@ -18,7 +17,8 @@ internal class StandingsStoreImpl(
         object LoadingStarted : Effect
         class LoadingFinished(val standings: State.Data.Standings) : Effect
         class LoadingError(val throwable: Throwable) : Effect
-        class NavigateDetailTeam(val teamRank: State.Data.Standings.TeamRank) : Effect
+        class NavigationStarted(val teamRank: State.Data.Standings.TeamRank) : Effect
+        object NavigationCommited : Effect
     }
 
     private val dispatcher = Dispatchers.Default
@@ -69,9 +69,13 @@ internal class StandingsStoreImpl(
                 isRefreshEnabled = true,
                 data = effect.standings
             )
-            is Effect.NavigateDetailTeam -> state.copy(
+            is Effect.NavigationStarted -> state.copy(
                 isLoading = false,
                 selectedTeam = effect.teamRank
+            )
+            Effect.NavigationCommited -> state.copy(
+                isLoading = false,
+                selectedTeam = null
             )
         }
 
@@ -84,7 +88,10 @@ internal class StandingsStoreImpl(
         flow {
             state.data
                 ?.getTeamById(teamId)
-                ?.also { emit(Effect.NavigateDetailTeam(it)) }
+                ?.also { emit(Effect.NavigationStarted(it)) }
+
+            // TODO: Replace with better solution
+            emit(Effect.NavigationCommited)
         }
 
     private fun State.Data.getTeamById(teamId: String): State.Data.Standings.TeamRank? {
@@ -97,6 +104,7 @@ internal class StandingsStoreImpl(
 
     private fun withLoading(block: suspend () -> Flow<Effect>): Flow<Effect> = flow {
         emit(Effect.LoadingStarted)
+        delay(300)
         emitAll(block())
     }
 }

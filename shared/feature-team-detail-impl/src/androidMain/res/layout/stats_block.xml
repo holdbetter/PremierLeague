@@ -17,7 +17,7 @@
         style="@style/LeagueUI.TeamDetail.SectionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="20dp"
         android:text="@string/stats"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/match_card" />
@@ -34,6 +34,8 @@
         android:paddingTop="4dp"
         android:paddingRight="10dp"
         android:paddingBottom="5dp"
+        android:elevation="4dp"
+        android:outlineProvider="background"
         app:layout_constraintBottom_toBottomOf="@id/stats_header"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/stats_header"
@@ -48,7 +50,7 @@
             android:letterSpacing="0.14"
             android:text="@string/compare"
             android:textAllCaps="true"
-            android:textColor="?leagueTextColor"
+            android:textColor="@color/white"
             android:textSize="8sp"
             tools:ignore="SmallSp" />
 
@@ -60,6 +62,7 @@
             android:contentDescription="@string/goals_against"
             android:scaleType="centerInside"
             android:src="@drawable/compare_add"
+            app:tint="@color/white"
             tools:ignore="SmallSp" />
 
     </LinearLayout>
@@ -92,8 +95,8 @@
         android:id="@+id/stats_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="21dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="26dp"
+        android:layout_marginTop="12dp"
         android:orientation="horizontal"
         app:constraint_referenced_ids="games, won, draws, loses, goals_for, goals_against"
         app:flow_horizontalAlign="start"

@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/cards_horizontal_margin"
         android:layout_marginTop="14dp"
-        android:elevation="4dp"
+        android:elevation="8dp"
         android:outlineProvider="background"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -29,7 +29,7 @@
         tools:background="#1A000000">
 
         <androidx.constraintlayout.helper.widget.Flow
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:layout_marginTop="14dp"
@@ -46,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="SmallSp"
+            tools:background="@drawable/shape_card_date"
             tools:text="7:00 pm" />
 
         <TextView
@@ -53,6 +54,7 @@
             style="@style/LeagueUI.TeamDetail.Date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:background="@drawable/shape_card_date"
             tools:ignore="SmallSp"
             tools:text="1/03" />
 
@@ -63,8 +65,8 @@
             android:gravity="end"
             android:orientation="vertical"
             android:paddingHorizontal="0dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="30dp"
+            android:paddingTop="22dp"
+            android:paddingBottom="33dp"
             app:layout_constraintLeft_toLeftOf="@id/team_title_guide"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">

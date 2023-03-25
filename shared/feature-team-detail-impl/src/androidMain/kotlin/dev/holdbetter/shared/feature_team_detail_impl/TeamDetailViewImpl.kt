@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.PaintDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
@@ -11,6 +12,8 @@ import android.net.Uri
 import android.view.View
 import android.view.Window
 import androidx.annotation.ColorInt
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.doOnLayout
 import androidx.palette.graphics.Palette
 import dev.holdbetter.assets.*
@@ -59,6 +62,10 @@ internal class TeamDetailViewImpl(
 
     private val statsNameProvider = StatsNameProvider(context)
     private val leagueBackground = context.getColor(assetsColor.leagueBackground)
+    private val dateBackground =
+        AppCompatResources.getDrawable(context, R.drawable.shape_card_date)?.mutate()
+    private val timeBackground =
+        AppCompatResources.getDrawable(context, R.drawable.shape_card_date)?.mutate()
 
     init {
         lastMatchesBinding.matchGroups.adapter = MatchesAdapter(
@@ -90,9 +97,10 @@ internal class TeamDetailViewImpl(
             )
         }
 
-        with(matchCardBinding) {
-            matchCard.clipToOutline = true
-        }
+        matchCardBinding.matchCard.clipToOutline = true
+        statsBinding.compareBtn.clipToOutline = true
+        headerBinding.teamTwitter.clipToOutline = true
+        headerBinding.teamFavorite.clipToOutline = true
     }
 
     override fun render(model: Model) {
@@ -110,14 +118,13 @@ internal class TeamDetailViewImpl(
             if (palette != null) {
                 val matches = it.allMatches
                 val teamColor = palette.generateTeamColor(context)
-                val textColor = context.textColor(teamColor, isDarkMode)
-                val actionDrawable = context.getActionDrawable(isDarkMode, teamColor, false)
-                val actionMiniDrawable = context.getActionDrawable(isDarkMode, teamColor, true)
+                val actionDrawable = context.getActionDrawable(teamColor)
 
                 bindViewColors()
+
                 bindCard(findNextMatch(matches), teamColor)
-                bindHeader(team, teamColor, textColor, actionDrawable)
-                bindStats(team, actionMiniDrawable)
+                bindHeader(team, teamColor, actionDrawable)
+                bindStats(team, actionDrawable)
                 bindMatches(teamColor, it.pastResultsByMonth)
             } else {
                 if (paletteCreator?.isActive == true) {
@@ -140,27 +147,18 @@ internal class TeamDetailViewImpl(
         window.updateColors(
             status = leagueBackground,
             navigation = null,
-            isDarkMode = isDarkMode
+            isLightText = isDarkMode
         )
     }
 
     private fun bindHeader(
         team: Team,
         @ColorInt teamColor: Int,
-        @ColorInt textColor: Int,
         actionDrawable: Drawable
     ) {
         with(headerBinding) {
             teamTwitter.background = actionDrawable
-            teamTwitter.setTextColor(textColor)
             teamFavorite.background = actionDrawable
-            teamStar.imageTintList = ColorStateList.valueOf(
-                if (isDarkMode) {
-                    context.getColor(assetsColor.leagueTextColor)
-                } else {
-                    teamColor
-                }
-            )
 
             teamLogo.load(team.image)
             teamTitle.text = team.name
@@ -201,8 +199,25 @@ internal class TeamDetailViewImpl(
         }
 
         with(matchCardBinding) {
-            timeStart.backgroundTintList = ColorStateList.valueOf(dateTimeColor)
-            dateStart.backgroundTintList = ColorStateList.valueOf(dateTimeColor)
+            val dateGradient = dateBackground as? GradientDrawable
+            val timeGradient = timeBackground as? GradientDrawable
+
+            val hsl = floatArrayOf(0f, 0f, 0f)
+            ColorUtils.colorToHSL(teamColor, hsl)
+            val (hue, sat, lum) = hsl
+            hsl[2] = lum * 1.12f
+
+            val startColor = ColorUtils.HSLToColor(hsl)
+
+            hsl[1] = sat * .7f
+            hsl[2] = lum * .8f
+            val endColor = ColorUtils.HSLToColor(hsl)
+
+            dateGradient?.colors = intArrayOf(startColor, endColor)
+            timeGradient?.colors = intArrayOf(startColor, endColor)
+
+            dateStart.background = dateGradient
+            timeStart.background = timeGradient
 
             timeStart.text = startTime
             dateStart.text = buildString {

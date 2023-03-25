@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
     <item android:gravity="bottom">
         <shape>
+            <padding
+                android:left="3sp"
+                android:right="0sp" />
+            <corners android:radius="4dp" />
             <size android:height="2dp" />
             <solid tools:color="#000000" />
         </shape>

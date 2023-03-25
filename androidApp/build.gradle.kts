@@ -40,12 +40,19 @@ dependencies {
     implementation(Deps.AndroidX.coreKtx)
     implementation(Deps.AndroidX.activityKtx)
     implementation(Deps.AndroidX.fragmentKtx)
+    implementation(Deps.AndroidX.navigationKtx)
+    implementation(Deps.AndroidX.navigationRuntimeKtx)
     implementation(Deps.Common.loggerNapier)
+
+    testImplementation(Deps.AndroidX.navigationTests)
 
     implementation(project(":shared:assets"))
     implementation(project(":shared:feature-standings-api"))
     implementation(project(":shared:feature-standings-impl"))
+    implementation(project(":shared:feature-team-detail-api"))
+    implementation(project(":shared:feature-team-detail-impl"))
     implementation(project(":shared:core-network"))
+    implementation(project(":shared:core-navigation"))
     implementation(project(":shared:core-di-api"))
     implementation(project(":shared:core-di-impl"))
 }

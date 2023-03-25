@@ -38,5 +38,6 @@ internal fun StandingsStore.State.toModel() = StandingsView.Model(
     isLoading = isLoading,
     isRefreshEnabled = isRefreshEnabled,
     isError = data != null && data is Throwable,
-    standings = data as? StandingsStore.State.Data.Standings
+    standings = data as? StandingsStore.State.Data.Standings,
+    selectedTeamId = selectedTeam?.id?.toLong()
 )

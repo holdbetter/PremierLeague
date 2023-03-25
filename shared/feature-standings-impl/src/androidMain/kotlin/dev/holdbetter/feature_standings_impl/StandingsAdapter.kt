@@ -12,8 +12,9 @@ import dev.holdbetter.assets.loadWithPlaceholder
 import dev.holdbetter.feature_standings_api.StandingsStore.State.Data.Standings.TeamRank
 import dev.holdbetter.feature_standings_impl.databinding.TeamRankBinding
 
-internal class StandingsAdapter :
-    ListAdapter<TeamRank, StandingsAdapter.TeamRankVH>(TeamRankDiffer()) {
+internal class StandingsAdapter(
+    private val onItemClickAction: (teamId: Long) -> Unit
+) : ListAdapter<TeamRank, StandingsAdapter.TeamRankVH>(TeamRankDiffer()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamRankVH {
         return TeamRankVH(
@@ -21,7 +22,8 @@ internal class StandingsAdapter :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            onItemClickAction
         )
     }
 
@@ -30,8 +32,10 @@ internal class StandingsAdapter :
     }
 
     class TeamRankVH(
-        private val binding: TeamRankBinding
+        private val binding: TeamRankBinding,
+        private val onItemClickAction: (teamId: Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(teamRank: TeamRank) {
             with(binding) {
                 clear(logo)
@@ -40,6 +44,8 @@ internal class StandingsAdapter :
                 team.text = teamRank.name
                 points.text = teamRank.points.toString()
                 matches.text = teamRank.gamePlayed.toString()
+
+                root.setOnClickListener { onItemClickAction(teamRank.id.toLong()) }
             }
         }
 
