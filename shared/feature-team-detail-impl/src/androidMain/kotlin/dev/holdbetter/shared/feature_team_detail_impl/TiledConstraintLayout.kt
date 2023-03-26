@@ -43,18 +43,11 @@ class TiledConstraintLayout @JvmOverloads constructor(
     private val tilePaint by lazy {
         Paint().apply {
             isAntiAlias = true
-            colorFilter = tileColor?.let {
-                PorterDuffColorFilter(
-                    it,
-                    PorterDuff.Mode.SRC_IN
-                )
-            }
         }
     }
 
     override fun dispatchDraw(canvas: Canvas?) {
         if (tileColor != null) {
-            // TODO: Dimen
             val radian = Math.toRadians(abs(tileAngle.toDouble()))
 
             /* triangle

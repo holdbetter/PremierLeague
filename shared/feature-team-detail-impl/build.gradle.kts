@@ -33,6 +33,8 @@ kotlin {
 
                 implementation(project(":shared:core-mvi"))
                 implementation(project(":shared:core-network"))
+                implementation(project(":shared:core-di-api"))
+                implementation(project(":shared:core-di-impl"))
                 implementation(project(":shared:core-navigation"))
                 implementation(project(":shared:common"))
                 implementation(project(":shared:feature-team-detail-api"))

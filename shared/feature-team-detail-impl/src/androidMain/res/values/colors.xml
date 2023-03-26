@@ -12,6 +12,6 @@
     <color name="result_month_header_text_lose">@color/result_month_header_lose</color>
     <color name="result_month_header_text_draw">@color/result_month_header_draw</color>
 
-    <color name="match_card_default_start_color">#444444</color>
-    <color name="match_card_default_end_color">#0F0F0F</color>
+    <color name="match_card_default_start_color">@color/black_700</color>
+    <color name="match_card_default_end_color">@color/black_900</color>
 </resources>

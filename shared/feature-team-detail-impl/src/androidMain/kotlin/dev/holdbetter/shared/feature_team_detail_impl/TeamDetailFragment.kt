@@ -1,13 +1,16 @@
 package dev.holdbetter.shared.feature_team_detail_impl
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import dev.holdbetter.assets.assetsColor
 import dev.holdbetter.assets.isDarkMode
+import dev.holdbetter.assets.updateColors
+import dev.holdbetter.core_di_impl.findModuleDependency
 import dev.holdbetter.shared.core_navigation.Destination
-import dev.holdbetter.shared.core_navigation.Endpoint
 import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailModule
 import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailRepositoryModule
 import kotlin.properties.Delegates
@@ -28,6 +31,10 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
     private lateinit var component: TeamDetailComponent
     private var teamId by Delegates.notNull<Long>()
 
+    private val leagueBackground by lazy {
+        requireContext().getColor(assetsColor.leagueBackground)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,7 +42,12 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
             arguments?.getString(Destination.TeamDetail.Arguments.TEAM_ID)?.toLong()
         )
 
-        module = TeamDetailModule(teamId, TeamDetailRepositoryModule())
+        module = TeamDetailModule(
+            teamId,
+            TeamDetailRepositoryModule(
+                networkModule = findModuleDependency()
+            )
+        )
 
         component = TeamDetailComponent(
             module.store
@@ -45,6 +57,7 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = requireActivity()
+        bindViewColors(activity)
         component.onViewCreated(
             TeamDetailViewImpl(
                 teamId = teamId,
@@ -53,6 +66,14 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
                 window = activity.window,
                 isDarkMode = activity.isDarkMode()
             )
+        )
+    }
+
+    private fun bindViewColors(activity: Activity) {
+        activity.window?.updateColors(
+            status = leagueBackground,
+            navigation = null,
+            isLightText = activity.isDarkMode()
         )
     }
 
@@ -68,7 +89,6 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
 
     override fun onDestroyView() {
         component.onViewDestroyed()
-
         super.onDestroyView()
     }
 
