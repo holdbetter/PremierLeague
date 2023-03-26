@@ -10,7 +10,7 @@ import dev.shustoff.dikt.UseModules
 
 @UseModules(NetworkModule::class)
 internal class TeamDetailRepositoryModule(
-    private val networkModule: NetworkModule = NetworkModule()
+    private val networkModule: NetworkModule
 ) {
 
     private val dataSource: TeamDetailDataSource by lazy(::getDataSource)

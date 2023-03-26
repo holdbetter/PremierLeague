@@ -120,15 +120,12 @@ internal class TeamDetailViewImpl(
                 val teamColor = palette.generateTeamColor(context)
                 val actionDrawable = context.getActionDrawable(teamColor)
 
-                bindViewColors()
-
                 bindCard(findNextMatch(matches), teamColor)
                 bindHeader(team, teamColor, actionDrawable)
                 bindStats(team, actionDrawable)
                 bindMatches(teamColor, it.pastResultsByMonth)
             } else {
                 if (paletteCreator?.isActive == true) {
-                    Napier.d(message = "rebind, palette creation and render canceled")
                     paletteCreator?.cancel()
                 }
 
@@ -141,14 +138,6 @@ internal class TeamDetailViewImpl(
                 }
             }
         }
-    }
-
-    private fun bindViewColors() {
-        window.updateColors(
-            status = leagueBackground,
-            navigation = null,
-            isLightText = isDarkMode
-        )
     }
 
     private fun bindHeader(
@@ -192,26 +181,11 @@ internal class TeamDetailViewImpl(
             DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(Locale.ENGLISH)
         )?.lowercase()
 
-        val dateTimeColor = if (isDarkMode) {
-            teamColor
-        } else {
-            context.getColor(assetsColor.leagueColorPrimary)
-        }
-
         with(matchCardBinding) {
             val dateGradient = dateBackground as? GradientDrawable
             val timeGradient = timeBackground as? GradientDrawable
 
-            val hsl = floatArrayOf(0f, 0f, 0f)
-            ColorUtils.colorToHSL(teamColor, hsl)
-            val (hue, sat, lum) = hsl
-            hsl[2] = lum * 1.12f
-
-            val startColor = ColorUtils.HSLToColor(hsl)
-
-            hsl[1] = sat * .7f
-            hsl[2] = lum * .8f
-            val endColor = ColorUtils.HSLToColor(hsl)
+            val (startColor, endColor) = getDateBackgroundColors(teamColor)
 
             dateGradient?.colors = intArrayOf(startColor, endColor)
             timeGradient?.colors = intArrayOf(startColor, endColor)
@@ -229,6 +203,21 @@ internal class TeamDetailViewImpl(
         }
     }
 
+    private fun getDateBackgroundColors(@ColorInt teamColor: Int): Pair<Int, Int> {
+        val hsl = floatArrayOf(0f, 0f, 0f)
+        ColorUtils.colorToHSL(teamColor, hsl)
+        val (hue, sat, lum) = hsl
+        hsl[2] = lum * 1.12f
+
+        val startColor = ColorUtils.HSLToColor(hsl)
+
+        hsl[1] = sat * .7f
+        hsl[2] = lum * .8f
+        val endColor = ColorUtils.HSLToColor(hsl)
+
+        return startColor to endColor
+    }
+
     private fun bindMatchCardHomeAwayData(
         match: Match,
         isHomeMatch: Boolean,
@@ -240,18 +229,20 @@ internal class TeamDetailViewImpl(
             homeTeamTitle.text = match.teamHome?.name
             awayTeamTitle.text = match.teamAway?.name
 
+            val currentTeamColorList = ColorStateList.valueOf(teamColor)
+            val oppositeTeamColorList = ColorStateList.valueOf(oppositeTeamColor)
             if (isHomeMatch) {
-                homeTeamTitle.foregroundTintList = ColorStateList.valueOf(teamColor)
-                homeCorner.imageTintList = ColorStateList.valueOf(teamColor)
+                homeTeamTitle.foregroundTintList = currentTeamColorList
+                homeCorner.imageTintList = currentTeamColorList
 
-                awayTeamTitle.foregroundTintList = ColorStateList.valueOf(oppositeTeamColor)
-                awayCorner.imageTintList = ColorStateList.valueOf(oppositeTeamColor)
+                awayTeamTitle.foregroundTintList = oppositeTeamColorList
+                awayCorner.imageTintList = oppositeTeamColorList
             } else {
-                homeTeamTitle.foregroundTintList = ColorStateList.valueOf(oppositeTeamColor)
-                homeCorner.imageTintList = ColorStateList.valueOf(oppositeTeamColor)
+                homeTeamTitle.foregroundTintList = oppositeTeamColorList
+                homeCorner.imageTintList = oppositeTeamColorList
 
-                awayTeamTitle.foregroundTintList = ColorStateList.valueOf(teamColor)
-                awayCorner.imageTintList = ColorStateList.valueOf(teamColor)
+                awayTeamTitle.foregroundTintList = currentTeamColorList
+                awayCorner.imageTintList = currentTeamColorList
             }
         }
     }
