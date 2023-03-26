@@ -9,6 +9,7 @@ interface StandingsStore : Store<Intent, State> {
     sealed interface Intent {
         object Reload : Intent
         data class OpenTeamDetail(val teamId: String) : Intent
+        object NavigationCommit : Intent
     }
 
     data class State(

@@ -15,5 +15,6 @@ interface StandingsView : MviView<StandingsView.Model, StandingsView.Event> {
     sealed interface Event {
         data class TeamSelected(val teamId: String) : Event
         object Reload : Event
+        object NavigationCommit : Event
     }
 }

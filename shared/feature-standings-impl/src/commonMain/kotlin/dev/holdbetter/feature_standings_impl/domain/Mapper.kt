@@ -32,6 +32,7 @@ internal fun StandingsView.Event.toIntent() =
     when(this) {
         is StandingsView.Event.TeamSelected -> StandingsStore.Intent.OpenTeamDetail(teamId)
         StandingsView.Event.Reload -> StandingsStore.Intent.Reload
+        StandingsView.Event.NavigationCommit -> StandingsStore.Intent.NavigationCommit
     }
 
 internal fun StandingsStore.State.toModel() = StandingsView.Model(

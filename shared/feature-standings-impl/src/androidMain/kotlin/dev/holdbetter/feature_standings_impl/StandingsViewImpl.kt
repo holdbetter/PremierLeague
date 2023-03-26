@@ -79,7 +79,10 @@ internal class StandingsViewImpl(
     }
 
     private fun effect(model: Model) {
-        model.selectedTeamId?.let(router::navigateToTeam)
+        model.selectedTeamId?.let {
+            lifecycleScope.launch { dispatch(Event.NavigationCommit) }
+            router.navigateToTeam(it)
+        }
     }
 
     private fun teamOnStandingClick(teamId: Long) {

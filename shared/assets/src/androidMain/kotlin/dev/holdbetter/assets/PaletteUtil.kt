@@ -27,7 +27,7 @@ fun Palette.generateTeamColor(context: Context): Int {
     val hsl = floatArrayOf(0f, 0f, 0f)
     ColorUtils.colorToHSL(dominant(context), hsl)
     val (hue, sat, lum) = hsl
-    hsl[1] = sat * .9f
+    hsl[1] = sat * .85f
     return ColorUtils.HSLToColor(hsl)
 }
 

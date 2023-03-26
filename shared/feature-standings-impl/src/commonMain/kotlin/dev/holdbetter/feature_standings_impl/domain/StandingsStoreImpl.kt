@@ -18,7 +18,7 @@ internal class StandingsStoreImpl(
         class LoadingFinished(val standings: State.Data.Standings) : Effect
         class LoadingError(val throwable: Throwable) : Effect
         class NavigationStarted(val teamRank: State.Data.Standings.TeamRank) : Effect
-        object NavigationCommited : Effect
+        object NavigationCleanState : Effect
     }
 
     private val dispatcher = Dispatchers.Default
@@ -51,6 +51,7 @@ internal class StandingsStoreImpl(
         when (intent) {
             is Intent.OpenTeamDetail -> openTeamDetail(state, intent.teamId)
             Intent.Reload -> withLoading(::reload)
+            Intent.NavigationCommit -> flowOf(Effect.NavigationCleanState)
         }
 
     private fun reduce(state: State, effect: Effect) =
@@ -73,7 +74,7 @@ internal class StandingsStoreImpl(
                 isLoading = false,
                 selectedTeam = effect.teamRank
             )
-            Effect.NavigationCommited -> state.copy(
+            Effect.NavigationCleanState -> state.copy(
                 isLoading = false,
                 selectedTeam = null
             )
@@ -89,9 +90,6 @@ internal class StandingsStoreImpl(
             state.data
                 ?.getTeamById(teamId)
                 ?.also { emit(Effect.NavigationStarted(it)) }
-
-            // TODO: Replace with better solution
-            emit(Effect.NavigationCommited)
         }
 
     private fun State.Data.getTeamById(teamId: String): State.Data.Standings.TeamRank? {
