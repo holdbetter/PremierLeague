@@ -1,6 +1,6 @@
 package dev.holdbetter.common
 
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -13,8 +13,8 @@ data class MatchdayDTO(
     val status: String,
     val statusId: Int,
     val whoWon: Int,
-    val startDate: LocalDateTime?,
-    val endDate: LocalDateTime?,
+    val startDate: Instant?,
+    val endDate: Instant?,
     val teamHome: TeamRankDTO? = null,
     val teamAway: TeamRankDTO? = null
 )

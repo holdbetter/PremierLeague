@@ -16,9 +16,12 @@ private typealias MonthLimit = Int
 // TODO: Test
 internal object LimitsResolver {
 
+    const val SAFE_DAY_TO_DAY_UPDATE_RATE_IN_HOURS = 24
+    const val SAFE_DAY_TO_DAY_UPDATE_TIME_HOURS = 15
+    const val SAFE_DAY_TO_DAY_UPDATE_TIME_MINUTES = 30
+
     private const val MONTH_LIMIT = 500
     private const val MAX_UPDATE_RATE = 3
-    private const val SAFE_DAY_TO_DAY_UPDATE_RATE_IN_HOURS = 24
     private const val MATCH_DURATION_IN_MINUTES = 140
     private const val SAFE_BUFFER = 40
 
@@ -36,15 +39,49 @@ internal object LimitsResolver {
     ): DayLimitMap {
         val dayLimitMap: MutableDayLimitMap = linkedMapOf()
         var index = 0
-        return groupedMatches.forEach {
-            val nonMatchDayCount = countNotMatchDays(it, leapYear)
+        val today = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
+        val isCurrentMonthPresent = groupedMatches.containsKey(today.monthNumber)
+        return groupedMatches.forEach { monthAndMatchesByDay ->
+            val nonMatchDayCount = countNotMatchDays(monthAndMatchesByDay, leapYear)
             when (index) {
-                0 -> dayLimitMap.fillLimitsForMonth(it.value, nonMatchDayCount, usedLimit)
-                else -> dayLimitMap.fillLimitsForMonth(it.value, nonMatchDayCount, 0)
+                0 -> dayLimitMap.fillLimitsForMonth(
+                    monthAndMatchesByDay.value,
+                    nonMatchDayCount,
+                    usedLimit
+                )
+                else -> dayLimitMap.fillLimitsForMonth(
+                    monthAndMatchesByDay.value,
+                    nonMatchDayCount,
+                    0
+                )
             }
-            dayLimitMap.fullFillWithNonMatchday(Month(it.key), leapYear)
+            dayLimitMap.fullFillMonthWithNonMatchday(Month(monthAndMatchesByDay.key), leapYear)
             index++
-        }.run { dayLimitMap }
+        }.run { if (!isCurrentMonthPresent) dayLimitMap.fillCurrentMonth(today) else dayLimitMap }
+    }
+
+    private fun MutableDayLimitMap.fillCurrentMonth(today: LocalDate): DayLimitMap {
+        val nextDay = today.plus(1, DateTimeUnit.DAY)
+        if (nextDay.month == today.month) {
+            val isLeapYear = today.year % 4 == 0
+            val monthLength = today.month.length(isLeapYear)
+
+            for (day in nextDay.dayOfMonth..monthLength) {
+                val date = LocalDate(today.year, today.month, day)
+                this[date] = Limit(
+                    gameDayDuration = Duration.ZERO,
+                    firstMatchStartOrDefault = date.atTime(
+                        SAFE_DAY_TO_DAY_UPDATE_TIME_HOURS,
+                        SAFE_DAY_TO_DAY_UPDATE_TIME_MINUTES
+                    ).toInstant(UtcOffset.ZERO),
+                    plannedDayLimit = 1,
+                    remainedDayLimit = 1,
+                    updateRate = safeDayToDayUpdateRate.inWholeMinutes.toInt()
+                )
+            }
+        }
+
+        return this
     }
 
     private fun MutableDayLimitMap.fillLimitsForMonth(
@@ -56,29 +93,30 @@ internal object LimitsResolver {
         restart@ while (restart) {
             var monthLimit = MONTH_LIMIT - SAFE_BUFFER - nonMatchDayCount - usedLimit
             for (playDay in monthGroup) {
-                val firstMatchDate = playDay.value.first().startDate!!
-                val lastMatchDate = playDay.value.last().startDate!!
-                val today = firstMatchDate.date
+                val firstMatchStart = playDay.value.first().startDate!!
+                val lastMatchStart = playDay.value.last().startDate!!
+
+                val day = firstMatchStart.toLocalDateTime(TimeZone.UTC).date
 
                 val (gameDayDuration, rate) = getOrComputeDurationWithRate(
-                    today,
-                    firstMatchDate,
-                    lastMatchDate
+                    day,
+                    firstMatchStart,
+                    lastMatchStart
                 )
 
                 val dayLimit = recalculateDayLimit(gameDayDuration, rate)
                 monthLimit -= dayLimit
 
-                this[today] = Limit(
+                this[day] = Limit(
                     gameDayDuration = gameDayDuration,
-                    firstMatchStartOrDefault = firstMatchDate,
+                    firstMatchStartOrDefault = firstMatchStart,
                     plannedDayLimit = dayLimit,
                     remainedDayLimit = dayLimit,
                     updateRate = rate
                 )
 
                 if (monthLimit.isExceeded) {
-                    decreaseRate(today.monthNumber)
+                    decreaseRate(day.monthNumber)
                     continue@restart
                 }
             }
@@ -87,10 +125,10 @@ internal object LimitsResolver {
     }
 
     private fun MutableDayLimitMap.getOrComputeDurationWithRate(
-        today: LocalDate,
-        firstMatchDate: LocalDateTime,
-        lastMatchDate: LocalDateTime
-    ) = this[today]?.run { gameDayDuration to updateRate }
+        day: LocalDate,
+        firstMatchDate: Instant,
+        lastMatchDate: Instant
+    ) = this[day]?.run { gameDayDuration to updateRate }
         ?: (gameDayDuration(firstMatchDate, lastMatchDate) to MAX_UPDATE_RATE)
 
     private fun MutableDayLimitMap.decreaseRate(monthNumber: Int) {
@@ -105,7 +143,7 @@ internal object LimitsResolver {
             .minByOrNull { it.value.updateRate }
             .run(::requireNotNull)
 
-    private fun MutableDayLimitMap.fullFillWithNonMatchday(
+    private fun MutableDayLimitMap.fullFillMonthWithNonMatchday(
         month: Month,
         leapYear: Boolean
     ) {
@@ -124,7 +162,10 @@ internal object LimitsResolver {
             val date = LocalDate(currentYear, month, monthDay)
             this[date] = Limit(
                 gameDayDuration = Duration.ZERO,
-                firstMatchStartOrDefault = date.atTime(15, 30),
+                firstMatchStartOrDefault = date.atTime(
+                    SAFE_DAY_TO_DAY_UPDATE_TIME_HOURS,
+                    SAFE_DAY_TO_DAY_UPDATE_TIME_MINUTES
+                ).toInstant(TimeZone.UTC),
                 plannedDayLimit = 1,
                 remainedDayLimit = 1,
                 updateRate = safeDayToDayUpdateRate.inWholeMinutes.toInt()
@@ -133,13 +174,12 @@ internal object LimitsResolver {
     }
 
     private fun gameDayDuration(
-        firstMatchDate: LocalDateTime,
-        lastMatchDate: LocalDateTime
+        firstMatchDate: Instant,
+        lastMatchDate: Instant
     ) = if (firstMatchDate == lastMatchDate) {
         MATCH_DURATION_IN_MINUTES.minutes
     } else {
-        lastMatchDate.toInstant(TimeZone.UTC)
-            .minus(firstMatchDate.toInstant(TimeZone.UTC))
+        lastMatchDate.minus(firstMatchDate)
             .plus(MATCH_DURATION_IN_MINUTES.minutes)
     }
 

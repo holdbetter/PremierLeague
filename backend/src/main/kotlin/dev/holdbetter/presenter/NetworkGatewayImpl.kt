@@ -5,6 +5,7 @@ import dev.holdbetter.core_network.NetworkInteractor
 import dev.holdbetter.core_network.model.Country
 import dev.holdbetter.core_network.model.League
 import dev.holdbetter.core_network.model.RemoteLivescoreConfig
+import dev.holdbetter.core_network.model.Timezone
 import dev.holdbetter.interactor.NetworkGateway
 import dev.holdbetter.outerApi.util.LivescoreUnwrapper
 import kotlinx.serialization.json.Json
@@ -23,7 +24,7 @@ internal class NetworkGatewayImpl(
     override suspend fun getLeague(
         league: League,
         country: Country
-    ) = networkInteractor.get(paths, league, country).run {
+    ) = networkInteractor.get(paths, league, country, Timezone()).run {
         decoder.decodeWith(this, livescoreUnwrapper)
     }
 }

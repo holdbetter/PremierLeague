@@ -9,6 +9,13 @@ import dev.holdbetter.database.entity.DayLimit
 import dev.holdbetter.database.entity.Match
 import dev.holdbetter.database.entity.Team
 import dev.holdbetter.innerApi.model.Limit
+import dev.holdbetter.presenter.LimitsResolver
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atTime
+import kotlinx.datetime.toInstant
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
 
 internal object Mapper {
 
@@ -56,6 +63,34 @@ internal object Mapper {
                 firstMatchStartOrDefault = this.firstMatchStartOrDefault,
                 remainedDayLimit = this.remainedDayLimit,
                 updateRate = this.updateRate
+            )
+        }
+    }
+
+    fun toModel(dayLimit: DayLimit?, dateOnNullResult: LocalDate): Limit {
+        return if (dayLimit != null) {
+            with(dayLimit) {
+                Limit(
+                    gameDayDuration = this.gameDayDuration,
+                    plannedDayLimit = this.plannedDayLimit,
+                    firstMatchStartOrDefault = this.firstMatchStartOrDefault,
+                    remainedDayLimit = this.remainedDayLimit,
+                    updateRate = this.updateRate
+                )
+            }
+        } else {
+            Limit(
+                gameDayDuration = Duration.ZERO,
+                plannedDayLimit = 0,
+                firstMatchStartOrDefault = dateOnNullResult.atTime(
+                    LimitsResolver.SAFE_DAY_TO_DAY_UPDATE_TIME_HOURS,
+                    LimitsResolver.SAFE_DAY_TO_DAY_UPDATE_TIME_MINUTES
+                ).toInstant(TimeZone.UTC),
+                remainedDayLimit = 0,
+                updateRate = LimitsResolver.SAFE_DAY_TO_DAY_UPDATE_RATE_IN_HOURS
+                    .hours
+                    .inWholeMinutes
+                    .toInt()
             )
         }
     }

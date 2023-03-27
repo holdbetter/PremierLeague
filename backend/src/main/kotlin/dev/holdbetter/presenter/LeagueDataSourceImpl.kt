@@ -54,11 +54,11 @@ internal class LeagueDataSourceImpl(
             if (todayLimit.gameDayDuration != Duration.ZERO) {
                 todayLimit.updateRate.minutes
             } else {
-                nextDayLimit.firstMatchStartOrDefault.toInstant(TimeZone.UTC)
+                nextDayLimit.firstMatchStartOrDefault
                     .minus(today.toInstant(TimeZone.UTC))
             }
         } else {
-            nextDayLimit.firstMatchStartOrDefault.toInstant(TimeZone.UTC)
+            nextDayLimit.firstMatchStartOrDefault
                 .minus(today.toInstant(TimeZone.UTC))
         }
     }
@@ -101,11 +101,15 @@ internal class LeagueDataSourceImpl(
     ): MonthAndDayGroupedMatchesDaySorted {
         val today = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
         return matches.filter { match -> match.startDate != null }
-            .dropWhile { excludeToday && it.startDate?.date == today }
-            .groupBy { match -> match.startDate!!.monthNumber }
+            .dropWhile {
+                val startLocalDate = it.startDate?.toLocalDateTime(TimeZone.UTC)?.date
+                excludeToday && startLocalDate == today
+            }
+            .groupBy { match -> match.startDate!!.toLocalDateTime(TimeZone.UTC).monthNumber }
             .mapValues { monthAndMatches ->
-                monthAndMatches.value.groupBy { match -> match.startDate!!.dayOfMonth }
-                    .toList()
+                monthAndMatches.value.groupBy { match ->
+                    match.startDate!!.toLocalDateTime(TimeZone.UTC).dayOfMonth
+                }.toList()
                     .sortedBy { dayMatches -> dayMatches.second.count() }
                     .toMap()
             }

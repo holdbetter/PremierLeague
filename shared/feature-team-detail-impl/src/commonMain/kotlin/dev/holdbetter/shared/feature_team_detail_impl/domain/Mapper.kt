@@ -6,6 +6,8 @@ import dev.holdbetter.shared.feature_team_detail.Match
 import dev.holdbetter.shared.feature_team_detail.Team
 import dev.holdbetter.shared.feature_team_detail.TeamDetailStore
 import dev.holdbetter.shared.feature_team_detail.TeamDetailView
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 object Mapper {
     fun dtoToState(teamRankDTO: TeamRankDTO): Team {
@@ -28,6 +30,7 @@ object Mapper {
     }
 
     fun dtoToState(match: MatchdayDTO): Match {
+        val userTimeZone = TimeZone.currentSystemDefault()
         return with(match) {
             Match(
                 id = id,
@@ -38,8 +41,8 @@ object Mapper {
                 status = status,
                 statusId = statusId,
                 whoWon = whoWon,
-                startDate = startDate,
-                endDate = endDate,
+                startDate = startDate?.toLocalDateTime(userTimeZone),
+                endDate = endDate?.toLocalDateTime(userTimeZone),
                 teamHome = teamHome,
                 teamAway = teamAway
             )
