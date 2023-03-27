@@ -21,8 +21,9 @@ internal class DayLimitDaoImpl(
 
     override suspend fun decreaseLimitByDate(date: LocalDate) {
         database.query(dispatcher) {
-            val limit = requireNotNull(DayLimit.findById(date))
-            limit.remainedDayLimit = limit.remainedDayLimit - 1
+            DayLimit.findById(date)?.let {limit ->
+                limit.remainedDayLimit = limit.remainedDayLimit - 1
+            }
         }
     }
 
@@ -62,7 +63,7 @@ internal class DayLimitDaoImpl(
 
     override suspend fun getLimitsForDate(date: LocalDate): Limit =
         database.query(dispatcher) {
-            toModel(requireNotNull(DayLimit.findById(date)))
+            toModel(DayLimit.findById(date), date)
         }
 
     // TODO: Add check season-to-season

@@ -2,7 +2,7 @@ package dev.holdbetter.outerApi.model
 
 import dev.holdbetter.outerApi.util.LivescoreDateConverter
 import dev.holdbetter.outerApi.util.TeamIdFromMatchUnwrapper
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -28,8 +28,8 @@ internal class Matchday(
     val whoWon: Int = -1,
     @SerialName(value = "Esd")
     @Serializable(with = LivescoreDateConverter::class)
-    val startDate: LocalDateTime? = null,
+    val startDate: Instant? = null,
     @SerialName(value = "Edf")
     @Serializable(with = LivescoreDateConverter::class)
-    val endDate: LocalDateTime? = null
+    val endDate: Instant? = null
 )
