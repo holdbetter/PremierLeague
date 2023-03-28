@@ -70,5 +70,6 @@ internal class TeamDaoImpl(
         this[Standings.goalsAgainst] = teamRank.goalsAgainst
         this[Standings.goalsDiff] = teamRank.goalsDiff
         this[Standings.alterImageId] = teamRank.alterImageId
+        this[Standings.twitter] = teamRank.twitter
     }
 }

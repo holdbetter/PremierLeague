@@ -24,7 +24,8 @@ object Mapper {
                 draws = draws,
                 goalsFor = goalsFor,
                 goalsAgainst = goalsAgainst,
-                goalsDiff = goalsDiff
+                goalsDiff = goalsDiff,
+                twitter = twitter
             )
         }
     }
@@ -53,11 +54,14 @@ object Mapper {
 fun TeamDetailView.Event.toIntent() =
     when (this) {
         TeamDetailView.Event.Reload -> TeamDetailStore.Intent.Reload
+        TeamDetailView.Event.TwitterButtonClicked -> TeamDetailStore.Intent.RunTwitterRedirect
+        TeamDetailView.Event.NavigationCommit -> TeamDetailStore.Intent.NavigationCommit
     }
 
 fun TeamDetailStore.State.toModel() = TeamDetailView.Model(
     isLoading = isLoading,
     isRefreshEnabled = isRefreshEnabled,
     isError = data != null && data is Throwable,
-    teamWithMatches = data as? TeamDetailStore.State.Data.TeamDetail
+    teamWithMatches = data as? TeamDetailStore.State.Data.TeamDetail,
+    twitterRedirect = twitterRedirect
 )

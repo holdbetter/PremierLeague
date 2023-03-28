@@ -23,7 +23,7 @@ import kotlin.properties.Delegates
 internal class MatchesAdapter(
     private val teamId: Int,
     val isDarkMode: Boolean,
-    context: Context,
+    context: Context
 ) : ListAdapter<Match, MatchViewHolder>(MatchDiffer) {
 
     val winColor = context.getColor(R.color.result_match_corner_win)
