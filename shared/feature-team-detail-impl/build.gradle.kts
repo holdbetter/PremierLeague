@@ -55,6 +55,7 @@ kotlin {
                 implementation(Deps.AndroidX.palette)
                 implementation(Deps.AndroidX.recycler)
                 implementation(Deps.AndroidX.glide)
+                implementation(Deps.AndroidX.navigationKtx)
             }
         }
         val androidTest by getting

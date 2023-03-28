@@ -8,17 +8,19 @@ import kotlinx.datetime.Month
 interface TeamDetailStore : Store<Intent, State> {
 
     sealed interface Intent {
-        object Reload : Intent
         // TODO: Compare
         // TODO: AddToFavorites
-        // TODO: LinkClicked
+        object Reload : Intent
+        object RunTwitterRedirect : Intent
+        object NavigationCommit : Intent
     }
 
     data class State(
         val teamId: Long,
         val isLoading: Boolean = false,
         val isRefreshEnabled: Boolean = false,
-        val data: Data? = null
+        val data: Data? = null,
+        val twitterRedirect: Boolean = false
     ) {
         sealed interface Data {
             data class TeamDetail(

@@ -6,11 +6,13 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import dev.holdbetter.assets.assetsColor
 import dev.holdbetter.assets.isDarkMode
 import dev.holdbetter.assets.updateColors
 import dev.holdbetter.core_di_impl.findModuleDependency
 import dev.holdbetter.shared.core_navigation.Destination
+import dev.holdbetter.shared.core_navigation.di.NavigationModule
 import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailModule
 import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailRepositoryModule
 import kotlin.properties.Delegates
@@ -43,8 +45,9 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
         )
 
         module = TeamDetailModule(
-            teamId,
-            TeamDetailRepositoryModule(
+            teamId = teamId,
+            navigationModule = NavigationModule(findNavController()),
+            teamDetailRepositoryModule = TeamDetailRepositoryModule(
                 networkModule = findModuleDependency()
             )
         )
@@ -63,17 +66,9 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
                 teamId = teamId,
                 lifecycleScope = lifecycleScope,
                 view = view,
-                window = activity.window,
-                isDarkMode = activity.isDarkMode()
+                isDarkMode = activity.isDarkMode(),
+                router = module.router
             )
-        )
-    }
-
-    private fun bindViewColors(activity: Activity) {
-        activity.window?.updateColors(
-            status = leagueBackground,
-            navigation = null,
-            isLightText = activity.isDarkMode()
         )
     }
 
@@ -95,5 +90,13 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
     override fun onDestroy() {
         component.onDestroy()
         super.onDestroy()
+    }
+
+    private fun bindViewColors(activity: Activity) {
+        activity.window?.updateColors(
+            status = leagueBackground,
+            navigation = null,
+            isLightText = activity.isDarkMode()
+        )
     }
 }

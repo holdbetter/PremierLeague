@@ -17,6 +17,8 @@ internal class TeamDetailStoreImpl(
         object LoadingStarted : Effect
         class LoadingFinished(val teamDetail: State.Data.TeamDetail) : Effect
         class LoadingError(val throwable: Throwable) : Effect
+        object TwitterNavigation : Effect
+        object NavigationCleanState : Effect
     }
 
     private val dispatcher = Dispatchers.Default
@@ -50,6 +52,8 @@ internal class TeamDetailStoreImpl(
             is TeamDetailStore.Intent.Reload -> withLoading {
                 reload(state.teamId)
             }
+            is TeamDetailStore.Intent.RunTwitterRedirect -> flowOf(Effect.TwitterNavigation)
+            TeamDetailStore.Intent.NavigationCommit -> flowOf(Effect.NavigationCleanState)
         }
     }
 
@@ -68,6 +72,12 @@ internal class TeamDetailStoreImpl(
             Effect.LoadingStarted -> state.copy(
                 isLoading = true,
                 isRefreshEnabled = false
+            )
+            is Effect.TwitterNavigation -> state.copy(
+                twitterRedirect = true
+            )
+            Effect.NavigationCleanState -> state.copy(
+                twitterRedirect = false
             )
         }
     }

@@ -10,7 +10,6 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.net.Uri
 import android.view.View
-import android.view.Window
 import androidx.annotation.ColorInt
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.ColorUtils
@@ -19,6 +18,7 @@ import androidx.palette.graphics.Palette
 import dev.holdbetter.assets.*
 import dev.holdbetter.common.Status
 import dev.holdbetter.coreMvi.AbstractMviView
+import dev.holdbetter.shared.core_navigation.Router
 import dev.holdbetter.shared.feature_team_detail.Match
 import dev.holdbetter.shared.feature_team_detail.MonthResult
 import dev.holdbetter.shared.feature_team_detail.Team
@@ -42,7 +42,7 @@ internal class TeamDetailViewImpl(
     private val lifecycleScope: CoroutineScope,
     view: View,
     private val isDarkMode: Boolean,
-    private val window: Window
+    private val router: Router
 ) : AbstractMviView<Model, Event>(), TeamDetailView {
 
     private val rootBinding = TeamDetailFragmentBinding.bind(view)
@@ -101,6 +101,10 @@ internal class TeamDetailViewImpl(
         statsBinding.compareBtn.clipToOutline = true
         headerBinding.teamTwitter.clipToOutline = true
         headerBinding.teamFavorite.clipToOutline = true
+
+        headerBinding.teamTwitter.setOnClickListener {
+            onTwitterButtonClicked()
+        }
     }
 
     override fun render(model: Model) {
@@ -120,6 +124,8 @@ internal class TeamDetailViewImpl(
                 val teamColor = palette.generateTeamColor(context)
                 val actionDrawable = context.getActionDrawable(teamColor)
 
+                effect(model)
+
                 bindCard(findNextMatch(matches), teamColor)
                 bindHeader(team, teamColor, actionDrawable)
                 bindStats(team, actionDrawable)
@@ -137,6 +143,21 @@ internal class TeamDetailViewImpl(
                     render(model)
                 }
             }
+        }
+    }
+
+    private fun effect(model: Model) {
+        if (model.twitterRedirect) {
+            model.teamWithMatches?.team?.twitter?.let {
+                lifecycleScope.launch { dispatch(Event.NavigationCommit) }
+                router.handleThirdPartyLink(it)
+            }
+        }
+    }
+
+    private fun onTwitterButtonClicked() {
+        lifecycleScope.launch {
+            dispatch(Event.TwitterButtonClicked)
         }
     }
 

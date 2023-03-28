@@ -23,6 +23,7 @@ internal class Team(id: EntityID<String>) : Entity<String>(id) {
     val goalsAgainst by Standings.goalsAgainst
     val goalsDiff by Standings.goalsDiff
     val alterImageId by Standings.alterImageId
+    val twitter by Standings.twitter
 
     val homeMatches by Match referrersOn Matches.teamHome
     val awayMatches by Match referrersOn Matches.teamAway

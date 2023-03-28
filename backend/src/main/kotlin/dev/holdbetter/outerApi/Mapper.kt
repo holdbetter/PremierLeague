@@ -3,10 +3,14 @@ package dev.holdbetter.outerApi
 import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.outerApi.model.LivescoreDataResponse
+import dev.holdbetter.outerApi.util.alterImageMap
+import dev.holdbetter.outerApi.util.twitterMap
 
 internal object Mapper {
-    fun LivescoreDataResponse.getTeams(): List<TeamRankDTO> =
-        standings.map {
+    fun LivescoreDataResponse.getTeams(): List<TeamRankDTO> {
+        val alterImageMap = alterImageMap
+        val twitterMap = twitterMap
+        return standings.map {
             TeamRankDTO(
                 id = it.id,
                 rank = it.rank,
@@ -20,9 +24,11 @@ internal object Mapper {
                 goalsFor = it.goalsFor,
                 goalsAgainst = it.goalsAgainst,
                 goalsDiff = it.goalsDiff,
-                alterImageId = null
+                alterImageId = alterImageMap[it.id],
+                twitter = twitterMap[it.id]
             )
         }
+    }
 
     fun LivescoreDataResponse.getMatches(): List<MatchdayDTO> =
         matches.map {

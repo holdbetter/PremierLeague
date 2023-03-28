@@ -17,7 +17,8 @@ internal object Standings : IdTable<String>("Standings") {
     val goalsFor = integer("goalsFor")
     val goalsAgainst = integer("goalsAgainst")
     val goalsDiff = integer("goalsDiff")
-    val alterImageId = integer("alterImageId").nullable()
+    val alterImageId = varchar("alterImageId", 5).nullable()
+    val twitter = varchar("twitter", 60).nullable()
 
     override val primaryKey = PrimaryKey(id)
 }

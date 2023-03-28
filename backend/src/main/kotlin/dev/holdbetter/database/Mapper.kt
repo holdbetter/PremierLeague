@@ -51,18 +51,19 @@ internal object Mapper {
             goalsFor = team.goalsFor,
             goalsAgainst = team.goalsAgainst,
             goalsDiff = team.goalsDiff,
-            alterImageId = team.alterImageId
+            alterImageId = team.alterImageId,
+            twitter = team.twitter
         )
     }
 
     fun toModel(dayLimit: DayLimit): Limit {
         return with(dayLimit) {
             Limit(
-                gameDayDuration = this.gameDayDuration,
-                plannedDayLimit = this.plannedDayLimit,
-                firstMatchStartOrDefault = this.firstMatchStartOrDefault,
-                remainedDayLimit = this.remainedDayLimit,
-                updateRate = this.updateRate
+                gameDayDuration = gameDayDuration,
+                plannedDayLimit = plannedDayLimit,
+                firstMatchStartOrDefault = firstMatchStartOrDefault,
+                remainedDayLimit = remainedDayLimit,
+                updateRate = updateRate
             )
         }
     }
@@ -71,11 +72,11 @@ internal object Mapper {
         return if (dayLimit != null) {
             with(dayLimit) {
                 Limit(
-                    gameDayDuration = this.gameDayDuration,
-                    plannedDayLimit = this.plannedDayLimit,
-                    firstMatchStartOrDefault = this.firstMatchStartOrDefault,
-                    remainedDayLimit = this.remainedDayLimit,
-                    updateRate = this.updateRate
+                    gameDayDuration = gameDayDuration,
+                    plannedDayLimit = plannedDayLimit,
+                    firstMatchStartOrDefault = firstMatchStartOrDefault,
+                    remainedDayLimit = remainedDayLimit,
+                    updateRate = updateRate
                 )
             }
         } else {
@@ -110,13 +111,14 @@ internal object Mapper {
                 goalsFor = goalsFor,
                 goalsAgainst = goalsAgainst,
                 goalsDiff = goalsDiff,
-                alterImageId = alterImageId
+                alterImageId = alterImageId,
+                twitter = twitter
             ),
             teamMatches = homeMatches.map(::toModel) + awayMatches.map(::toModel)
         )
     }
 
-    private fun imageResolver(alterImageId: Int?, image: String) =
-        alterImageId?.let { ALTER_IMAGE_HOST.replace("\${id}", it.toString()) }
+    private fun imageResolver(alterImageId: String?, image: String) =
+        alterImageId?.let { ALTER_IMAGE_HOST.replace("\${id}", it) }
             ?: "$IMAGE_HOST$image"
 }
