@@ -17,10 +17,15 @@ import dev.holdbetter.shared.feature_team_detail.Match
 import dev.holdbetter.shared.feature_team_detail.MonthResult
 import dev.holdbetter.shared.feature_team_detail_impl.MatchesAdapter.MatchViewHolder
 import dev.holdbetter.shared.feature_team_detail_impl.databinding.MatchItemBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.Month
 import kotlin.properties.Delegates
 
 internal class MatchesAdapter(
+    private val lifecycleScope: CoroutineScope,
     private val teamId: Int,
     val isDarkMode: Boolean,
     context: Context
@@ -53,23 +58,28 @@ internal class MatchesAdapter(
     override fun getItemCount() = currentList.count()
 
     fun submitData(@ColorInt teamColor: Int, groupedMatches: Map<Month, MonthResult>) {
-        initTeamColors(teamColor)
-
         this.groupedMatches = groupedMatches
+        lifecycleScope.launch {
+            val matchListToBeDisplayed: List<Match>
 
-        val lastMatchesInMonth = groupedMatches.values.map {
-            it.matches.last()
+            withContext(Dispatchers.IO) {
+                initTeamColors(teamColor)
+
+                val lastMatchesInMonth = groupedMatches.values.map {
+                    it.matches.last()
+                }
+
+                matchListToBeDisplayed = groupedMatches.values
+                    .map(MonthResult::matches)
+                    .flatten()
+
+                lastMatchIndexes = matchListToBeDisplayed.mapIndexed { index, match -> index to match }
+                        .filter { lastMatchesInMonth.contains(it.second) }
+                        .map { it.first }
+            }
+
+            submitList(matchListToBeDisplayed)
         }
-
-        val flat = groupedMatches.values
-            .map(MonthResult::matches)
-            .flatten()
-
-        lastMatchIndexes = flat.mapIndexed { index, match -> index to match }
-            .filter { lastMatchesInMonth.contains(it.second) }
-            .map { it.first }
-
-        submitList(flat)
     }
 
     fun getMonthResult(month: Month): MonthResult {
@@ -81,7 +91,7 @@ internal class MatchesAdapter(
         ColorUtils.colorToHSL(teamColor, hsl)
         val (hue, sat, lum) = hsl
         hsl[1] = sat * .9f
-        hsl[2] = lum * 1.12f
+        hsl[2] = lum * 1.05f
 
         this.startNightColor = ColorUtils.HSLToColor(hsl)
 

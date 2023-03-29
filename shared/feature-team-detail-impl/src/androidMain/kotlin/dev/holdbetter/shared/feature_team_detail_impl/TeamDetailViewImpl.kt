@@ -69,7 +69,10 @@ internal class TeamDetailViewImpl(
 
     init {
         lastMatchesBinding.matchGroups.adapter = MatchesAdapter(
-            teamId = teamId.toInt(), isDarkMode = isDarkMode, context = context
+            lifecycleScope = lifecycleScope,
+            teamId = teamId.toInt(),
+            isDarkMode = isDarkMode,
+            context = context
         )
 
         val spanCount = 3
@@ -83,6 +86,8 @@ internal class TeamDetailViewImpl(
             matchesAdapter,
             spanCount
         )
+
+        lastMatchesBinding.matchGroups.itemAnimator = null
 
         view.doOnLayout {
             lastMatchesBinding.matchGroups.addItemDecoration(
@@ -127,7 +132,7 @@ internal class TeamDetailViewImpl(
                 effect(model)
 
                 bindCard(findNextMatch(matches), teamColor)
-                bindHeader(team, teamColor, actionDrawable)
+                bindHeader(team, actionDrawable)
                 bindStats(team, actionDrawable)
                 bindMatches(teamColor, it.pastResultsByMonth)
             } else {
@@ -163,7 +168,6 @@ internal class TeamDetailViewImpl(
 
     private fun bindHeader(
         team: Team,
-        @ColorInt teamColor: Int,
         actionDrawable: Drawable
     ) {
         with(headerBinding) {

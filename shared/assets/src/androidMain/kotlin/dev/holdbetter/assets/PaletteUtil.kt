@@ -20,12 +20,21 @@ suspend fun createPalette(futureBitmap: FutureTarget<Bitmap>): Palette =
     }
 
 fun Palette.generateTeamColor(context: Context): Int {
+    val defaultColor = context.getColor(R.color.leagueColorPrimary)
 
-    fun Palette.dominant(context: Context) =
-        getDominantColor(context.getColor(R.color.leagueColorPrimary))
+    fun Palette.dominant() = with(getDominantColor(defaultColor)) {
+        val hsl = floatArrayOf(0f, 0f, 0f)
+        ColorUtils.colorToHSL(this, hsl)
+        val (hue, sat, lum) = hsl
+        if (lum > .9f || lum < .3f) {
+            defaultColor
+        } else {
+            this
+        }
+    }
 
     val hsl = floatArrayOf(0f, 0f, 0f)
-    ColorUtils.colorToHSL(dominant(context), hsl)
+    ColorUtils.colorToHSL(dominant(), hsl)
     val (hue, sat, lum) = hsl
     hsl[1] = sat * .85f
     return ColorUtils.HSLToColor(hsl)
@@ -55,8 +64,8 @@ fun cardStartColor(
         val hsl = floatArrayOf(0f, 0f, 0f)
         ColorUtils.colorToHSL(teamColor, hsl)
         val (hue, sat, lum) = hsl
-        hsl[0] = (hue + 20) % 360
-        hsl[1] = .25f
+        hsl[0] = (hue + 0) % 360
+        hsl[1] = sat * .5f
         hsl[2] = .35f
 
         ColorUtils.HSLToColor(hsl)
