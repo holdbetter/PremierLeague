@@ -8,8 +8,9 @@ import dev.holdbetter.database.dao.*
 import dev.holdbetter.database.query
 import dev.holdbetter.database.table.DayLimits
 import dev.holdbetter.database.table.Matches
+import dev.holdbetter.database.table.MonthLimits
 import dev.holdbetter.database.table.Standings
-import dev.holdbetter.innerApi.model.Limit
+import dev.holdbetter.innerApi.model.DayLimit
 import dev.holdbetter.interactor.DatabaseGateway
 import dev.holdbetter.outerApi.Mapper.getMatches
 import dev.holdbetter.outerApi.Mapper.getTeams
@@ -29,6 +30,7 @@ internal class DatabaseGatewayImpl(
     private val teamDao: TeamDao = TeamDaoImpl(dispatcher, database)
     private val matchDao: MatchDao = MatchDaoImpl(dispatcher, database)
     private val dayLimitDao: DayLimitDao = DayLimitDaoImpl(dispatcher, database)
+    private val monthLimitDao: MonthLimitDao = MonthLimitDaoImpl(dispatcher, database)
 
     override suspend fun getStandings(): List<TeamRankDTO> = teamDao.getTeams()
 
@@ -40,7 +42,9 @@ internal class DatabaseGatewayImpl(
             teamDao.hasData() && matchDao.hasData()
         }
 
-    override suspend fun hasLimits() = dayLimitDao.hasData()
+    override suspend fun hasDayLimits() = dayLimitDao.hasData()
+
+    override suspend fun hasMonthLimits() = monthLimitDao.hasData()
 
     override suspend fun createLeague(league: LivescoreDataResponse) {
         database.query(dispatcher) {
@@ -52,7 +56,7 @@ internal class DatabaseGatewayImpl(
         matchDao.insertMatches(league.getMatches())
     }
 
-    override suspend fun createLimits(dayLimitMap: Map<LocalDate, Limit>) {
+    override suspend fun fillDayLimits(dayLimitMap: Map<LocalDate, DayLimit>) {
         database.query(dispatcher) {
             SchemaUtils.create(DayLimits)
         }
@@ -60,8 +64,20 @@ internal class DatabaseGatewayImpl(
         dayLimitDao.insertDayLimits(dayLimitMap)
     }
 
-    override suspend fun updateLimits(dayLimitMap: Map<LocalDate, Limit>) =
-        dayLimitDao.replaceDayLimits(dayLimitMap)
+    override suspend fun initMonthLimits(monthToYears: Map<Int, Int>) {
+        database.query(dispatcher) {
+            SchemaUtils.create(MonthLimits)
+        }
+
+        monthLimitDao.fillLimits(monthToYears)
+    }
+
+    override suspend fun getRemainedMonthLimit(month: Int, year: Int): Int {
+        return monthLimitDao.getRemainedLimit(month, year)
+    }
+
+    override suspend fun updateLimits(dayLimitMap: Map<LocalDate, DayLimit>) =
+        dayLimitDao.updateDayLimits(dayLimitMap)
 
     override suspend fun updateLeague(league: LivescoreDataResponse) {
         val teams = league.getTeams()
@@ -72,23 +88,18 @@ internal class DatabaseGatewayImpl(
     }
 
     override suspend fun tryDecreaseRemainedLimit(date: LocalDate): Boolean = try {
+        monthLimitDao.decreaseLimit(date.monthNumber, date.year)
         dayLimitDao.decreaseLimitByDate(date)
         true
     } catch (exposedSqlException: ExposedSQLException) {
         false
     }
 
-    override suspend fun getNotStartedMatches() =
-        matchDao.getMatches().filter {
+    override suspend fun getNotStartedSortedMatches() =
+        matchDao.getSortedMatches().filter {
             it.statusId != FULL_TIME.id && it.statusId != POSTPONED.id
+                    && it.startDate != null
         }
 
-    override suspend fun getUsedLimitUntilDate(date: LocalDate): Int {
-        return dayLimitDao.getLimits()
-            .filter { date.monthNumber == it.key.monthNumber && it.key <= date }
-            .values
-            .sumOf { it.plannedDayLimit - it.remainedDayLimit }
-    }
-
-    override suspend fun getLimitsForDate(date: LocalDate) = dayLimitDao.getLimitsForDate(date)
+    override suspend fun getDayLimitsForDate(date: LocalDate) = dayLimitDao.getLimitsForDate(date)
 }

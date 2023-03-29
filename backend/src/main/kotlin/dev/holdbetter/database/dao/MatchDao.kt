@@ -4,7 +4,7 @@ import dev.holdbetter.common.MatchdayDTO
 
 internal interface MatchDao : ExposedDao {
 
-    suspend fun getMatches(): List<MatchdayDTO>
+    suspend fun getSortedMatches(): List<MatchdayDTO>
 
     suspend fun insertMatches(matches: List<MatchdayDTO>)
     suspend fun updateMatches(matches: List<MatchdayDTO>)

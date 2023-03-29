@@ -19,15 +19,15 @@ internal class LeagueRepositoryImpl(
         return dataSource.database.tryDecreaseRemainedLimit(today)
     }
 
-    override suspend fun hasLimits() = dataSource.database.hasLimits()
+    override suspend fun hasLimits() = dataSource.database.hasDayLimits()
 
     override suspend fun getDelayDuration(): Duration {
         val today = Clock.System.now().toLocalDateTime(TimeZone.UTC)
         val nextDay = today.date.plus(1, DateTimeUnit.DAY)
         return dataSource.calculateDelay(
             today = today,
-            todayLimit = dataSource.database.getLimitsForDate(today.date),
-            nextDayLimit = dataSource.database.getLimitsForDate(nextDay)
+            todayLimit = dataSource.database.getDayLimitsForDate(today.date),
+            nextDayLimit = dataSource.database.getDayLimitsForDate(nextDay)
         )
     }
 }

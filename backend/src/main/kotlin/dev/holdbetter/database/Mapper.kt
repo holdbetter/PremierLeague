@@ -5,15 +5,18 @@ import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.common.TeamWithMatchesDTO
 import dev.holdbetter.core_network.model.RemoteLivescoreConfig.ALTER_IMAGE_HOST
 import dev.holdbetter.core_network.model.RemoteLivescoreConfig.IMAGE_HOST
-import dev.holdbetter.database.entity.DayLimit
+import dev.holdbetter.database.entity.DayLimitEntity
 import dev.holdbetter.database.entity.Match
 import dev.holdbetter.database.entity.Team
-import dev.holdbetter.innerApi.model.Limit
+import dev.holdbetter.database.table.MonthLimits
+import dev.holdbetter.innerApi.model.DayLimit
+import dev.holdbetter.innerApi.model.MonthLimit
 import dev.holdbetter.presenter.LimitsResolver
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
+import org.jetbrains.exposed.sql.ResultRow
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
@@ -56,9 +59,9 @@ internal object Mapper {
         )
     }
 
-    fun toModel(dayLimit: DayLimit): Limit {
-        return with(dayLimit) {
-            Limit(
+    fun toModel(dayLimitEntity: DayLimitEntity): DayLimit {
+        return with(dayLimitEntity) {
+            DayLimit(
                 gameDayDuration = gameDayDuration,
                 plannedDayLimit = plannedDayLimit,
                 firstMatchStartOrDefault = firstMatchStartOrDefault,
@@ -68,10 +71,13 @@ internal object Mapper {
         }
     }
 
-    fun toModel(dayLimit: DayLimit?, dateOnNullResult: LocalDate): Limit {
-        return if (dayLimit != null) {
-            with(dayLimit) {
-                Limit(
+    fun toModel(
+        dayLimitEntity: DayLimitEntity?,
+        dateOnNullResult: LocalDate
+    ): DayLimit {
+        return if (dayLimitEntity != null) {
+            with(dayLimitEntity) {
+                DayLimit(
                     gameDayDuration = gameDayDuration,
                     plannedDayLimit = plannedDayLimit,
                     firstMatchStartOrDefault = firstMatchStartOrDefault,
@@ -80,7 +86,7 @@ internal object Mapper {
                 )
             }
         } else {
-            Limit(
+            DayLimit(
                 gameDayDuration = Duration.ZERO,
                 plannedDayLimit = 0,
                 firstMatchStartOrDefault = dateOnNullResult.atTime(
@@ -94,6 +100,15 @@ internal object Mapper {
                     .toInt()
             )
         }
+    }
+
+    fun ResultRow.toMonthLimit(): MonthLimit {
+        return MonthLimit(
+            month = this[MonthLimits.month],
+            year = this[MonthLimits.year],
+            plannedLimit = this[MonthLimits.plannedLimit],
+            remainedLimit = this[MonthLimits.remainedLimit]
+        )
     }
 
     fun Team.toTeamWithMatches(): TeamWithMatchesDTO {

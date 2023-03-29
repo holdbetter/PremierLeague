@@ -14,7 +14,7 @@ internal class MatchDaoImpl(
     private val database: Database
 ) : MatchDao {
 
-    override suspend fun getMatches(): List<MatchdayDTO> =
+    override suspend fun getSortedMatches(): List<MatchdayDTO> =
         database.query(dispatcher) {
             Match.all()
                 .map(Mapper::toModel)
