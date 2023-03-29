@@ -6,9 +6,9 @@ import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 
-internal class DayLimit(id: EntityID<LocalDate>) : Entity<LocalDate>(id) {
+internal class DayLimitEntity(id: EntityID<LocalDate>) : Entity<LocalDate>(id) {
 
-    companion object : EntityClass<LocalDate, DayLimit>(DayLimits)
+    companion object : EntityClass<LocalDate, DayLimitEntity>(DayLimits)
 
     val date by DayLimits.id
     var gameDayDuration by DayLimits.gameDayDuration

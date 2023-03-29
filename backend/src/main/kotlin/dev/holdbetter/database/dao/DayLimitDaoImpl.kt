@@ -1,10 +1,11 @@
 package dev.holdbetter.database.dao
 
 import dev.holdbetter.database.Mapper.toModel
-import dev.holdbetter.database.entity.DayLimit
+import dev.holdbetter.database.entity.DayLimitEntity
 import dev.holdbetter.database.query
 import dev.holdbetter.database.table.DayLimits
-import dev.holdbetter.innerApi.model.Limit
+import dev.holdbetter.database.table.MonthLimits
+import dev.holdbetter.innerApi.model.DayLimit
 import dev.holdbetter.presenter.DayLimitMap
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.datetime.LocalDate
@@ -21,7 +22,7 @@ internal class DayLimitDaoImpl(
 
     override suspend fun decreaseLimitByDate(date: LocalDate) {
         database.query(dispatcher) {
-            DayLimit.findById(date)?.let {limit ->
+            DayLimitEntity.findById(date)?.let { limit ->
                 limit.remainedDayLimit = limit.remainedDayLimit - 1
             }
         }
@@ -39,10 +40,10 @@ internal class DayLimitDaoImpl(
         }
     }
 
-    override suspend fun replaceDayLimits(dayLimitMap: DayLimitMap) {
+    override suspend fun updateDayLimits(dayLimitMap: DayLimitMap) {
         database.query(dispatcher) {
             dayLimitMap.forEach {
-                DayLimit.findById(it.key)?.let { limit ->
+                DayLimitEntity.findById(it.key)?.let { limit ->
                     with(limit) {
                         this.gameDayDuration = limit.gameDayDuration
                         this.firstMatchStartOrDefault = limit.firstMatchStartOrDefault
@@ -56,14 +57,14 @@ internal class DayLimitDaoImpl(
 
     override suspend fun getLimits(): DayLimitMap =
         database.query(dispatcher) {
-            DayLimit.all().associate {
+            DayLimitEntity.all().associate {
                 it.date.value to toModel(it)
             }
         }
 
-    override suspend fun getLimitsForDate(date: LocalDate): Limit =
+    override suspend fun getLimitsForDate(date: LocalDate): DayLimit =
         database.query(dispatcher) {
-            toModel(DayLimit.findById(date), date)
+            toModel(DayLimitEntity.findById(date), date)
         }
 
     // TODO: Add check season-to-season
@@ -74,7 +75,7 @@ internal class DayLimitDaoImpl(
 
     private fun BaseBatchInsertStatement.statementMapper(
         date: LocalDate,
-        limit: Limit
+        limit: DayLimit
     ) {
         this[DayLimits.id] = date
         this[DayLimits.gameDayDuration] = limit.gameDayDuration

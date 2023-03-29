@@ -1,15 +1,17 @@
 package dev.holdbetter.presenter
 
 import dev.holdbetter.common.MatchdayDTO
-import dev.holdbetter.innerApi.model.Limit
+import dev.holdbetter.innerApi.model.DayLimit
+import dev.holdbetter.interactor.DatabaseGateway
+import dev.holdbetter.isLeapYear
 import kotlinx.datetime.*
 import kotlin.math.ceil
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
-typealias DayLimitMap = Map<LocalDate, Limit>
-private typealias MutableDayLimitMap = LinkedHashMap<LocalDate, Limit>
+typealias DayLimitMap = Map<LocalDate, DayLimit>
+private typealias MutableDayLimitMap = LinkedHashMap<LocalDate, DayLimit>
 private typealias MonthGroup = Map<Int, List<MatchdayDTO>>
 private typealias MonthLimit = Int
 
@@ -20,10 +22,8 @@ internal object LimitsResolver {
     const val SAFE_DAY_TO_DAY_UPDATE_TIME_HOURS = 15
     const val SAFE_DAY_TO_DAY_UPDATE_TIME_MINUTES = 30
 
-    private const val MONTH_LIMIT = 500
     private const val MAX_UPDATE_RATE = 3
     private const val MATCH_DURATION_IN_MINUTES = 140
-    private const val SAFE_BUFFER = 40
 
     private val safeDayToDayUpdateRate: Duration = SAFE_DAY_TO_DAY_UPDATE_RATE_IN_HOURS.hours
 
@@ -32,43 +32,48 @@ internal object LimitsResolver {
 
     // TODO: forEach can be parallel with synchronizedMap or list of maps appending at the end
     // TODO: also index should by sync
-    fun generateDayLimits(
-        groupedMatches: MonthAndDayGroupedMatchesDaySorted,
-        leapYear: Boolean,
-        usedLimit: Int = 0
+    /**
+     * Generates map of limits with data update rate for matchdays and every day usage.
+     *
+     * Generally logic is simple:
+     *  - fill limits for every month in group with matches
+     *  - fill limits for every void day in month
+     *  - optional: fill limits for current month if it doesn't present in group
+     */
+    suspend fun generateDayLimits(
+        groupedMatches: SortedMatchesGroupedByDayAndSeasonalMonth,
+        databaseGateway: DatabaseGateway,
+        leapYear: Boolean
     ): DayLimitMap {
         val dayLimitMap: MutableDayLimitMap = linkedMapOf()
         var index = 0
         val today = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
-        val isCurrentMonthPresent = groupedMatches.containsKey(today.monthNumber)
+        val isCurrentMonthPresent = groupedMatches.containsKey(today.monthNumber to today.year)
         return groupedMatches.forEach { monthAndMatchesByDay ->
-            val nonMatchDayCount = countNotMatchDays(monthAndMatchesByDay, leapYear)
-            when (index) {
-                0 -> dayLimitMap.fillLimitsForMonth(
-                    monthAndMatchesByDay.value,
-                    nonMatchDayCount,
-                    usedLimit
-                )
-                else -> dayLimitMap.fillLimitsForMonth(
-                    monthAndMatchesByDay.value,
-                    nonMatchDayCount,
-                    0
-                )
-            }
-            dayLimitMap.fullFillMonthWithNonMatchday(Month(monthAndMatchesByDay.key), leapYear)
-            index++
+            val (month, year) = monthAndMatchesByDay.key
+            val nonMatchDayCount = countNotMatchDays(monthAndMatchesByDay, today, leapYear)
+            val remainedLimit = databaseGateway.getRemainedMonthLimit(month, year)
+
+            dayLimitMap.fillLimitsForMonth(
+                monthGroup = monthAndMatchesByDay.value,
+                nonMatchDayCount = nonMatchDayCount,
+                monthLimit = remainedLimit
+            ).run { fullFillMonthWithNonMatchday(Month(month), year, leapYear) }
+
+            index += 1
         }.run { if (!isCurrentMonthPresent) dayLimitMap.fillCurrentMonth(today) else dayLimitMap }
     }
 
+    // Not working with planned limits since it has minimal limits and 0 matches
     private fun MutableDayLimitMap.fillCurrentMonth(today: LocalDate): DayLimitMap {
         val nextDay = today.plus(1, DateTimeUnit.DAY)
         if (nextDay.month == today.month) {
-            val isLeapYear = today.year % 4 == 0
+            val isLeapYear = today.year.isLeapYear
             val monthLength = today.month.length(isLeapYear)
 
             for (day in nextDay.dayOfMonth..monthLength) {
                 val date = LocalDate(today.year, today.month, day)
-                this[date] = Limit(
+                this[date] = DayLimit(
                     gameDayDuration = Duration.ZERO,
                     firstMatchStartOrDefault = date.atTime(
                         SAFE_DAY_TO_DAY_UPDATE_TIME_HOURS,
@@ -87,11 +92,11 @@ internal object LimitsResolver {
     private fun MutableDayLimitMap.fillLimitsForMonth(
         monthGroup: MonthGroup,
         nonMatchDayCount: Int,
-        usedLimit: Int
-    ) {
+        monthLimit: Int
+    ): MutableDayLimitMap {
         var restart = true
         restart@ while (restart) {
-            var monthLimit = MONTH_LIMIT - SAFE_BUFFER - nonMatchDayCount - usedLimit
+            var resultMonthLimit = monthLimit - nonMatchDayCount
             for (playDay in monthGroup) {
                 val firstMatchStart = playDay.value.first().startDate!!
                 val lastMatchStart = playDay.value.last().startDate!!
@@ -105,9 +110,9 @@ internal object LimitsResolver {
                 )
 
                 val dayLimit = recalculateDayLimit(gameDayDuration, rate)
-                monthLimit -= dayLimit
+                resultMonthLimit -= dayLimit
 
-                this[day] = Limit(
+                this[day] = DayLimit(
                     gameDayDuration = gameDayDuration,
                     firstMatchStartOrDefault = firstMatchStart,
                     plannedDayLimit = dayLimit,
@@ -115,13 +120,15 @@ internal object LimitsResolver {
                     updateRate = rate
                 )
 
-                if (monthLimit.isExceeded) {
+                if (resultMonthLimit.isExceeded) {
                     decreaseRate(day.monthNumber)
                     continue@restart
                 }
             }
             restart = false
         }
+
+        return this
     }
 
     private fun MutableDayLimitMap.getOrComputeDurationWithRate(
@@ -145,22 +152,25 @@ internal object LimitsResolver {
 
     private fun MutableDayLimitMap.fullFillMonthWithNonMatchday(
         month: Month,
+        year: Int,
         leapYear: Boolean
     ) {
+        val mutableDayLimitMap = this
         val today = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
         val monthDays = if (today.month == month) {
-            (today.dayOfMonth..month.length(leapYear)).toMutableList()
+            (today.dayOfMonth..month.length(leapYear))
         } else {
-            (1..month.length(leapYear)).toMutableList()
-        }
-
-        val currentYear = this.filter { it.key.month == month }
-            .onEach { monthDays.remove(it.key.dayOfMonth) }
-            .run { keys.first().year }
+            (1..month.length(leapYear))
+        }.toMutableList()
+            .run {
+                mutableDayLimitMap.filter { it.key.month == month }
+                    .onEach { remove(it.key.dayOfMonth) }
+                this
+            }
 
         for (monthDay in monthDays) {
-            val date = LocalDate(currentYear, month, monthDay)
-            this[date] = Limit(
+            val date = LocalDate(year, month, monthDay)
+            this[date] = DayLimit(
                 gameDayDuration = Duration.ZERO,
                 firstMatchStartOrDefault = date.atTime(
                     SAFE_DAY_TO_DAY_UPDATE_TIME_HOURS,
@@ -188,7 +198,7 @@ internal object LimitsResolver {
         return ceil(dayLimitF).toInt()
     }
 
-    private fun decreaseRate(maxRateDateEntry: Map.Entry<LocalDate, Limit>): Limit {
+    private fun decreaseRate(maxRateDateEntry: Map.Entry<LocalDate, DayLimit>): DayLimit {
         val currentRate = maxRateDateEntry.value.updateRate
         return maxRateDateEntry.value.copy(
             updateRate = currentRate + 1
@@ -196,10 +206,17 @@ internal object LimitsResolver {
     }
 
     private fun countNotMatchDays(
-        monthAndDays: Map.Entry<Int, Map<Int, List<MatchdayDTO>>>,
+        monthAndDays: Map.Entry<MonthAndYear, Map<Int, List<MatchdayDTO>>>,
+        today: LocalDate,
         leapYear: Boolean
     ): Int {
-        val monthLength = Month(monthAndDays.key).length(leapYear)
-        return monthLength - monthAndDays.value.keys.count()
+        val (month, year) = monthAndDays.key
+        val monthLength = Month(month).length(leapYear)
+
+        return if (today.monthNumber == month && today.year == year) {
+            1 + monthLength - (monthAndDays.value.keys.count() + today.dayOfMonth)
+        } else {
+            monthLength - monthAndDays.value.keys.count()
+        }
     }
 }
