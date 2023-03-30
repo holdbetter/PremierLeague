@@ -54,6 +54,10 @@ object Deps {
         const val navigationRuntimeKtx = "androidx.navigation:navigation-runtime-ktx:${Versions.navigationVersion}"
         const val navigationFeatureModule = "androidx.navigation:navigation-dynamic-features-fragment:${Versions.navigationVersion}"
         const val navigationTests = "androidx.navigation:navigation-testing:${Versions.navigationVersion}"
+
+        const val room = "androidx.room:room-runtime:${Versions.roomVersion}"
+        const val roomKsp = "androidx.room:room-compiler:${Versions.roomVersion}"
+        const val roomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
     }
 }
 
@@ -82,11 +86,14 @@ object Versions {
     const val recyclerVersion = "1.2.0"
     const val pullToRefreshVersion = "1.1.0"
     const val navigationVersion = "2.5.3"
+    const val roomVersion = "2.4.3"
 
     const val diktVersion = "1.0.2"
+    const val kspVersion = "1.7.21-1.0.8"
     const val glideVersion = "4.14.2"
 }
 
 object Plugins {
     const val dikt = "io.github.sergeshustoff.dikt"
+    const val ksp = "com.google.devtools.ksp"
 }

@@ -34,8 +34,19 @@ internal class TeamDetailRepositoryImpl(
         return TeamDetailStore.State.Data.TeamDetail(
             team,
             allMatches,
-            pastMatchesByMonth
+            pastMatchesByMonth,
+            teamDetailDataSource.isTeamFavorite(teamId)
         )
+    }
+
+    override suspend fun changeTeamFavorite(teamId: Long): Boolean {
+        return if (!teamDetailDataSource.isTeamFavorite(teamId)) {
+            teamDetailDataSource.addFavoriteTeam(teamId)
+            true
+        } else {
+            teamDetailDataSource.removeFavoriteTeam(teamId)
+            false
+        }
     }
 
     private fun countMonthResult(teamId: String, monthMatches: List<Match>): Triple<Int, Int, Int> {

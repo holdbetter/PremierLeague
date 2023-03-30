@@ -48,7 +48,8 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
             teamId = teamId,
             navigationModule = NavigationModule(findNavController()),
             teamDetailRepositoryModule = TeamDetailRepositoryModule(
-                networkModule = findModuleDependency()
+                networkModule = findModuleDependency(),
+                databaseModule = findModuleDependency()
             )
         )
 

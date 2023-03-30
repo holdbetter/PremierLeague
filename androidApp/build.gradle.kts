@@ -55,4 +55,5 @@ dependencies {
     implementation(project(":shared:core-navigation"))
     implementation(project(":shared:core-di-api"))
     implementation(project(":shared:core-di-impl"))
+    implementation(project(":shared:core-database"))
 }

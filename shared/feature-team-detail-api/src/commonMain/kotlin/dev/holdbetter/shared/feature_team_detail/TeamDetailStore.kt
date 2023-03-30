@@ -9,7 +9,7 @@ interface TeamDetailStore : Store<Intent, State> {
 
     sealed interface Intent {
         // TODO: Compare
-        // TODO: AddToFavorites
+        object ToggleFavorite : Intent
         object Reload : Intent
         object RunTwitterRedirect : Intent
         object NavigationCommit : Intent
@@ -26,7 +26,8 @@ interface TeamDetailStore : Store<Intent, State> {
             data class TeamDetail(
                 val team: Team,
                 val allMatches: List<Match>,
-                val pastResultsByMonth: Map<Month, MonthResult>
+                val pastResultsByMonth: Map<Month, MonthResult>,
+                val isTeamFavorite: Boolean
             ) : Data
 
             data class Error(

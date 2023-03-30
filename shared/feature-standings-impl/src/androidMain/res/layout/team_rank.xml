@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dev.holdbetter.assets.LinearLayoutWithInterception xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -17,7 +18,10 @@
         android:gravity="center"
         android:textAlignment="center"
         android:paddingBottom="1dp"
+        android:drawablePadding="4dp"
         android:textAppearance="@style/LeagueUI.Standings.RankAppearance"
+        app:drawableTint="@color/yellow"
+        tools:drawableBottom="@drawable/star_filled"
         tools:text="1" />
 
     <ImageView

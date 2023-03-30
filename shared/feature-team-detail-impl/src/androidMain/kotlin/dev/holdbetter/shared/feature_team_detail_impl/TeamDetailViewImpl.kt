@@ -110,6 +110,12 @@ internal class TeamDetailViewImpl(
         headerBinding.teamTwitter.setOnClickListener {
             onTwitterButtonClicked()
         }
+
+        headerBinding.teamFavorite.setOnClickListener {
+            lifecycleScope.launch {
+                dispatch(Event.FavoritesClicked)
+            }
+        }
     }
 
     override fun render(model: Model) {
@@ -132,7 +138,7 @@ internal class TeamDetailViewImpl(
                 effect(model)
 
                 bindCard(findNextMatch(matches), teamColor)
-                bindHeader(team, actionDrawable)
+                bindHeader(team, it.isTeamFavorite, actionDrawable)
                 bindStats(team, actionDrawable)
                 bindMatches(teamColor, it.pastResultsByMonth)
             } else {
@@ -168,10 +174,13 @@ internal class TeamDetailViewImpl(
 
     private fun bindHeader(
         team: Team,
+        isTeamFavorite: Boolean,
         actionDrawable: Drawable
     ) {
         with(headerBinding) {
             teamTwitter.background = actionDrawable
+
+            teamStar.setImageDrawable(getFavoriteImage(isTeamFavorite))
             teamFavorite.background = actionDrawable
 
             teamLogo.load(team.image)
@@ -353,5 +362,13 @@ internal class TeamDetailViewImpl(
         teamAway?.image
     } else {
         teamHome?.image
+    }
+
+    private fun getFavoriteImage(isTeamFavorite: Boolean): Drawable? {
+        return if (isTeamFavorite) {
+            AppCompatResources.getDrawable(context, assetsDrawable.star_filled)
+        } else {
+            AppCompatResources.getDrawable(context, assetsDrawable.star_outlined)
+        }
     }
 }

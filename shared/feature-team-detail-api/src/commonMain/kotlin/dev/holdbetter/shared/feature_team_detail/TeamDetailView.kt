@@ -17,6 +17,7 @@ interface TeamDetailView : MviView<Model, Event> {
     sealed interface Event {
         object Reload : Event
         object TwitterButtonClicked : Event
+        object FavoritesClicked : Event
         object NavigationCommit : Event
     }
 }

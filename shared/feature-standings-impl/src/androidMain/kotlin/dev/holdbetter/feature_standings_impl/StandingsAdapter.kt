@@ -1,5 +1,6 @@
 package dev.holdbetter.feature_standings_impl
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,20 @@ import dev.holdbetter.assets.assetsDrawable
 import dev.holdbetter.assets.loadWithPlaceholder
 import dev.holdbetter.feature_standings_api.StandingsStore.State.Data.Standings.TeamRank
 import dev.holdbetter.feature_standings_impl.databinding.TeamRankBinding
+import dev.holdbetter.shared.core_database.api.FavoritesApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 internal class StandingsAdapter(
+    private val lifecycleScope: CoroutineScope,
+    private val favoritesApi: FavoritesApi,
+    private val favoriteDrawable: Drawable?,
     private val onItemClickAction: (teamId: Long) -> Unit
 ) : ListAdapter<TeamRank, StandingsAdapter.TeamRankVH>(TeamRankDiffer()) {
+
+    var userFavoriteTeams: List<Long> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamRankVH {
         return TeamRankVH(
@@ -31,7 +42,16 @@ internal class StandingsAdapter(
         holder.bind(currentList[position])
     }
 
-    class TeamRankVH(
+    fun submitData(list: List<TeamRank>?) {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                this@StandingsAdapter.userFavoriteTeams = favoritesApi.getFavoriteTeamIds()
+            }
+            submitList(list)
+        }
+    }
+
+    inner class TeamRankVH(
         private val binding: TeamRankBinding,
         private val onItemClickAction: (teamId: Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -40,6 +60,7 @@ internal class StandingsAdapter(
             with(binding) {
                 clear(logo)
                 rank.text = teamRank.rank.toString()
+                decorateRankWithFavoriteIcon(teamRank.id.toLong())
                 logo.loadWithPlaceholder(teamRank.image, assetsDrawable.league_logo_mini)
                 team.text = teamRank.name
                 points.text = teamRank.points.toString()
@@ -52,6 +73,14 @@ internal class StandingsAdapter(
         private fun clear(view: View) {
             Glide.with(view.context)
                 .clear(view)
+        }
+
+        private fun decorateRankWithFavoriteIcon(teamId: Long) {
+            if (userFavoriteTeams.contains(teamId)) {
+                binding.rank.setCompoundDrawables(null, null, null, favoriteDrawable)
+            } else {
+                binding.rank.setCompoundDrawables(null, null, null, null)
+            }
         }
     }
 

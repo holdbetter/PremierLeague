@@ -18,6 +18,8 @@ internal class TeamDetailStoreImpl(
         class LoadingFinished(val teamDetail: State.Data.TeamDetail) : Effect
         class LoadingError(val throwable: Throwable) : Effect
         object TwitterNavigation : Effect
+        object AddedToFavorites : Effect
+        object RemovedFromFavorites : Effect
         object NavigationCleanState : Effect
     }
 
@@ -54,6 +56,7 @@ internal class TeamDetailStoreImpl(
             }
             is TeamDetailStore.Intent.RunTwitterRedirect -> flowOf(Effect.TwitterNavigation)
             TeamDetailStore.Intent.NavigationCommit -> flowOf(Effect.NavigationCleanState)
+            TeamDetailStore.Intent.ToggleFavorite -> toggleFavorites(state.teamId)
         }
     }
 
@@ -79,6 +82,16 @@ internal class TeamDetailStoreImpl(
             Effect.NavigationCleanState -> state.copy(
                 twitterRedirect = false
             )
+            Effect.AddedToFavorites -> state.copy(
+                data = (state.data as? State.Data.TeamDetail)?.copy(
+                    isTeamFavorite = true
+                )
+            )
+            Effect.RemovedFromFavorites -> state.copy(
+                data = (state.data as? State.Data.TeamDetail)?.copy(
+                    isTeamFavorite = false
+                )
+            )
         }
     }
 
@@ -86,6 +99,17 @@ internal class TeamDetailStoreImpl(
         return flowOf(repository.getTeamDetail(teamId))
             .map { Effect.LoadingFinished(it) }
             .onCompletion { reason -> reason?.let(Effect::LoadingError) }
+    }
+
+    private suspend fun toggleFavorites(teamId: Long): Flow<Effect> {
+        return flowOf(repository.changeTeamFavorite(teamId))
+            .map {
+                if (it) {
+                    Effect.AddedToFavorites
+                } else {
+                    Effect.RemovedFromFavorites
+                }
+            }
     }
 
     private fun withLoading(block: suspend () -> Flow<Effect>): Flow<Effect> = flow {

@@ -6,6 +6,8 @@ import dev.holdbetter.core_di_impl.ModuleProvider
 import dev.holdbetter.core_di_impl.MutableModuleDependencies
 import dev.holdbetter.core_network.di.NetworkModule
 import dev.holdbetter.premierleague.android.di.AppModule
+import dev.holdbetter.shared.core_database.database.LeagueUserDatabase
+import dev.holdbetter.shared.core_database.di.DatabaseModule
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 
@@ -21,6 +23,7 @@ class PremierLeagueApplication : Application(), ModuleProvider {
 
         AppModule.Factory.create(
             networkModule = NetworkModule(),
+            databaseModule = DatabaseModule(LeagueUserDatabase.getInstance(this)),
             dependencies = _module
         )
     }

@@ -56,6 +56,7 @@ fun TeamDetailView.Event.toIntent() =
         TeamDetailView.Event.Reload -> TeamDetailStore.Intent.Reload
         TeamDetailView.Event.TwitterButtonClicked -> TeamDetailStore.Intent.RunTwitterRedirect
         TeamDetailView.Event.NavigationCommit -> TeamDetailStore.Intent.NavigationCommit
+        TeamDetailView.Event.FavoritesClicked -> TeamDetailStore.Intent.ToggleFavorite
     }
 
 fun TeamDetailStore.State.toModel() = TeamDetailView.Model(

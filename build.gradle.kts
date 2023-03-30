@@ -6,6 +6,7 @@ plugins {
     kotlin("multiplatform").version("1.7.21").apply(false)
     id("org.jetbrains.kotlin.plugin.serialization").version("1.7.21").apply(false)
     id(Plugins.dikt).version(Versions.diktVersion).apply(false)
+    id(Plugins.ksp).version(Versions.kspVersion).apply(false)
 }
 
 tasks.register("clean", Delete::class) {

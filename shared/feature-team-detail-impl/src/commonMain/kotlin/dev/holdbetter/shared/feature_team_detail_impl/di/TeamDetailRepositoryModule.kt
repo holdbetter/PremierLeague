@@ -1,6 +1,7 @@
 package dev.holdbetter.shared.feature_team_detail_impl.di
 
 import dev.holdbetter.core_network.di.NetworkModule
+import dev.holdbetter.shared.core_database.di.DatabaseModule
 import dev.holdbetter.shared.feature_team_detail.TeamDetailRepository
 import dev.holdbetter.shared.feature_team_detail_impl.data.TeamDetailDataSource
 import dev.holdbetter.shared.feature_team_detail_impl.data.TeamDetailDataSourceImpl
@@ -8,8 +9,9 @@ import dev.holdbetter.shared.feature_team_detail_impl.data.TeamDetailRepositoryI
 import dev.shustoff.dikt.CreateSingle
 import dev.shustoff.dikt.UseModules
 
-@UseModules(NetworkModule::class)
+@UseModules(NetworkModule::class, DatabaseModule::class)
 internal class TeamDetailRepositoryModule(
+    private val databaseModule: DatabaseModule,
     private val networkModule: NetworkModule
 ) {
 

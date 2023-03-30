@@ -3,29 +3,45 @@ package dev.holdbetter.feature_standings_impl
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.holdbetter.assets.assetsColor
+import dev.holdbetter.assets.assetsDrawable
+import dev.holdbetter.assets.px
 import dev.holdbetter.coreMvi.AbstractMviView
 import dev.holdbetter.feature_standings_api.StandingsView
 import dev.holdbetter.feature_standings_api.StandingsView.Event
 import dev.holdbetter.feature_standings_api.StandingsView.Model
 import dev.holdbetter.feature_standings_impl.databinding.StandingsFragmentBinding
+import dev.holdbetter.shared.core_database.api.DatabaseApi
 import dev.holdbetter.shared.core_navigation.Router
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 internal class StandingsViewImpl(
-    private val lifecycleScope: CoroutineScope,
     view: View,
+    databaseApi: DatabaseApi,
+    private val lifecycleScope: CoroutineScope,
     private val router: Router
 ) : AbstractMviView<Model, Event>(), StandingsView {
 
+    private val favoriteDrawable =
+        AppCompatResources.getDrawable(view.context, assetsDrawable.star_filled)
+            ?.apply {
+                setBounds(0, 0, 13.px.toInt(), 13.px.toInt())
+            }
+
     private val binding = StandingsFragmentBinding.bind(view)
-    private val adapter = StandingsAdapter(::teamOnStandingClick)
+    private val adapter = StandingsAdapter(
+        lifecycleScope = lifecycleScope,
+        favoritesApi = databaseApi.favoritesApi(),
+        favoriteDrawable = favoriteDrawable,
+        onItemClickAction = ::teamOnStandingClick
+    )
 
     private val loaderAnimator = ValueAnimator.ofFloat(1f, 0.2f).apply {
         interpolator = AccelerateDecelerateInterpolator()
@@ -51,7 +67,7 @@ internal class StandingsViewImpl(
         // TODO: add debug flags
         Napier.d(message = model::toString)
 
-        model.standings?.teams?.let(adapter::submitList)
+        model.standings?.teams?.let(adapter::submitData)
         loading(model.isLoading)
         content(model)
         effect(model)

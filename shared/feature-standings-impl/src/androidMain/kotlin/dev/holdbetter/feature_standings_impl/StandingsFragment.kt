@@ -26,6 +26,7 @@ class StandingsFragment : Fragment(R.layout.standings_fragment) {
 
         module = StandingsModule(
             navigationModule = NavigationModule(findNavController()),
+            databaseModule = findModuleDependency(),
             standingsRepositoryModule = StandingsRepositoryModule(
                 networkModule = findModuleDependency()
             )
@@ -43,7 +44,14 @@ class StandingsFragment : Fragment(R.layout.standings_fragment) {
             isLightText = true
         )
 
-        component.onViewCreated(StandingsViewImpl(lifecycleScope, view, module.router))
+        component.onViewCreated(
+            StandingsViewImpl(
+                lifecycleScope = lifecycleScope,
+                view = view,
+                router = module.router,
+                databaseApi = module.database
+            )
+        )
     }
 
     override fun onStart() {

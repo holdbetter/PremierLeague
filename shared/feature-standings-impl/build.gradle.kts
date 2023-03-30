@@ -34,6 +34,7 @@ kotlin {
                 implementation(project(":shared:core-mvi"))
                 implementation(project(":shared:core-network"))
                 implementation(project(":shared:core-navigation"))
+                implementation(project(":shared:core-database"))
                 implementation(project(":shared:core-di-api"))
                 implementation(project(":shared:core-di-impl"))
                 implementation(project(":shared:common"))
