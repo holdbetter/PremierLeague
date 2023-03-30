@@ -50,7 +50,7 @@ fun tileColor(@ColorInt dominant: Int, isDarkMode: Boolean): Int {
         val dimmedColor = ColorUtils.HSLToColor(hsl)
         ColorUtils.setAlphaComponent(dimmedColor, (255 * 0.1).roundToInt())
     } else {
-        ColorUtils.setAlphaComponent(Color.BLACK, (255 * 0.5).roundToInt())
+        ColorUtils.setAlphaComponent(Color.BLACK, (255 * 0.6).roundToInt())
     }
 }
 
@@ -64,9 +64,9 @@ fun cardStartColor(
         val hsl = floatArrayOf(0f, 0f, 0f)
         ColorUtils.colorToHSL(teamColor, hsl)
         val (hue, sat, lum) = hsl
-        hsl[0] = (hue + 0) % 360
+        hsl[0] = if ((hue - 10) < 0) 360 - (hue - 10) else hue - 10
         hsl[1] = sat * .5f
-        hsl[2] = .35f
+        hsl[2] = .25f
 
         ColorUtils.HSLToColor(hsl)
     } else {
