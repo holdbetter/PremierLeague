@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="cards_horizontal_margin">21dp</dimen>
-    <dimen name="match_item">96dp</dimen>
+    <dimen name="match_item">94dp</dimen>
     <dimen name="result_month_header_radius">6dp</dimen>
 
     <dimen name="group_list_btw_row_margin">16dp</dimen>
