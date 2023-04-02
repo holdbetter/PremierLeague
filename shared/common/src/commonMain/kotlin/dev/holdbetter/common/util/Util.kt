@@ -1,5 +1,6 @@
 package dev.holdbetter.common.util
 
+import dev.holdbetter.common.Status
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -19,3 +20,10 @@ inline fun <reified T> Json.decodeWith(
     jsonString: String,
     strategy: DeserializationStrategy<T>
 ): T = this.decodeFromString(strategy, jsonString)
+
+val Int.isRunning
+    get() = when (this) {
+        Status.NOT_STARTED.id, Status.POSTPONED.id, Status.FULL_TIME.id -> false
+        Status.FIRST_TIME.id, Status.SECOND_TIME.id, Status.HALF_TIME.id -> true
+        else -> false
+    }

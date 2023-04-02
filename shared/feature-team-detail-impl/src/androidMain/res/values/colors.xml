@@ -8,6 +8,12 @@
     <color name="result_month_header_lose">@color/red</color>
     <color name="result_month_header_draw">@color/black</color>
 
+    <color name="match_card_score_big_win">#07A333</color>
+    <color name="match_card_score_little_win">#418D44</color>
+    <color name="match_card_score_draw">#7F7331</color>
+    <color name="match_card_score_little_lose">#D77C28</color>
+    <color name="match_card_score_big_lose">#BE2929</color>
+
     <color name="result_month_header_text_win">@color/result_month_header_win</color>
     <color name="result_month_header_text_lose">@color/result_month_header_lose</color>
     <color name="result_month_header_text_draw">@color/result_month_header_draw</color>

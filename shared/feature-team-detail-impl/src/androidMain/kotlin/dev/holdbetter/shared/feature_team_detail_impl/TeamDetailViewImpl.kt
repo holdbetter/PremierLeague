@@ -17,12 +17,10 @@ import androidx.core.view.doOnLayout
 import androidx.palette.graphics.Palette
 import dev.holdbetter.assets.*
 import dev.holdbetter.common.Status
+import dev.holdbetter.common.util.isRunning
 import dev.holdbetter.coreMvi.AbstractMviView
 import dev.holdbetter.shared.core_navigation.Router
-import dev.holdbetter.shared.feature_team_detail.Match
-import dev.holdbetter.shared.feature_team_detail.MonthResult
-import dev.holdbetter.shared.feature_team_detail.Team
-import dev.holdbetter.shared.feature_team_detail.TeamDetailView
+import dev.holdbetter.shared.feature_team_detail.*
 import dev.holdbetter.shared.feature_team_detail.TeamDetailView.Event
 import dev.holdbetter.shared.feature_team_detail.TeamDetailView.Model
 import dev.holdbetter.shared.feature_team_detail_impl.databinding.*
@@ -30,8 +28,8 @@ import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Month
-import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.*
+import kotlinx.datetime.TimeZone
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
@@ -62,10 +60,16 @@ internal class TeamDetailViewImpl(
 
     private val statsNameProvider = StatsNameProvider(context)
     private val leagueBackground = context.getColor(assetsColor.leagueBackground)
+    private val defaultTextColor = context.getColor(assetsColor.leagueTextColor)
+    private val white = context.getColor(assetsColor.white)
     private val dateBackground =
         AppCompatResources.getDrawable(context, R.drawable.shape_card_date)?.mutate()
     private val timeBackground =
         AppCompatResources.getDrawable(context, R.drawable.shape_card_date)?.mutate()
+    private val minuteBackground =
+        AppCompatResources.getDrawable(context, R.drawable.shape_card_date)?.mutate()
+
+    private val yearDecorator = YearDecorator(context, white)
 
     init {
         lastMatchesBinding.matchGroups.adapter = MatchesAdapter(
@@ -76,7 +80,7 @@ internal class TeamDetailViewImpl(
         )
 
         val spanCount = 3
-        val recyclerMargin = context.px(R.dimen.cards_horizontal_margin) * 2
+        val recyclerMarginSideSum = context.px(R.dimen.cards_horizontal_margin) * 2
         val matchItemDimen = context.px(R.dimen.match_item)
         val verticalOffsetBtwRows =
             context.resources.getDimension(R.dimen.group_list_btw_row_margin)
@@ -97,7 +101,7 @@ internal class TeamDetailViewImpl(
                     verticalOffsetBtwRows = verticalOffsetBtwRows,
                     parentWidth = it.width,
                     itemWidth = matchItemDimen,
-                    recyclerMarginHorizontal = recyclerMargin
+                    recyclerMarginHorizontal = recyclerMarginSideSum
                 )
             )
         }
@@ -116,6 +120,10 @@ internal class TeamDetailViewImpl(
                 dispatch(Event.FavoritesClicked)
             }
         }
+
+        rootBinding.calendar.adapter = DateAdapter(context, ::onCalendarDateClicked)
+        rootBinding.calendar.addItemDecoration(MonthDecorator(context, defaultTextColor))
+        rootBinding.calendar.addItemDecoration(yearDecorator)
     }
 
     override fun render(model: Model) {
@@ -131,13 +139,13 @@ internal class TeamDetailViewImpl(
             val palette = palette
 
             if (palette != null) {
-                val matches = it.allMatches
                 val teamColor = palette.generateTeamColor(context)
                 val actionDrawable = context.getActionDrawable(teamColor)
 
                 effect(model)
 
-                bindCard(findNextMatch(matches), teamColor)
+                bindCard(it.matchCard, it.nextMatch, teamColor)
+                bindCalendar(it.calendar, teamColor, defaultTextColor)
                 bindHeader(team, it.isTeamFavorite, actionDrawable)
                 bindStats(team, actionDrawable)
                 bindMatches(teamColor, it.pastResultsByMonth)
@@ -172,6 +180,44 @@ internal class TeamDetailViewImpl(
         }
     }
 
+    private fun onCalendarDateClicked(date: LocalDate) {
+        lifecycleScope.launch {
+            dispatch(Event.DateClicked(date))
+        }
+    }
+
+    private fun bindCalendar(
+        calendar: List<DateHolder>,
+        teamColor: Int,
+        itemDefaultTextColor: Int
+    ) {
+        val adapter = rootBinding.calendar.adapter as? DateAdapter
+        yearDecorator.setBackgroundColor(teamColor)
+        adapter?.let {
+            val oldListEmpty = adapter.currentList.isEmpty()
+
+            adapter.submitData(
+                calendar,
+                accentColor(teamColor),
+                itemDefaultTextColor
+            )
+
+            rootBinding.calendar.invalidateItemDecorations()
+
+            val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+            val nowPosition = adapter.currentList.indexOfFirst { it.date == now }
+            val resultPosition = if (nowPosition != -1) {
+                nowPosition + (adapter.itemCount / (DateAdapter.POSITION_MULTIPLIER / 2))
+            } else {
+                (adapter.itemCount / (DateAdapter.POSITION_MULTIPLIER / 2))
+            }
+
+            if (oldListEmpty) {
+                rootBinding.calendar.scrollToPosition(resultPosition)
+            }
+        }
+    }
+
     private fun bindHeader(
         team: Team,
         isTeamFavorite: Boolean,
@@ -189,18 +235,43 @@ internal class TeamDetailViewImpl(
         }
     }
 
-    private fun bindCard(match: Match, @ColorInt teamColor: Int) {
+    private fun bindCard(userMatch: Match, nextMatch: Match, @ColorInt teamColor: Int) {
         lifecycleScope.launch {
-            val isHomeMatch = teamId == match.teamHomeId.toLong()
-            val oppositeImageUriString = match.oppositeTeamImageUri(isHomeMatch)
+            val isHomeMatch = teamId == userMatch.teamHomeId.toLong()
+            val oppositeImageUriString = userMatch.oppositeTeamImageUri(isHomeMatch)
             val oppositeFutureBitmap = Uri.parse(oppositeImageUriString).getFutureBitmap(context)
             val oppositePalette = createPalette(oppositeFutureBitmap)
             val oppositeTeamColor = oppositePalette.generateTeamColor(context)
 
             bindMatchCardStyle(teamColor)
-            bindMatchCardTitleText(match)
-            bindMatchCardHomeAwayData(match, isHomeMatch, teamColor, oppositeTeamColor)
-            bindMatchCardDate(match, teamColor)
+            bindMatchScore(userMatch, isHomeMatch)
+            bindMatchCardTitleText(userMatch, nextMatch)
+            bindMatchCardHomeAwayData(userMatch, isHomeMatch, teamColor, oppositeTeamColor)
+            bindMatchCardDate(userMatch, teamColor)
+        }
+    }
+
+    private fun bindMatchScore(userMatch: Match, isHomeMatch: Boolean) {
+        val scoreVisibility = when (userMatch.statusId) {
+            Status.FULL_TIME.id -> View.VISIBLE
+            Status.NOT_STARTED.id, Status.POSTPONED.id -> View.GONE
+            else -> View.VISIBLE
+        }
+
+        matchCardBinding.score.visibility = scoreVisibility
+
+        if (scoreVisibility == View.VISIBLE) {
+            matchCardBinding.homeScore.text = userMatch.resultHome
+            matchCardBinding.awayScore.text = userMatch.resultAway
+
+            val homeScore = userMatch.resultHome.toInt()
+            val awayScore = userMatch.resultAway.toInt()
+            val diff = homeScore - awayScore
+            matchCardBinding.score.backgroundTintList = if (isHomeMatch) {
+                ColorStateList.valueOf(getScoreColor(diff))
+            } else {
+                ColorStateList.valueOf(getScoreColor(-diff))
+            }
         }
     }
 
@@ -208,6 +279,8 @@ internal class TeamDetailViewImpl(
         match: Match,
         teamColor: Int
     ) {
+        val isRunning = match.statusId.isRunning
+
         val day = match.startDate?.dayOfMonth
         val month = match.startDate?.monthNumber
         val localDateTime = match.startDate?.toJavaLocalDateTime()
@@ -218,6 +291,7 @@ internal class TeamDetailViewImpl(
         with(matchCardBinding) {
             val dateGradient = dateBackground as? GradientDrawable
             val timeGradient = timeBackground as? GradientDrawable
+            val minuteGradient = minuteBackground as? GradientDrawable
 
             val (startColor, endColor) = getDateBackgroundColors(teamColor)
 
@@ -234,6 +308,15 @@ internal class TeamDetailViewImpl(
                 if (month != null && month < 10) append(0)
                 append(month)
             }
+
+
+            if (isRunning) {
+                minuteGradient?.colors = intArrayOf(startColor, endColor)
+                minute.background = minuteGradient
+                minute.text = match.status
+            }
+
+            minute.visibility = if (isRunning) View.VISIBLE else View.GONE
         }
     }
 
@@ -281,10 +364,16 @@ internal class TeamDetailViewImpl(
         }
     }
 
-    private fun bindMatchCardTitleText(match: Match) {
-        matchCardBinding.cardTitle.text = when (match.statusId) {
-            Status.FULL_TIME.id -> context.getString(R.string.last_match)
-            Status.NOT_STARTED.id, Status.POSTPONED.id -> context.getString(R.string.next_match)
+    private fun bindMatchCardTitleText(userMatch: Match, nextMatch: Match) {
+        val futureMatchText = if (userMatch.startDate?.date == nextMatch.startDate?.date) {
+            context.getString(R.string.next_match)
+        } else {
+            context.getString(R.string.upcoming_match)
+        }
+
+        matchCardBinding.cardTitle.text = when (userMatch.statusId) {
+            Status.FULL_TIME.id -> context.getString(R.string.past_match)
+            Status.NOT_STARTED.id, Status.POSTPONED.id -> futureMatchText
             else -> context.getString(R.string.on_going_match)
         }
     }
@@ -322,12 +411,6 @@ internal class TeamDetailViewImpl(
             goalsAgainst.statsName.text = statsNameProvider.goalsAgainstName
             goalsAgainst.statsValue.text = team.goalsAgainst.toString()
         }
-    }
-
-    private fun findNextMatch(matches: List<Match>): Match {
-        val sortedMatches = matches.sortedBy(Match::startDate)
-        return sortedMatches.firstOrNull { match -> match.statusId == Status.NOT_STARTED.id }
-            ?: sortedMatches.last()
     }
 
     private fun getCardGradient(teamColor: Int): PaintDrawable {
@@ -369,6 +452,17 @@ internal class TeamDetailViewImpl(
             AppCompatResources.getDrawable(context, assetsDrawable.star_filled)
         } else {
             AppCompatResources.getDrawable(context, assetsDrawable.star_outlined)
+        }
+    }
+
+    @ColorInt
+    private fun getScoreColor(scoreDiff: Int): Int {
+        return when {
+            scoreDiff == 0 -> context.getColor(R.color.match_card_score_draw)
+            scoreDiff < -2 -> context.getColor(R.color.match_card_score_big_lose)
+            scoreDiff > 2 -> context.getColor(R.color.match_card_score_big_win)
+            scoreDiff < 0 -> context.getColor(R.color.match_card_score_little_lose)
+            else -> context.getColor(R.color.match_card_score_little_win)
         }
     }
 }

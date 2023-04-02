@@ -8,8 +8,9 @@
     <string name="team_twitter">Team Twitter</string>
     <string name="stats">Stats</string>
     <string name="next_match">Next Match</string>
-    <string name="on_going_match">LIVE Match</string>
-    <string name="last_match">Last Match</string>
+    <string name="upcoming_match">Upcoming</string>
+    <string name="on_going_match">LIVE</string>
+    <string name="past_match">Past Match</string>
     <string name="games">games</string>
     <string name="won">won</string>
     <string name="draws">draws</string>

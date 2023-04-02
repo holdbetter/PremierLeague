@@ -10,17 +10,17 @@
         style="@style/LeagueUI.TeamDetail.SectionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="13dp"
         android:text="@string/next_match"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_barrier" />
+        app:layout_constraintTop_toBottomOf="@id/calendar" />
 
     <dev.holdbetter.shared.feature_team_detail_impl.TiledConstraintLayout
         android:id="@+id/match_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/cards_horizontal_margin"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="12dp"
         android:elevation="8dp"
         android:outlineProvider="background"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -32,11 +32,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="12dp"
             android:orientation="vertical"
-            app:constraint_referenced_ids="time_start, date_start"
+            app:constraint_referenced_ids="time_start, date_start, minute"
             app:flow_horizontalAlign="start"
-            app:flow_verticalGap="6dp"
+            app:flow_verticalGap="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,17 +58,30 @@
             tools:ignore="SmallSp"
             tools:text="1/03" />
 
+        <TextView
+            android:id="@+id/minute"
+            style="@style/LeagueUI.TeamDetail.Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:background="@drawable/shape_card_date"
+            android:paddingLeft="8dp"
+            android:paddingRight="6dp"
+            tools:ignore="SmallSp"
+            tools:text="78'" />
+
         <LinearLayout
+            android:id="@+id/team_names"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="26dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintRight_toLeftOf="@id/score"
             android:gravity="end"
             android:orientation="vertical"
             android:paddingHorizontal="0dp"
-            android:paddingTop="22dp"
+            android:paddingTop="24dp"
             android:paddingBottom="33dp"
             app:layout_constraintLeft_toLeftOf="@id/team_title_guide"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_goneMarginRight="26dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -76,7 +89,7 @@
                 style="@style/LeagueUI.TeamDetail.CardTeam"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="2dp"
                 tools:foregroundTint="#2A65D8"
                 tools:text="Chelsea" />
 
@@ -89,6 +102,40 @@
                 tools:text="Manchester United" />
 
         </LinearLayout>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="26dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_match_card_score"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingTop="3dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="6dp"
+            app:constraint_referenced_ids="home_score, away_score"
+            app:flow_verticalGap="1dp"
+            app:layout_constraintBottom_toBottomOf="@id/team_names"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/team_names" />
+
+        <TextView
+            android:id="@+id/home_score"
+            style="@style/LeagueUI.TeamDetail.CardTeam.Score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="top|center_horizontal"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/away_score"
+            style="@style/LeagueUI.TeamDetail.CardTeam.Score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center_horizontal"
+            android:text="0" />
 
         <ImageView
             android:id="@+id/home_corner"

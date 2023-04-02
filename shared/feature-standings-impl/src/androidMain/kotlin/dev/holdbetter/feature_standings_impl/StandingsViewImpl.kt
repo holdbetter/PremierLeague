@@ -7,6 +7,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.holdbetter.assets.assetsColor
 import dev.holdbetter.assets.assetsDrawable
@@ -41,7 +42,9 @@ internal class StandingsViewImpl(
         favoritesApi = databaseApi.favoritesApi(),
         favoriteDrawable = favoriteDrawable,
         onItemClickAction = ::teamOnStandingClick
-    )
+    ).apply {
+        stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
 
     private val loaderAnimator = ValueAnimator.ofFloat(1f, 0.2f).apply {
         interpolator = AccelerateDecelerateInterpolator()

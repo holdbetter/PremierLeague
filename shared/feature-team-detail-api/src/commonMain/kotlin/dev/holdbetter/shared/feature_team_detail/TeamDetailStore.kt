@@ -3,12 +3,14 @@ package dev.holdbetter.shared.feature_team_detail
 import dev.holdbetter.coreMvi.Store
 import dev.holdbetter.shared.feature_team_detail.TeamDetailStore.Intent
 import dev.holdbetter.shared.feature_team_detail.TeamDetailStore.State
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 
 interface TeamDetailStore : Store<Intent, State> {
 
     sealed interface Intent {
         // TODO: Compare
+        data class MatchCardUpdate(val date: LocalDate) : Intent
         object ToggleFavorite : Intent
         object Reload : Intent
         object RunTwitterRedirect : Intent
@@ -27,7 +29,10 @@ interface TeamDetailStore : Store<Intent, State> {
                 val team: Team,
                 val allMatches: List<Match>,
                 val pastResultsByMonth: Map<Month, MonthResult>,
-                val isTeamFavorite: Boolean
+                val isTeamFavorite: Boolean,
+                val matchCard: Match,
+                val nextMatch: Match,
+                val calendar: List<DateHolder>
             ) : Data
 
             data class Error(

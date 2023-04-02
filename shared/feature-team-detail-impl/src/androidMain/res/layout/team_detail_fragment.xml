@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     tools:context="TeamDetailViewImpl">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:clipChildren="false"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.Group
@@ -25,6 +27,20 @@
             app:constraint_referenced_ids="team_logo, team_title, team_twitter, team_favorite, team_rank" />
 
         <include layout="@layout/match_header" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_barrier"
+            tools:listitem="@layout/calendar_item" />
 
         <include layout="@layout/match_card" />
 

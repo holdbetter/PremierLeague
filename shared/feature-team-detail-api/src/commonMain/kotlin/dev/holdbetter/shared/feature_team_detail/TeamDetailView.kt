@@ -3,6 +3,7 @@ package dev.holdbetter.shared.feature_team_detail
 import dev.holdbetter.coreMvi.MviView
 import dev.holdbetter.shared.feature_team_detail.TeamDetailView.Event
 import dev.holdbetter.shared.feature_team_detail.TeamDetailView.Model
+import kotlinx.datetime.LocalDate
 
 interface TeamDetailView : MviView<Model, Event> {
 
@@ -19,5 +20,6 @@ interface TeamDetailView : MviView<Model, Event> {
         object TwitterButtonClicked : Event
         object FavoritesClicked : Event
         object NavigationCommit : Event
+        data class DateClicked(val date: LocalDate) : Event
     }
 }

@@ -12,6 +12,7 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.request.FutureTarget
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 suspend fun createPalette(futureBitmap: FutureTarget<Bitmap>): Palette =
@@ -26,7 +27,7 @@ fun Palette.generateTeamColor(context: Context): Int {
         val hsl = floatArrayOf(0f, 0f, 0f)
         ColorUtils.colorToHSL(this, hsl)
         val (hue, sat, lum) = hsl
-        if (lum > .9f || lum < .3f) {
+        if (lum > .9f || lum < .2f) {
             defaultColor
         } else {
             this
@@ -37,6 +38,16 @@ fun Palette.generateTeamColor(context: Context): Int {
     ColorUtils.colorToHSL(dominant(), hsl)
     val (hue, sat, lum) = hsl
     hsl[1] = sat * .85f
+    return ColorUtils.HSLToColor(hsl)
+}
+
+@ColorInt
+fun accentColor(teamColor: Int): Int {
+    val hsl = floatArrayOf(0f, 0f, 0f)
+    ColorUtils.colorToHSL(teamColor, hsl)
+    val (hue, sat, lum) = hsl
+    hsl[1] = min(sat / .85, 1.0).toFloat()
+    hsl[2] = min(lum + .2, .7).toFloat()
     return ColorUtils.HSLToColor(hsl)
 }
 

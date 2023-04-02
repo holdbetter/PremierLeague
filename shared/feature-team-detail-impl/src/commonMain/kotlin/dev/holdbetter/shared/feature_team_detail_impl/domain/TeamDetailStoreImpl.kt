@@ -1,11 +1,14 @@
 package dev.holdbetter.shared.feature_team_detail_impl.domain
 
 import dev.holdbetter.coreMvi.StoreHelper
+import dev.holdbetter.shared.feature_team_detail.DateHolder
+import dev.holdbetter.shared.feature_team_detail.Match
 import dev.holdbetter.shared.feature_team_detail.TeamDetailRepository
 import dev.holdbetter.shared.feature_team_detail.TeamDetailStore
 import dev.holdbetter.shared.feature_team_detail.TeamDetailStore.State
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.datetime.LocalDate
 
 @OptIn(FlowPreview::class)
 internal class TeamDetailStoreImpl(
@@ -15,8 +18,10 @@ internal class TeamDetailStoreImpl(
 
     private sealed interface Effect {
         object LoadingStarted : Effect
-        class LoadingFinished(val teamDetail: State.Data.TeamDetail) : Effect
-        class LoadingError(val throwable: Throwable) : Effect
+        data class LoadingFinished(val teamDetail: State.Data.TeamDetail) : Effect
+        data class LoadingError(val throwable: Throwable) : Effect
+        data class UpdateMatchCard(val match: Match) : Effect
+        data class UpdateCalendar(val calendar: List<DateHolder>) : Effect
         object TwitterNavigation : Effect
         object AddedToFavorites : Effect
         object RemovedFromFavorites : Effect
@@ -57,6 +62,11 @@ internal class TeamDetailStoreImpl(
             is TeamDetailStore.Intent.RunTwitterRedirect -> flowOf(Effect.TwitterNavigation)
             TeamDetailStore.Intent.NavigationCommit -> flowOf(Effect.NavigationCleanState)
             TeamDetailStore.Intent.ToggleFavorite -> toggleFavorites(state.teamId)
+            is TeamDetailStore.Intent.MatchCardUpdate -> userChosenDateChanged(
+                intent.date,
+                (state.data as? State.Data.TeamDetail)?.allMatches,
+                (state.data as? State.Data.TeamDetail)?.calendar
+            )
         }
     }
 
@@ -92,6 +102,16 @@ internal class TeamDetailStoreImpl(
                     isTeamFavorite = false
                 )
             )
+            is Effect.UpdateCalendar -> state.copy(
+                data = (state.data as? State.Data.TeamDetail)?.copy(
+                    calendar = effect.calendar
+                )
+            )
+            is Effect.UpdateMatchCard -> state.copy(
+                data = (state.data as? State.Data.TeamDetail)?.copy(
+                    matchCard = effect.match
+                )
+            )
         }
     }
 
@@ -110,6 +130,36 @@ internal class TeamDetailStoreImpl(
                     Effect.RemovedFromFavorites
                 }
             }
+    }
+
+    private suspend fun userChosenDateChanged(
+        date: LocalDate,
+        matchList: List<Match>?,
+        calendar: List<DateHolder>?
+    ): Flow<Effect> = flow {
+        var isSelected = false
+        if (matchList?.any { it.startDate?.date == date } == true) {
+            calendar?.map {
+                if (it.date == date) {
+                    isSelected = !it.isSelected
+                    it.copy(isSelected = isSelected)
+                } else {
+                    it.copy(isSelected = false)
+                }
+            }?.also {
+                emit(Effect.UpdateCalendar(it))
+            }
+        } else {
+            return@flow
+        }
+
+        if (isSelected) {
+            matchList.firstOrNull { it.startDate?.date == date }
+                ?.also { emit(Effect.UpdateMatchCard(it)) }
+        } else {
+            val match = matchList.let(repository::findNearMatch)
+            emit(Effect.UpdateMatchCard(match))
+        }
     }
 
     private fun withLoading(block: suspend () -> Flow<Effect>): Flow<Effect> = flow {

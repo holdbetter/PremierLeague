@@ -1,11 +1,9 @@
 package dev.holdbetter.shared.feature_team_detail_impl.data
 
 import dev.holdbetter.common.Status
+import dev.holdbetter.common.util.isRunning
 import dev.holdbetter.core_network.model.TeamId
-import dev.holdbetter.shared.feature_team_detail.Match
-import dev.holdbetter.shared.feature_team_detail.MonthResult
-import dev.holdbetter.shared.feature_team_detail.TeamDetailRepository
-import dev.holdbetter.shared.feature_team_detail.TeamDetailStore
+import dev.holdbetter.shared.feature_team_detail.*
 import dev.holdbetter.shared.feature_team_detail_impl.domain.Mapper
 
 internal class TeamDetailRepositoryImpl(
@@ -31,11 +29,20 @@ internal class TeamDetailRepositoryImpl(
                 )
             }
 
+        val calendar = initCalendar().run {
+            val matchDates = allMatches.map { it.startDate?.date }
+            map { if (matchDates.contains(it.date)) it.copy(isColored = true) else it }
+        }
+
+        val nearMatch = findNearMatch(allMatches)
         return TeamDetailStore.State.Data.TeamDetail(
-            team,
-            allMatches,
-            pastMatchesByMonth,
-            teamDetailDataSource.isTeamFavorite(teamId)
+            team = team,
+            allMatches = allMatches,
+            pastResultsByMonth = pastMatchesByMonth,
+            isTeamFavorite = teamDetailDataSource.isTeamFavorite(teamId),
+            matchCard = nearMatch,
+            nextMatch = nearMatch,
+            calendar = calendar
         )
     }
 
@@ -64,5 +71,14 @@ internal class TeamDetailRepositoryImpl(
         }
 
         return Triple(won, lost, draw)
+    }
+
+    override fun findNearMatch(matches: List<Match>): Match {
+        val sortedMatches = matches.sortedBy(Match::startDate)
+        return sortedMatches.firstOrNull { match ->
+            match.statusId.isRunning ||
+                    match.statusId == Status.NOT_STARTED.id
+        }
+            ?: sortedMatches.last()
     }
 }

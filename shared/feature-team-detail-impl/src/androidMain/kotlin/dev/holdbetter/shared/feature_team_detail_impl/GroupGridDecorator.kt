@@ -102,7 +102,6 @@ internal class GroupGridDecorator(
         val position = parent.getChildAdapterPosition(view)
         val spanIndex = spanLookup.getSpanIndex(position, spanCount)
 
-
         val headerTextMargin = ceil(headerTextPaint.textSize + headerTextMarginBottom).toInt()
         if (position < spanCount) {
             val spanGroupIndex = spanLookup.getSpanGroupIndex(position, spanCount)
