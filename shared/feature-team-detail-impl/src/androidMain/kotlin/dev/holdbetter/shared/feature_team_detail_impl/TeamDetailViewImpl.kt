@@ -15,6 +15,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.doOnLayout
 import androidx.palette.graphics.Palette
+import androidx.recyclerview.widget.LinearLayoutManager
 import dev.holdbetter.assets.*
 import dev.holdbetter.common.Status
 import dev.holdbetter.common.util.isRunning
@@ -192,25 +193,35 @@ internal class TeamDetailViewImpl(
         itemDefaultTextColor: Int
     ) {
         val adapter = rootBinding.calendar.adapter as? DateAdapter
+        val layoutManager = rootBinding.calendar.layoutManager as LinearLayoutManager
         yearDecorator.setBackgroundColor(teamColor)
         adapter?.let {
             val oldListEmpty = adapter.currentList.isEmpty()
 
+            val offset = if (oldListEmpty) {
+                (calendar.count() * (DateAdapter.POSITION_MULTIPLIER / 2))
+            } else {
+                val itemPosition = layoutManager.findFirstVisibleItemPosition()
+                val realPosition = itemPosition % adapter.currentList.count()
+                itemPosition - realPosition
+            }
+
+            val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+            val nowPosition = calendar.indexOfFirst { it.date == now }
+            val resultPosition = if (nowPosition != -1) {
+                nowPosition + offset
+            } else {
+                offset
+            }
+
             adapter.submitData(
                 calendar,
+                offset,
                 accentColor(teamColor),
                 itemDefaultTextColor
             )
 
             rootBinding.calendar.invalidateItemDecorations()
-
-            val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-            val nowPosition = adapter.currentList.indexOfFirst { it.date == now }
-            val resultPosition = if (nowPosition != -1) {
-                nowPosition + (adapter.itemCount / (DateAdapter.POSITION_MULTIPLIER / 2))
-            } else {
-                (adapter.itemCount / (DateAdapter.POSITION_MULTIPLIER / 2))
-            }
 
             if (oldListEmpty) {
                 rootBinding.calendar.scrollToPosition(resultPosition)
