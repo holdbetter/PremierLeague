@@ -10,6 +10,7 @@ import dev.holdbetter.interactor.DatabaseGateway
 import dev.holdbetter.interactor.LeagueDataSource
 import dev.holdbetter.interactor.NetworkGateway
 import dev.holdbetter.isLeapYear
+import io.ktor.utils.io.*
 import kotlinx.datetime.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -70,11 +71,16 @@ internal class LeagueDataSourceImpl(
         leagueParameter: League,
         countryParameter: Country
     ) {
-        val league = network.getLeague(leagueParameter, countryParameter)
-        if (!database.hasCache()) {
-            database.createLeague(league)
-        } else {
-            database.updateLeague(league)
+        try {
+            val league = network.getLeague(leagueParameter, countryParameter)
+            if (!database.hasCache()) {
+                database.createLeague(league)
+            } else {
+                database.updateLeague(league)
+            }
+        } catch (e: Exception) {
+            println("On league createOrUpdate exception")
+            e.printStack()
         }
     }
 
