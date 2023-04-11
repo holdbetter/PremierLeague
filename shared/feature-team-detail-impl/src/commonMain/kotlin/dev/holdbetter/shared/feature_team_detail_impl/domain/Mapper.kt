@@ -53,7 +53,8 @@ object Mapper {
 
 fun TeamDetailView.Event.toIntent() =
     when (this) {
-        TeamDetailView.Event.Reload -> TeamDetailStore.Intent.Reload
+        TeamDetailView.Event.Startup -> TeamDetailStore.Intent.Startup
+        TeamDetailView.Event.Refresh -> TeamDetailStore.Intent.Refresh
         TeamDetailView.Event.TwitterButtonClicked -> TeamDetailStore.Intent.RunTwitterRedirect
         TeamDetailView.Event.NavigationCommit -> TeamDetailStore.Intent.NavigationCommit
         TeamDetailView.Event.FavoritesClicked -> TeamDetailStore.Intent.ToggleFavorite
@@ -62,6 +63,7 @@ fun TeamDetailView.Event.toIntent() =
 
 fun TeamDetailStore.State.toModel() = TeamDetailView.Model(
     isLoading = isLoading,
+    isRefreshing = isRefreshing,
     isRefreshEnabled = isRefreshEnabled,
     isError = data != null && data is Throwable,
     teamWithMatches = data as? TeamDetailStore.State.Data.TeamDetail,

@@ -1,6 +1,7 @@
 package dev.holdbetter.shared.core_navigation
 
 import dev.holdbetter.shared.core_navigation.Destination.TeamDetail.Arguments.TEAM_ID
+import dev.holdbetter.shared.core_navigation.Destination.TeamDetail.Arguments.TEAM_IMAGE
 
 // TODO: Test
 sealed interface Destination {
@@ -18,9 +19,10 @@ sealed interface Destination {
 
         object Arguments {
             const val TEAM_ID = "team_id"
+            const val TEAM_IMAGE = "team_image"
         }
 
-        override val argumentNames: Array<String> = arrayOf(TEAM_ID)
+        override val argumentNames: Array<String> = arrayOf(TEAM_ID, TEAM_IMAGE)
         override val destination: String = destination(Endpoint.TeamDetail)
     }
 

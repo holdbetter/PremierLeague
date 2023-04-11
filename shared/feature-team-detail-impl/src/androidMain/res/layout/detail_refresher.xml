@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.FrameLayout"
+    tools:visibility="visible">
+
+    <ProgressBar
+        android:id="@+id/refresh_loader"
+        android:layout_width="@dimen/refresher"
+        android:layout_height="@dimen/refresher"
+        android:layout_gravity="center_horizontal"
+        android:indeterminateDrawable="@drawable/refresh_material_anim"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"
+        tools:indeterminateTint="@color/black"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/refresh_puller"
+        android:layout_width="@dimen/refresher"
+        android:layout_height="@dimen/refresher"
+        android:layout_gravity="center_horizontal"
+        android:alpha=".8"
+        android:contentDescription="@string/pull_to_update_desc"
+        android:padding="2dp"
+        android:src="@drawable/double_arrow_down"
+        android:visibility="gone"
+        app:tint="@color/white"
+        tools:tint="@color/black"
+        tools:visibility="visible" />
+
+</merge>

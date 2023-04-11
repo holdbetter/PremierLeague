@@ -2,6 +2,7 @@ package dev.holdbetter.shared.feature_team_detail_impl
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import java.security.InvalidParameterException
 
@@ -11,6 +12,7 @@ internal class GroupRecyclerView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
+    override fun onTouchEvent(e: MotionEvent?) = false
 
     override fun setLayoutManager(layout: LayoutManager?) {
         if (!isInEditMode) {

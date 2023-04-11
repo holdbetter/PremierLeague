@@ -5,49 +5,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
+    android:fillViewport="true"
     tools:context="TeamDetailViewImpl">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:clipChildren="false"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:clipChildren="false">
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/header"
-            android:layout_width="wrap_content"
+        <include
+            layout="@layout/detail_refresher"
+            tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="team_logo, team_title, team_twitter, team_favorite, team_rank" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/header_barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="team_logo, team_title, team_twitter, team_favorite, team_rank" />
-
-        <include layout="@layout/match_header" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/calendar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:background="?leagueBackground"
             android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_barrier"
-            tools:listitem="@layout/calendar_item" />
+            android:visibility="invisible"
+            tools:visibility="visible">
 
-        <include layout="@layout/match_card" />
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/header_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="team_logo, team_title, team_twitter, team_favorite, team_rank" />
 
-        <include layout="@layout/stats_block" />
+            <include layout="@layout/match_header" />
 
-        <include layout="@layout/last_matches" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/calendar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header_barrier"
+                tools:listitem="@layout/calendar_item" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <include layout="@layout/match_card" />
+
+            <include layout="@layout/stats_block" />
+
+            <include layout="@layout/last_matches" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            layout="@layout/detail_loader"
+            tools:visibility="invisible" />
+
+    </FrameLayout>
 
 </androidx.core.widget.NestedScrollView>

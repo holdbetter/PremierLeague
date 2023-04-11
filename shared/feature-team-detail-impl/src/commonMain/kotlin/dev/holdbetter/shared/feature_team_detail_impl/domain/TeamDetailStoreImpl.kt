@@ -18,6 +18,7 @@ internal class TeamDetailStoreImpl(
 
     private sealed interface Effect {
         object LoadingStarted : Effect
+        object Refreshing : Effect
         data class LoadingFinished(val teamDetail: State.Data.TeamDetail) : Effect
         data class LoadingError(val throwable: Throwable) : Effect
         data class UpdateMatchCard(val match: Match) : Effect
@@ -40,7 +41,7 @@ internal class TeamDetailStoreImpl(
 
     init {
         scope.launch {
-            accept(TeamDetailStore.Intent.Reload)
+            accept(TeamDetailStore.Intent.Startup)
         }
     }
 
@@ -56,9 +57,8 @@ internal class TeamDetailStoreImpl(
 
     private suspend fun handleIntent(state: State, intent: TeamDetailStore.Intent): Flow<Effect> {
         return when (intent) {
-            is TeamDetailStore.Intent.Reload -> withLoading {
-                reload(state.teamId)
-            }
+            TeamDetailStore.Intent.Startup -> startup(state.teamId)
+            TeamDetailStore.Intent.Refresh -> refresh(state.teamId)
             is TeamDetailStore.Intent.RunTwitterRedirect -> flowOf(Effect.TwitterNavigation)
             TeamDetailStore.Intent.NavigationCommit -> flowOf(Effect.NavigationCleanState)
             TeamDetailStore.Intent.ToggleFavorite -> toggleFavorites(state.teamId)
@@ -74,13 +74,20 @@ internal class TeamDetailStoreImpl(
         return when (effect) {
             is Effect.LoadingError -> state.copy(
                 isLoading = false,
+                isRefreshing = false,
                 isRefreshEnabled = true,
                 data = State.Data.Error(effect.throwable)
             )
             is Effect.LoadingFinished -> state.copy(
                 isLoading = false,
+                isRefreshing = false,
                 isRefreshEnabled = true,
                 data = effect.teamDetail
+            )
+            Effect.Refreshing -> state.copy(
+                isRefreshing = true,
+                isRefreshEnabled = false,
+                data = null
             )
             Effect.LoadingStarted -> state.copy(
                 isLoading = true,
@@ -115,10 +122,18 @@ internal class TeamDetailStoreImpl(
         }
     }
 
-    private suspend fun reload(teamId: Long): Flow<Effect> {
+    private suspend fun load(teamId: Long): Flow<Effect> {
         return flowOf(repository.getTeamDetail(teamId))
             .map { Effect.LoadingFinished(it) }
             .onCompletion { reason -> reason?.let(Effect::LoadingError) }
+    }
+
+    private suspend fun refresh(teamId: Long): Flow<Effect> {
+        return flow {
+            emit(Effect.Refreshing)
+            delay(200)
+            emitAll(load(teamId))
+        }
     }
 
     private suspend fun toggleFavorites(teamId: Long): Flow<Effect> {
@@ -162,8 +177,8 @@ internal class TeamDetailStoreImpl(
         }
     }
 
-    private fun withLoading(block: suspend () -> Flow<Effect>): Flow<Effect> = flow {
+    private fun startup(teamId: Long): Flow<Effect> = flow {
         emit(Effect.LoadingStarted)
-        emitAll(block())
+        emitAll(load(teamId))
     }
 }

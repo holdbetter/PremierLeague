@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="team_logo_content_desc">Team Logo</string>
+    <string name="loading_team_desc">Team Being Loaded</string>
+    <string name="pull_to_update_desc">Puller</string>
     <string name="compare_content_desc">Compare</string>
     <string name="team_home_image_content_desc">Team Home Image</string>
     <string name="result_image_indicator_content_desc">Result Indicator</string>

@@ -98,9 +98,9 @@ internal class StandingsViewImpl(
     }
 
     private fun effect(model: Model) {
-        model.selectedTeamId?.let {
+        model.selectedTeam?.let {
             lifecycleScope.launch { dispatch(Event.NavigationCommit) }
-            router.navigateToTeam(it)
+            router.navigateToTeam(it.id, it.imageUrl)
         }
     }
 

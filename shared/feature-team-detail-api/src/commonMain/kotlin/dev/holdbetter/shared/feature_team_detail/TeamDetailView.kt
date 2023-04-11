@@ -9,6 +9,7 @@ interface TeamDetailView : MviView<Model, Event> {
 
     data class Model(
         val isLoading: Boolean,
+        val isRefreshing: Boolean,
         val isRefreshEnabled: Boolean,
         val isError: Boolean,
         val teamWithMatches: TeamDetailStore.State.Data.TeamDetail?,
@@ -16,7 +17,8 @@ interface TeamDetailView : MviView<Model, Event> {
     )
 
     sealed interface Event {
-        object Reload : Event
+        object Startup : Event
+        object Refresh : Event
         object TwitterButtonClicked : Event
         object FavoritesClicked : Event
         object NavigationCommit : Event

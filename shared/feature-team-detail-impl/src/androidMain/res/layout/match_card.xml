@@ -127,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="top|center_horizontal"
-            android:text="0" />
+            tools:text="0" />
 
         <TextView
             android:id="@+id/away_score"
@@ -135,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="bottom|center_horizontal"
-            android:text="0" />
+            tools:text="0" />
 
         <ImageView
             android:id="@+id/home_corner"
@@ -145,6 +145,7 @@
             android:src="@drawable/triangle"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:tint="@android:color/transparent"
             tools:tint="#2A65D8" />
 
         <ImageView
@@ -154,6 +155,7 @@
             android:contentDescription="@string/result_image_indicator_content_desc"
             android:rotation="90"
             android:src="@drawable/triangle"
+            app:tint="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:tint="@color/red" />

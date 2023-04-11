@@ -1,6 +1,7 @@
 package dev.holdbetter.feature_standings_impl.domain
 
 import dev.holdbetter.common.TeamRankDTO
+import dev.holdbetter.feature_standings_api.SelectedTeam
 import dev.holdbetter.feature_standings_api.StandingsStore
 import dev.holdbetter.feature_standings_api.StandingsView
 
@@ -40,5 +41,10 @@ internal fun StandingsStore.State.toModel() = StandingsView.Model(
     isRefreshEnabled = isRefreshEnabled,
     isError = data != null && data is Throwable,
     standings = data as? StandingsStore.State.Data.Standings,
-    selectedTeamId = selectedTeam?.id?.toLong()
+    selectedTeam = selectedTeam?.run {
+        SelectedTeam(
+            id.toLong(),
+            image
+        )
+    }
 )

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import dev.holdbetter.shared.core_navigation.Destination.Standings.route
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 internal class RouterImpl(
     private val controller: NavigationController
@@ -27,8 +29,9 @@ internal class RouterImpl(
         controller.navigate(Destination.Standings.route())
     }
 
-    override fun navigateToTeam(teamId: Long) {
-        controller.navigate(Destination.TeamDetail.route(teamId))
+    override fun navigateToTeam(teamId: Long, teamImageUrl: String) {
+        val encodedUrl = URLEncoder.encode(teamImageUrl, StandardCharsets.UTF_8.toString())
+        controller.navigate(Destination.TeamDetail.route(teamId, encodedUrl))
     }
 
     override fun back() {

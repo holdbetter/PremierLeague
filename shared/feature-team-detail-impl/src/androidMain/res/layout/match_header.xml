@@ -9,7 +9,7 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/team_logo_content_desc"
         android:paddingHorizontal="2dp"
         app:layout_constraintLeft_toLeftOf="parent"

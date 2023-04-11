@@ -15,6 +15,8 @@ import dev.holdbetter.shared.core_navigation.Destination
 import dev.holdbetter.shared.core_navigation.di.NavigationModule
 import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailModule
 import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailRepositoryModule
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 import kotlin.properties.Delegates
 
 class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
@@ -22,15 +24,19 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
     companion object {
         val tag = TeamDetailFragment::class.qualifiedName
 
-        fun createFragment(teamId: Long): TeamDetailFragment {
+        fun createFragment(teamId: Long, teamImage: String): TeamDetailFragment {
             return TeamDetailFragment().apply {
-                arguments = bundleOf(Destination.TeamDetail.Arguments.TEAM_ID to teamId)
+                arguments = bundleOf(
+                    Destination.TeamDetail.Arguments.TEAM_ID to teamId,
+                    Destination.TeamDetail.Arguments.TEAM_IMAGE to teamImage,
+                )
             }
         }
     }
 
     private lateinit var module: TeamDetailModule
     private lateinit var component: TeamDetailComponent
+    private lateinit var teamImage: String
     private var teamId by Delegates.notNull<Long>()
 
     private val leagueBackground by lazy {
@@ -43,6 +49,10 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
         teamId = requireNotNull(
             arguments?.getString(Destination.TeamDetail.Arguments.TEAM_ID)?.toLong()
         )
+
+        teamImage = requireNotNull(
+            arguments?.getString(Destination.TeamDetail.Arguments.TEAM_IMAGE)
+        ).run { URLDecoder.decode(this, StandardCharsets.UTF_8.toString()) }
 
         module = TeamDetailModule(
             teamId = teamId,
@@ -62,9 +72,11 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
         super.onViewCreated(view, savedInstanceState)
         val activity = requireActivity()
         bindViewColors(activity)
+
         component.onViewCreated(
             TeamDetailViewImpl(
                 teamId = teamId,
+                teamImageUrl = teamImage,
                 lifecycleScope = lifecycleScope,
                 view = view,
                 isDarkMode = activity.isDarkMode(),

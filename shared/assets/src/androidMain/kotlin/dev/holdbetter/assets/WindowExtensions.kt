@@ -23,8 +23,6 @@ fun Window.updateColors(
     }
 
     if (navigation == null) {
-        addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-
         windowInsetsController.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 
@@ -39,4 +37,8 @@ fun Window.updateColors(
 
     status?.let { statusBarColor = status }
     navigation?.let { navigationBarColor = navigation }
+
+    decorView.setOnApplyWindowInsetsListener { view, windowInsets ->
+        view.onApplyWindowInsets(windowInsets)
+    }
 }

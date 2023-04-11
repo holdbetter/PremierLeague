@@ -12,7 +12,8 @@ interface TeamDetailStore : Store<Intent, State> {
         // TODO: Compare
         data class MatchCardUpdate(val date: LocalDate) : Intent
         object ToggleFavorite : Intent
-        object Reload : Intent
+        object Startup : Intent
+        object Refresh : Intent
         object RunTwitterRedirect : Intent
         object NavigationCommit : Intent
     }
@@ -20,6 +21,7 @@ interface TeamDetailStore : Store<Intent, State> {
     data class State(
         val teamId: Long,
         val isLoading: Boolean = false,
+        val isRefreshing: Boolean = false,
         val isRefreshEnabled: Boolean = false,
         val data: Data? = null,
         val twitterRedirect: Boolean = false

@@ -10,6 +10,11 @@
     <dimen name="result_month_header_value_height">17dp</dimen>
 
     <dimen name="match_card_radius">12dp</dimen>
+
+    <dimen name="refresher">20dp</dimen>
+    <dimen name="refresh_margin_bottom">6dp</dimen>
+    <dimen name="pull_offset">25dp</dimen>
+
     <!-- text uses dp-->
     <dimen name="result_month_header_text_size">14dp</dimen>
     <dimen name="result_month_header_value_text_size">12dp</dimen>
