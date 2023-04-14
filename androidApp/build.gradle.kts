@@ -36,9 +36,9 @@ android {
 dependencies {
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.constraintLayout)
-    implementation(Deps.AndroidX.material)
     implementation(Deps.AndroidX.coreKtx)
     implementation(Deps.AndroidX.activityKtx)
+    implementation(Deps.AndroidX.splash)
     implementation(Deps.AndroidX.fragmentKtx)
     implementation(Deps.AndroidX.navigationKtx)
     implementation(Deps.AndroidX.navigationRuntimeKtx)

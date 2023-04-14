@@ -9,8 +9,9 @@
         android:allowBackup="false"
         android:label="@string/appName"
         android:supportsRtl="false"
+        android:icon="@mipmap/ic_launcher"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:theme="@style/LeagueTheme">
+        android:theme="@style/LeagueTheme.Overlay.Splash">
 
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts" />
 
