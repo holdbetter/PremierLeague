@@ -34,7 +34,7 @@ internal class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val splashAnimationDelay = lifecycleScope.async(Dispatchers.IO) {
-            delay(700)
+            delay(800)
         }
 
         splash.setKeepOnScreenCondition { !splashAnimationDelay.isCompleted }
