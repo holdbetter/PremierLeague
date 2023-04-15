@@ -56,11 +56,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:paddingHorizontal="9dp"
-        android:paddingTop="2.5dp"
+        android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:text="@string/team_twitter"
         android:textSize="11sp"
         android:textColor="@color/white"
+        tools:background="@color/purple"
         app:layout_constraintLeft_toLeftOf="@id/team_title"
         app:layout_constraintTop_toBottomOf="@id/team_title" />
 
@@ -78,8 +79,8 @@
 
         <ImageView
             android:id="@+id/team_star"
-            android:layout_width="13dp"
-            android:layout_height="13dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:layout_gravity="center"
             android:contentDescription="@string/team_favorite_content_desc"
             android:src="@drawable/star_outlined"
