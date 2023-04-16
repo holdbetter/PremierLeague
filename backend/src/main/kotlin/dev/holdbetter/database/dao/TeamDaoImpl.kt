@@ -1,7 +1,11 @@
 package dev.holdbetter.database.dao
 
+import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.common.TeamRankDTO
-import dev.holdbetter.database.Mapper.toModel
+import dev.holdbetter.common.util.isGameOver
+import dev.holdbetter.common.util.isRunning
+import dev.holdbetter.database.Mapper.constructTeamMatches
+import dev.holdbetter.database.Mapper.toStandings
 import dev.holdbetter.database.Mapper.toTeamWithMatches
 import dev.holdbetter.database.entity.Match
 import dev.holdbetter.database.entity.Team
@@ -9,6 +13,7 @@ import dev.holdbetter.database.query
 import dev.holdbetter.database.table.Standings
 import kotlinx.coroutines.CoroutineDispatcher
 import org.jetbrains.exposed.dao.load
+import org.jetbrains.exposed.dao.with
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.statements.BaseBatchInsertStatement
 
@@ -17,10 +22,14 @@ internal class TeamDaoImpl(
     private val database: Database
 ) : TeamDao {
 
-    override suspend fun getTeams(): List<TeamRankDTO> = database.query(dispatcher) {
+    override suspend fun getStandings(): List<TeamRankDTO> = database.query(dispatcher) {
         Team.all()
+            .with(Team::homeMatches, Team::awayMatches)
             .orderBy(Standings.rank to SortOrder.ASC)
-            .map(::toModel)
+            .map {
+                val matches = it.constructTeamMatches()
+                toStandings(it, lastFiveMatches(matches), liveMatch(matches))
+            }
     }
 
     override suspend fun hasData() = database.query(dispatcher) {
@@ -55,6 +64,13 @@ internal class TeamDaoImpl(
             ) { statementMapper(it) }
         }
     }
+
+    private fun lastFiveMatches(matches: List<MatchdayDTO>) =
+        matches.filter { it.statusId.isGameOver }
+            .sortedBy { it.startDate }
+            .takeLast(5)
+
+    private fun liveMatch(matches: List<MatchdayDTO>) = matches.firstOrNull { it.statusId.isRunning }
 
     private fun BaseBatchInsertStatement.statementMapper(teamRank: TeamRankDTO) {
         this[Standings.id] = teamRank.id

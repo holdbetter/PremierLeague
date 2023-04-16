@@ -24,7 +24,9 @@ internal object Mapper {
             draws = draws,
             goalsFor = goalsFor,
             goalsAgainst = goalsAgainst,
-            goalsDiff = goalsDiff
+            goalsDiff = goalsDiff,
+            lastResults = lastFiveResults,
+            liveMatch = liveMatch
         )
     }
 }

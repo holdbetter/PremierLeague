@@ -1,0 +1,38 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="5dp"
+            android:height="5dp"
+            android:viewportWidth="5"
+            android:viewportHeight="5">
+            <path
+                android:name="path_1"
+                android:fillColor="#000000"
+                android:pathData="M 2.5 1 C 2.102 1 1.721 1.158 1.439 1.439 C 1.158 1.721 1 2.102 1 2.5 C 1 2.898 1.158 3.279 1.439 3.561 C 1.721 3.842 2.102 4 2.5 4 C 2.898 4 3.279 3.842 3.561 3.561 C 3.842 3.279 4 2.898 4 2.5 C 4 2.102 3.842 1.721 3.561 1.439 C 3.279 1.158 2.898 1 2.5 1 Z"
+                android:strokeWidth="1" />
+        </vector>
+    </aapt:attr>
+    <target android:name="path_1">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="900"
+                    android:interpolator="@android:anim/linear_interpolator"
+                    android:propertyName="pathData"
+                    android:valueFrom="M 2.5 1 C 2.102 1 1.721 1.158 1.439 1.439 C 1.158 1.721 1 2.102 1 2.5 C 1 2.898 1.158 3.279 1.439 3.561 C 1.721 3.842 2.102 4 2.5 4 C 2.898 4 3.279 3.842 3.561 3.561 C 3.842 3.279 4 2.898 4 2.5 C 4 2.102 3.842 1.721 3.561 1.439 C 3.279 1.158 2.898 1 2.5 1 Z"
+                    android:valueTo="M 2.5 0 C 1.837 0 1.201 0.264 0.732 0.732 C 0.264 1.201 0 1.837 0 2.5 C 0 3.163 0.264 3.799 0.732 4.268 C 1.201 4.736 1.837 5 2.5 5 C 3.163 5 3.799 4.736 4.268 4.268 C 4.736 3.799 5 3.163 5 2.5 C 5 1.837 4.736 1.201 4.268 0.732 C 3.799 0.264 3.163 0 2.5 0 Z"
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="900"
+                    android:interpolator="@android:anim/linear_interpolator"
+                    android:propertyName="pathData"
+                    android:startOffset="900"
+                    android:valueFrom="M 2.5 0 C 1.837 0 1.201 0.264 0.732 0.732 C 0.264 1.201 0 1.837 0 2.5 C 0 3.163 0.264 3.799 0.732 4.268 C 1.201 4.736 1.837 5 2.5 5 C 3.163 5 3.799 4.736 4.268 4.268 C 4.736 3.799 5 3.163 5 2.5 C 5 1.837 4.736 1.201 4.268 0.732 C 3.799 0.264 3.163 0 2.5 0 Z"
+                    android:valueTo="M 2.5 1 C 2.102 1 1.721 1.158 1.439 1.439 C 1.158 1.721 1 2.102 1 2.5 C 1 2.898 1.158 3.279 1.439 3.561 C 1.721 3.842 2.102 4 2.5 4 C 2.898 4 3.279 3.842 3.561 3.561 C 3.842 3.279 4 2.898 4 2.5 C 4 2.102 3.842 1.721 3.561 1.439 C 3.279 1.158 2.898 1 2.5 1 Z"
+                    android:valueType="pathType" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

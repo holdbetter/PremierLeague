@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="15dp"
+    android:layout_height="1.5dp"
+    android:src="@drawable/shape_last_result"
+    android:weightSum="1"
+    tools:ignore="ContentDescription"
+    tools:tint="@color/black" />

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="last_result_win">#2DB421</color>
+    <color name="last_result_lose">#D22222</color>
+    <color name="last_result_draw">#6C6C6C</color>
+
+    <color name="live_win">#0EB848</color>
+    <color name="live_lose">#EA4E4E</color>
+    <color name="live_draw">#FFCE20</color>
+</resources>

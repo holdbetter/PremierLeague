@@ -32,7 +32,7 @@ internal class DatabaseGatewayImpl(
     private val dayLimitDao: DayLimitDao = DayLimitDaoImpl(dispatcher, database)
     private val monthLimitDao: MonthLimitDao = MonthLimitDaoImpl(dispatcher, database)
 
-    override suspend fun getStandings(): List<TeamRankDTO> = teamDao.getTeams()
+    override suspend fun getStandings(): List<TeamRankDTO> = teamDao.getStandings()
 
     override suspend fun getTeamWithMatches(teamId: String): TeamWithMatchesDTO? =
         teamDao.getTeamWithMatches(teamId)

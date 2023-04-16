@@ -5,7 +5,7 @@ import dev.holdbetter.common.TeamWithMatchesDTO
 
 internal interface TeamDao : ExposedDao {
 
-    suspend fun getTeams(): List<TeamRankDTO>
+    suspend fun getStandings(): List<TeamRankDTO>
     suspend fun getTeamWithMatches(teamId: String): TeamWithMatchesDTO?
 
     suspend fun insertTeams(teams: List<TeamRankDTO>)

@@ -1,5 +1,7 @@
 package dev.holdbetter.database
 
+import dev.holdbetter.common.GameResult
+import dev.holdbetter.common.GameResult.*
 import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.common.TeamWithMatchesDTO
@@ -57,6 +59,34 @@ internal object Mapper {
             alterImageId = team.alterImageId,
             twitter = team.twitter
         )
+    }
+
+    fun toStandings(
+        team: Team,
+        lastFiveMatches: List<MatchdayDTO>,
+        liveMatch: MatchdayDTO?
+    ): TeamRankDTO {
+        return with(team) {
+            val id = teamId.value
+            TeamRankDTO(
+                id = id,
+                rank = rank,
+                name = name,
+                image = imageResolver(alterImageId, image),
+                gamePlayed = gamePlayed,
+                points = points,
+                wins = wins,
+                loses = loses,
+                draws = draws,
+                goalsFor = goalsFor,
+                goalsAgainst = goalsAgainst,
+                goalsDiff = goalsDiff,
+                alterImageId = alterImageId,
+                twitter = twitter,
+                lastFiveResults = lastFiveMatches.map { it.toResult(id) },
+                liveMatch = liveMatch
+            )
+        }
     }
 
     fun toModel(dayLimitEntity: DayLimitEntity): DayLimit {
@@ -129,8 +159,21 @@ internal object Mapper {
                 alterImageId = alterImageId,
                 twitter = twitter
             ),
-            teamMatches = homeMatches.map(::toModel) + awayMatches.map(::toModel)
+            teamMatches = constructTeamMatches()
         )
+    }
+
+    fun Team.constructTeamMatches() = homeMatches.map(::toModel) + awayMatches.map(::toModel)
+
+    private fun MatchdayDTO.toResult(teamId: String): GameResult {
+        val isHomeMatch = teamHomeId == teamId
+        val home = resultHome.toLong()
+        val away = resultAway.toLong()
+        return when {
+            home > away -> if (isHomeMatch) WIN else LOSE
+            home < away -> if (isHomeMatch) LOSE else WIN
+            else -> DRAW
+        }
     }
 
     private fun imageResolver(alterImageId: String?, image: String) =

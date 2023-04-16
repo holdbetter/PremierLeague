@@ -32,6 +32,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(Deps.AndroidX.appcompat)
+                implementation(Deps.AndroidX.recycler)
                 implementation(Deps.AndroidX.glide)
                 implementation(Deps.AndroidX.palette)
             }

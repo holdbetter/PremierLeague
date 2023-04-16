@@ -11,13 +11,13 @@
 
     <TextView
         android:id="@+id/rank"
-        android:layout_width="44dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
         android:includeFontPadding="false"
         android:gravity="center"
         android:textAlignment="center"
-        android:paddingBottom="1dp"
+        android:paddingBottom="4dp"
         android:drawablePadding="4dp"
         android:textAppearance="@style/LeagueUI.Standings.RankAppearance"
         app:drawableTint="@color/yellow"
@@ -26,53 +26,89 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginVertical="12dp"
-        android:layout_marginStart="1dp"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginVertical="13dp"
+        android:layout_marginStart="3dp"
         android:contentDescription="@string/team_logo_content_desc"
         tools:ignore="MissingConstraints"
         tools:src="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/team"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="13dp"
         android:layout_weight="1"
-        android:paddingEnd="8dp"
-        android:maxLines="1"
-        android:ellipsize="marquee"
-        android:includeFontPadding="false"
-        android:textAppearance="@style/LeagueTextAppearance.Headline3"
-        android:textSize="18sp"
-        tools:text="Manchester United Football" />
-
-    <FrameLayout
-        android:layout_width="18sp"
-        android:layout_height="18sp"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/circle"
-        android:backgroundTint="@color/purple_400">
+        android:layout_marginTop="2dp"
+        android:orientation="vertical"
+        android:paddingEnd="8dp">
 
         <TextView
-            android:id="@+id/matches"
+            android:id="@+id/team"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textAppearance="@style/LeagueTextAppearance.Headline3"
+            android:textSize="17.5sp"
+            tools:text="Manchester United Footballllll" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/last_results"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="0dp"
-            android:maxLength="2"
-            android:maxLines="1"
-            android:textAlignment="center"
-            android:includeFontPadding="false"
-            android:textAppearance="@style/LeagueTextAppearance.Headline3"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            tools:ignore="SmallSp"
-            tools:text="17" />
+            android:layout_marginLeft="0.25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="3dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/last_result_item" />
 
-    </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/playing_status"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="7dp"
+            android:scaleType="center"
+            android:visibility="gone"
+            tools:src="@drawable/anim_live_indicator"
+            tools:visibility="visible" />
+
+        <FrameLayout
+            android:layout_width="18sp"
+            android:layout_height="18sp"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/purple_400">
+
+            <TextView
+                android:id="@+id/matches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="0dp"
+                android:includeFontPadding="false"
+                android:maxLength="2"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textAppearance="@style/LeagueTextAppearance.Headline3"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                tools:ignore="SmallSp"
+                tools:text="17" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/points"

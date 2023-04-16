@@ -17,5 +17,7 @@ data class TeamRankDTO(
     val goalsAgainst: Int,
     val goalsDiff: Int,
     val alterImageId: String?,
-    val twitter: String?
+    val twitter: String?,
+    val lastFiveResults: List<GameResult> = emptyList(),
+    val liveMatch: MatchdayDTO? = null
 )

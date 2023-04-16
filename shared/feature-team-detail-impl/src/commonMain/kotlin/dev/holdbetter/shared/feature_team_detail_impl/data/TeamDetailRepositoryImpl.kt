@@ -1,6 +1,7 @@
 package dev.holdbetter.shared.feature_team_detail_impl.data
 
 import dev.holdbetter.common.Status
+import dev.holdbetter.common.util.isGameOver
 import dev.holdbetter.common.util.isRunning
 import dev.holdbetter.core_network.model.TeamId
 import dev.holdbetter.shared.feature_team_detail.*
@@ -16,7 +17,7 @@ internal class TeamDetailRepositoryImpl(
         val team = Mapper.dtoToState(teamWithMatches.teamRank)
         val allMatches = teamWithMatches.teamMatches.map(Mapper::dtoToState)
 
-        val pastMatchesByMonth = allMatches.filter { it.statusId == Status.FULL_TIME.id }
+        val pastMatchesByMonth = allMatches.filter { it.statusId.isGameOver }
             .sortedByDescending { requireNotNull(it.startDate) }
             .groupBy { requireNotNull(it.startDate).month }
             .mapValues {

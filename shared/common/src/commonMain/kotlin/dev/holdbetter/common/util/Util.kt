@@ -27,3 +27,9 @@ val Int.isRunning
         Status.FIRST_TIME.id, Status.SECOND_TIME.id, Status.HALF_TIME.id -> true
         else -> false
     }
+
+val Int.isGameOver
+    get() = when (this) {
+        Status.FULL_TIME.id -> true
+        else -> false
+    }

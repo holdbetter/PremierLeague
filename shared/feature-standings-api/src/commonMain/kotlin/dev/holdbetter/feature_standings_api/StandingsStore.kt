@@ -1,5 +1,7 @@
 package dev.holdbetter.feature_standings_api
 
+import dev.holdbetter.common.GameResult
+import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.coreMvi.Store
 import dev.holdbetter.feature_standings_api.StandingsStore.Intent
 import dev.holdbetter.feature_standings_api.StandingsStore.State
@@ -36,7 +38,9 @@ interface StandingsStore : Store<Intent, State> {
                     val draws: Int,
                     val goalsFor: Int,
                     val goalsAgainst: Int,
-                    val goalsDiff: Int
+                    val goalsDiff: Int,
+                    val lastResults: List<GameResult>,
+                    val liveMatch: MatchdayDTO?
                 )
             }
 

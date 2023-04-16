@@ -6,7 +6,7 @@
     <color name="leagueTextColor">@color/black</color>
     <color name="leagueTextColorInverse">@color/white</color>
     <color name="leagueTextColorSecondary">@color/black_500</color>
-    <color name="leagueSeparator">@color/purple_100</color>
+    <color name="leagueSeparator">@color/purple_50</color>
 
     <!-- palette -->
     <color name="black">#000000</color>
@@ -19,8 +19,8 @@
     <color name="purple">#3D195B</color>
     <color name="purple_200">#6D4B89</color>
     <color name="purple_400">#8239DF</color>
-    <color name="purple_600">#5B238A</color>
-    <color name="purple_100">#B1A1BE</color>
+    <color name="purple_800">#5B238A</color>
+    <color name="purple_50">#B1A1BE</color>
 
     <color name="acid">#58C63C</color>
     <color name="acid_200">#ABDE9F</color>

@@ -38,6 +38,7 @@ internal class StandingsViewImpl(
 
     private val binding = StandingsFragmentBinding.bind(view)
     private val adapter = StandingsAdapter(
+        context = view.context,
         lifecycleScope = lifecycleScope,
         favoritesApi = databaseApi.favoritesApi(),
         favoriteDrawable = favoriteDrawable,

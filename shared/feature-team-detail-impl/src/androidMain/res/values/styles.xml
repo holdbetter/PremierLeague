@@ -50,7 +50,7 @@
         <item name="android:gravity">end</item>
         <item name="android:foreground">@drawable/text_underline</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:paddingBottom">2dp</item>
         <item name="android:textAppearance">@style/LeagueTextAppearance.Headline2</item>
     </style>

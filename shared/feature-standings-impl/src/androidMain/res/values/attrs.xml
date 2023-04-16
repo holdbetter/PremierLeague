@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="last_result_win" format="color" />
+    <attr name="last_result_lose" format="color" />
+    <attr name="last_result_draw" format="color" />
+
+    <attr name="live_win" format="color" />
+    <attr name="live_lose" format="color" />
+    <attr name="live_draw" format="color" />
+</resources>
