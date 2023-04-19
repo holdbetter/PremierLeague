@@ -34,7 +34,8 @@ interface TeamDetailStore : Store<Intent, State> {
                 val isTeamFavorite: Boolean,
                 val matchCard: Match,
                 val nextMatch: Match,
-                val calendar: List<DateHolder>
+                val calendar: List<DateHolder>,
+                val isCompareAvailable: Boolean
             ) : Data
 
             data class Error(

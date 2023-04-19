@@ -29,7 +29,9 @@ fun Routing.team() = get("/$TEAM") {
     val teamId = teamIdParameter?.toLongOrNull()
 
     if (teamId != null) {
-        val teamWithMatches = database.getTeamWithMatches(teamId.toString())
+        val teamWithMatches = database.getTeamWithMatches(teamId.toString())?.copy(
+            isCompareFeatureAvailable = false
+        )
         if (teamWithMatches == null) {
             call.respond(HttpStatusCode.NotFound)
         } else {

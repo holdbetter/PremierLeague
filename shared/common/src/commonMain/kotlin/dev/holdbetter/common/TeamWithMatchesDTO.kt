@@ -3,7 +3,8 @@ package dev.holdbetter.common
 import kotlinx.serialization.Serializable
 
 @Serializable
-class TeamWithMatchesDTO(
+data class TeamWithMatchesDTO(
     val teamRank: TeamRankDTO,
-    val teamMatches: List<MatchdayDTO>
+    val teamMatches: List<MatchdayDTO>,
+    val isCompareFeatureAvailable: Boolean = false
 )

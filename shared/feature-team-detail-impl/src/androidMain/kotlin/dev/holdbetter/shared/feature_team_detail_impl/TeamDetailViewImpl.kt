@@ -176,7 +176,7 @@ internal class TeamDetailViewImpl(
                 bindCard(it.matchCard, it.nextMatch, teamColor)
                 bindCalendar(it.calendar, teamColor, defaultTextColor)
                 bindHeader(team, it.isTeamFavorite, actionDrawable)
-                bindStats(team, actionDrawable)
+                bindStats(it, actionDrawable)
                 bindMatches(teamColor, it.pastResultsByMonth)
 
                 activateView()
@@ -418,9 +418,14 @@ internal class TeamDetailViewImpl(
         matchesAdapter.submitData(teamColor, matches)
     }
 
-    private fun bindStats(team: Team, actionMiniDrawable: Drawable) {
+    private fun bindStats(
+        teamDetail: TeamDetailStore.State.Data.TeamDetail,
+        actionMiniDrawable: Drawable
+    ) {
+        val team = teamDetail.team
         with(statsBinding) {
             compareBtn.background = actionMiniDrawable
+            compareBtn.isVisible = teamDetail.isCompareAvailable
 
             games.statsName.text = statsNameProvider.gamesName
             games.statsValue.text = team.gamePlayed.toString()

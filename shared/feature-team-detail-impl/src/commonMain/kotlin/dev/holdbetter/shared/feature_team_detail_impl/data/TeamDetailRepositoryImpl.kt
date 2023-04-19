@@ -43,7 +43,8 @@ internal class TeamDetailRepositoryImpl(
             isTeamFavorite = teamDetailDataSource.isTeamFavorite(teamId),
             matchCard = nearMatch,
             nextMatch = nearMatch,
-            calendar = calendar
+            calendar = calendar,
+            isCompareAvailable = teamWithMatches.isCompareFeatureAvailable
         )
     }
 
