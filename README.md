@@ -34,7 +34,7 @@ Also, you can just open `Deps.kt` file, but consider there are some unused const
 
 ### Demonstration and access
 
-[Download apk](https://drive.google.com/file/d/1AKfiUJE2AHi7hqUM2WzLDsO2P_rV8qVO/view?usp=share_link)
+[Download apk](https://drive.google.com/file/d/1ZxLUWLRwY6At1V4MLYt8jVtmsumngnIf/view?usp=share_link)
 
 [Watch demo](https://drive.google.com/file/d/1AKfiUJE2AHi7hqUM2WzLDsO2P_rV8qVO/view?usp=share_link)
 
