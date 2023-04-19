@@ -94,8 +94,9 @@ The project itself working with gradle `kotlin-dsl` plugin, so there is `buildSr
 I’m using feature-separated structure. Communication between modules expressed in the chart below, also you can explore it with [Lucidchart](https://lucid.app/documents/view/3104509a-6501-44e6-9678-c67e7130fd07):
 
 <details>
-<summary>Big image chart:</summary>
-![PremierLeague Module Map](https://user-images.githubusercontent.com/47643827/232858640-8293af19-d076-4e60-ba0e-6085e38c9ff7.png)
+  <summary>Big image chart:</summary>
+  
+  ![PremierLeague Module Map](https://user-images.githubusercontent.com/47643827/232858640-8293af19-d076-4e60-ba0e-6085e38c9ff7.png)
 </details>
 
 ### Clean-
@@ -117,8 +118,10 @@ First illustrates how platform-specific parts are implemented and how DI would p
 Multiplatform Shared Network Logic Implementation: [(pdf)](https://drive.google.com/file/d/1D-e0a82YKKUSuwUjkkrLNCJciqb0w0Ym/view?usp=share_link)
 
 <details>
-<summary>Another big image chart:</summary>
-![multiplatformNetworkSharedUMLi](https://user-images.githubusercontent.com/47643827/232858684-d9bf05ac-8d64-4147-ad51-2ba4d84dfdcf.png)
+  <summary>Another big image chart:</summary>
+
+  ![multiplatformNetworkSharedUMLi](https://user-images.githubusercontent.com/47643827/232858684-d9bf05ac-8d64-4147-ad51-2ba4d84dfdcf.png)
+
 </details>
 
 The second diagram shows how feature module consumes network module. At the diagram, feature module is common module, it defines business logic with repository to receive data from network or database and return it to UI. 
