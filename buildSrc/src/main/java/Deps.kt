@@ -55,6 +55,10 @@ object Deps {
         const val navigationFeatureModule = "androidx.navigation:navigation-dynamic-features-fragment:${Versions.navigationVersion}"
         const val navigationTests = "androidx.navigation:navigation-testing:${Versions.navigationVersion}"
 
+        const val firebaseBom = "com.google.firebase:firebase-bom:${Versions.firebaseVersion}"
+        const val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-ktx"
+        const val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
+
         const val room = "androidx.room:room-runtime:${Versions.roomVersion}"
         const val roomKsp = "androidx.room:room-compiler:${Versions.roomVersion}"
         const val roomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
@@ -62,7 +66,6 @@ object Deps {
 }
 
 object Versions {
-
     const val ktorVersion = "2.2.2"
     const val exposedVersion = "0.41.1"
     const val postgresqlVersion = "42.5.1"
@@ -75,6 +78,8 @@ object Versions {
     const val napierVersion = "2.6.1"
 
     const val mviKotlinVersion = "3.1.0"
+    const val glideVersion = "4.14.2"
+    const val firebaseVersion = "31.5.0"
 
     const val coreKtxVersion = "1.8.0"
     const val activityKtxVersion = "1.5.1"
@@ -90,10 +95,13 @@ object Versions {
 
     const val diktVersion = "1.0.2"
     const val kspVersion = "1.7.21-1.0.8"
-    const val glideVersion = "4.14.2"
+    const val googleServicesVersion = "4.3.15"
+    const val crashlyticsVersion = "2.9.5"
 }
 
 object Plugins {
     const val dikt = "io.github.sergeshustoff.dikt"
     const val ksp = "com.google.devtools.ksp"
+    const val googleServices = "com.google.gms.google-services"
+    const val crashlytics = "com.google.firebase.crashlytics"
 }

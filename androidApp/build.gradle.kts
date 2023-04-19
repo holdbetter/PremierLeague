@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id(Plugins.dikt)
+    id(Plugins.googleServices).version(Versions.googleServicesVersion)
+    id(Plugins.crashlytics).version(Versions.crashlyticsVersion)
 }
 
 android {
@@ -43,6 +45,10 @@ dependencies {
     implementation(Deps.AndroidX.navigationKtx)
     implementation(Deps.AndroidX.navigationRuntimeKtx)
     implementation(Deps.Common.loggerNapier)
+
+    implementation(project.dependencies.platform(Deps.AndroidX.firebaseBom))
+    implementation(Deps.AndroidX.firebaseAnalytics)
+    implementation(Deps.AndroidX.firebaseCrashlytics)
 
     testImplementation(Deps.AndroidX.navigationTests)
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "616466142888",
+    "project_id": "premierleague-3d16d",
+    "storage_bucket": "premierleague-3d16d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616466142888:android:bb25b48cbfcf5e32ab949d",
+        "android_client_info": {
+          "package_name": "dev.holdbetter.premierleague.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616466142888-3kq8ssrcgduk3ki6qrs88ime38ohan7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4UwXjl7H4EfI4DO_Znf4IWsfn4gMMP44"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616466142888-3kq8ssrcgduk3ki6qrs88ime38ohan7h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
