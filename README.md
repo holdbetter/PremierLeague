@@ -8,7 +8,7 @@ An open-source full-stack application with English football league scores built 
 
 💬 Backend: Ktor (Server) + Flow/Coroutines (Network) + Ktor (Network) + Kodein (DI) + Exposed (ORM) + PostgreSQL (DB) + kotlinx.serialization (Data)
 
-🧱 Multiplatform: Custom Simple MVI (Model-View-Intent, inspired by arkivanov), Flow/Coroutines, Clean- Architecture ([What?](https://github.com/holdbetter/PremierLeague/new/main?readme=1#clean-)), Ktor + Abstraction (Network), DI.kt (DI), Napier (Logging), Deeplink Navigation, Local databases
+🧱 Multiplatform: Custom Simple MVI (Model-View-Intent, inspired by arkivanov), Flow/Coroutines, Clean- Architecture ([What?](https://github.com/holdbetter/PremierLeague/tree/main#clean-)), Ktor + Abstraction (Network), DI.kt (DI), Napier (Logging), Deeplink Navigation, Local databases
 
 📱 Android: Palette (Colors) + Glide + Room with ksp + Dynamic Navigation Component on routes + DI.kt (DI) + Coroutines/Flow + ViewBinding (xml) and bunch of custom views
 
