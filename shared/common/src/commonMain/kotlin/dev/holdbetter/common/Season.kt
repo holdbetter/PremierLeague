@@ -1,5 +1,5 @@
 package dev.holdbetter.common
 
 object Season {
-    val value = 2022..2023
+    val value = 2023..2024
 }

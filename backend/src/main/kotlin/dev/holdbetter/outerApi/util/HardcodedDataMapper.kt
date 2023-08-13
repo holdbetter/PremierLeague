@@ -21,7 +21,10 @@ val alterImageMap: Map<String, String>
         "3928" to "35",
         "252" to "48",
         "3143" to "63",
-        "2902" to "41"
+        "2902" to "41",
+        "251" to "62",
+        "2857" to "1359",
+        "2882" to "44"
     )
 
 val twitterMap: Map<String, String>
@@ -45,5 +48,8 @@ val twitterMap: Map<String, String>
         "3928" to "https://twitter.com/afcbournemouth",
         "252" to "https://twitter.com/WestHam",
         "3143" to "https://twitter.com/LUFC",
-        "2902" to "https://twitter.com/SouthamptonFC"
+        "2902" to "https://twitter.com/SouthamptonFC",
+        "251" to "https://twitter.com/SheffieldUnited",
+        "2857" to "https://twitter.com/LutonTown",
+        "2882" to "https://twitter.com/BurnleyOfficial"
     )
