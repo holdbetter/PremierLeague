@@ -25,7 +25,7 @@ internal class GroupGridDecorator(
     private val context: Context,
     private val spanCount: Int,
     @Px private val verticalOffsetBtwRows: Float,
-    parentWidth: Int,
+    @Px parentWidth: Int,
     @Px itemWidth: Float,
     @Px recyclerMarginHorizontal: Float = 0f
 ) : RecyclerView.ItemDecoration() {
@@ -41,6 +41,7 @@ internal class GroupGridDecorator(
 
     private val recyclerMarginSide = recyclerMarginHorizontal / 2f
     private val widthAvailable = parentWidth - recyclerMarginHorizontal
+    private val decoratorRight = parentWidth - recyclerMarginSide.toInt()
     private val overallItemsWidth = itemWidth * spanCount
     private val spaceBetween = widthAvailable - overallItemsWidth
     private val spacing = spaceBetween.toInt() / (spanCount - 1)
@@ -142,9 +143,9 @@ internal class GroupGridDecorator(
 
                     val monthResult = adapter.getMonthResult(item.month)
 
-                    c.drawResult(monthResult, Result.LOSE, parent.right, top)
-                    c.drawResult(monthResult, Result.WIN, parent.right, top)
-                    c.drawResult(monthResult, Result.DRAW, parent.right, top)
+                    c.drawResult(monthResult, Result.WIN, decoratorRight, top)
+                    c.drawResult(monthResult, Result.LOSE, decoratorRight, top)
+                    c.drawResult(monthResult, Result.DRAW, decoratorRight, top)
                 }
             }
         }

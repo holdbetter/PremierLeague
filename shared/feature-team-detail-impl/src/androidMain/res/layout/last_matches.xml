@@ -19,7 +19,7 @@
         android:id="@+id/match_groups"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/cards_horizontal_margin"
+        android:layout_marginHorizontal="@dimen/matches_horizontal_margin"
         android:layout_marginTop="10dp"
         android:clipChildren="false"
         android:clipToPadding="false"

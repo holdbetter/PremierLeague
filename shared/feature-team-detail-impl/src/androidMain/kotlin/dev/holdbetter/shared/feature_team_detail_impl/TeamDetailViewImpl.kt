@@ -99,7 +99,7 @@ internal class TeamDetailViewImpl(
         )
 
         val spanCount = 3
-        val recyclerMarginSideSum = context.px(R.dimen.cards_horizontal_margin) * 2
+        val recyclerMarginSideSum = context.px(R.dimen.matches_horizontal_margin) * 2
         val matchItemDimen = context.px(R.dimen.match_item)
         val verticalOffsetBtwRows =
             context.resources.getDimension(R.dimen.group_list_btw_row_margin)

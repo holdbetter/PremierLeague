@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
                 val teamId = 2881L
                 add(
                     R.id.root,
-                    TeamDetailFragment.createFragment(teamId),
+                    TeamDetailFragment.createFragment(teamId, ""),
                     TeamDetailFragment.tag
                 )
             }
