@@ -4,6 +4,9 @@ An open-source full-stack application with English football league scores built 
 
 ![big_picture](https://user-images.githubusercontent.com/47643827/233084402-a84f5331-a881-4c8f-8f81-5800c4b9b1ec.png)
 
+### DISCLAIMER
+App is online. Season 2023/2024 has started. Developing is on pause, not enough free time for adding new features. Only support
+
 ### Stack
 
 💬 Backend: Ktor (Server) + Flow/Coroutines (Network) + Ktor (Network) + Kodein (DI) + Exposed (ORM) + PostgreSQL (DB) + kotlinx.serialization (Data)
@@ -34,7 +37,7 @@ Also, you can just open `Deps.kt` file, but consider there are some unused const
 
 ### Demonstration and access
 
-[Download apk](https://drive.google.com/file/d/1ZxLUWLRwY6At1V4MLYt8jVtmsumngnIf/view?usp=share_link)
+[Download apk](https://drive.google.com/file/d/1slZFDtRe3QMZI1i6tcjgce4gGQymuq7b/view?usp=sharing)
 
 [Watch demo](https://drive.google.com/file/d/1AKfiUJE2AHi7hqUM2WzLDsO2P_rV8qVO/view?usp=share_link)
 
@@ -59,7 +62,7 @@ You are welcome for asking any questions about the project!
 - [ ]  Compare feature
 - [ ]  Live notifications
 - [ ]  Team subscriptions
-- [ ]  Publishing (August 2023)
+- [ ]  ~~Publishing (August 2023)~~ not planned for now
 
 ### Roadmap: Tech
 
