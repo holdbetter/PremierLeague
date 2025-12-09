@@ -54,12 +54,12 @@ dependencies {
 
 tasks.register("buildLocalAndRun") {
     doLast {
-        exec { commandLine("./gradlew", ":premierLeagueService:run", "--args=\"localBuild\"") }
+        exec { commandLine("../gradlew", ":backend:run") }
     }
 }
 
 tasks.register("buildLocalAndDebug") {
     doLast {
-        exec { commandLine("./gradlew", ":premierLeagueService:run", "--debug-jvm", "--args=\"localBuild\"") }
+        exec { commandLine("../gradlew", ":backend:run", "--debug-jvm") }
     }
 }
