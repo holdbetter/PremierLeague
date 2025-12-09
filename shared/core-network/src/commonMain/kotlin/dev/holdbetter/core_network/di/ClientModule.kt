@@ -9,3 +9,7 @@ interface ClientModule {
     val client: Client
     val httpClient: HttpClient
 }
+
+interface ClientModuleProvider {
+    val clientModule: ClientModule
+}

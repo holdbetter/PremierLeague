@@ -1,5 +1,8 @@
 package dev.holdbetter.di
 
+import dev.holdbetter.core_network.ClientModuleProviderImpl
+import dev.holdbetter.core_network.di.ClientModule
+import dev.holdbetter.core_network.di.ClientModuleProvider
 import dev.holdbetter.core_network.di.DatabaseModule
 import dev.holdbetter.core_network.di.NetworkModule
 import dev.holdbetter.core_network.model.Country
@@ -13,13 +16,18 @@ import dev.holdbetter.presenter.DatabaseGatewayImpl
 import dev.holdbetter.presenter.LeagueDataSourceImpl
 import dev.holdbetter.presenter.LeagueRepositoryImpl
 import dev.holdbetter.presenter.NetworkGatewayImpl
-import io.ktor.server.application.*
+import io.ktor.server.application.Application
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.Database
-import org.kodein.di.*
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.eagerSingleton
+import org.kodein.di.instance
 import org.kodein.di.ktor.di
+import org.kodein.di.singleton
+import org.kodein.di.weakReference
 
 fun Application.enableKodein() {
     di {
@@ -61,7 +69,9 @@ private fun moduleDatabase() = DI.Module(name = "database") {
 }
 
 private fun moduleNetwork() = DI.Module(name = "network") {
-    bind<NetworkModule>() with eagerSingleton { NetworkModule() }
+    bind<ClientModuleProvider>() with singleton { ClientModuleProviderImpl(instance()) }
+    bind<ClientModule>() with singleton { instance<ClientModuleProvider>().clientModule }
+    bind<NetworkModule>() with eagerSingleton { NetworkModule(instance()) }
     bind<NetworkGateway>() with singleton {
         with(instance<NetworkModule>()) {
             NetworkGatewayImpl(decoder, networkInteractor, instance())
