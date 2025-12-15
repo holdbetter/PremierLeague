@@ -1,6 +1,7 @@
 package dev.holdbetter.premierleague.android
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
@@ -30,16 +31,17 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splash = installSplashScreen()
+        enableEdgeToEdge()
 
         super.onCreate(savedInstanceState)
 
         val splashAnimationDelay = lifecycleScope.async(Dispatchers.IO) {
             delay(800)
         }
-
         splash.setKeepOnScreenCondition { !splashAnimationDelay.isCompleted }
 
         setContentView(R.layout.activity_main)
+
         createNavigationGraph()
     }
 

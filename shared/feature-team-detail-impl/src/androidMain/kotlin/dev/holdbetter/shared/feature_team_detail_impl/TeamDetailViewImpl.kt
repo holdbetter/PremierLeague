@@ -4,7 +4,10 @@ import android.animation.ValueAnimator
 import android.content.res.ColorStateList
 import android.graphics.LinearGradient
 import android.graphics.Shader
-import android.graphics.drawable.*
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.PaintDrawable
+import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.net.Uri
 import android.view.View
@@ -13,29 +16,57 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.doOnLayout
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
-import dev.holdbetter.assets.*
+import dev.holdbetter.assets.accentColor
+import dev.holdbetter.assets.assetsColor
+import dev.holdbetter.assets.assetsDrawable
+import dev.holdbetter.assets.cardEndColor
+import dev.holdbetter.assets.cardStartColor
+import dev.holdbetter.assets.createPalette
+import dev.holdbetter.assets.generateTeamColor
+import dev.holdbetter.assets.getActionDrawable
+import dev.holdbetter.assets.getFutureBitmap
+import dev.holdbetter.assets.load
+import dev.holdbetter.assets.px
+import dev.holdbetter.assets.tileColor
 import dev.holdbetter.common.Status
 import dev.holdbetter.common.util.isRunning
 import dev.holdbetter.coreMvi.AbstractMviView
 import dev.holdbetter.shared.core_navigation.Router
-import dev.holdbetter.shared.feature_team_detail.*
+import dev.holdbetter.shared.feature_team_detail.DateHolder
+import dev.holdbetter.shared.feature_team_detail.Match
+import dev.holdbetter.shared.feature_team_detail.MonthResult
+import dev.holdbetter.shared.feature_team_detail.Team
+import dev.holdbetter.shared.feature_team_detail.TeamDetailStore
+import dev.holdbetter.shared.feature_team_detail.TeamDetailView
 import dev.holdbetter.shared.feature_team_detail.TeamDetailView.Event
 import dev.holdbetter.shared.feature_team_detail.TeamDetailView.Model
-import dev.holdbetter.shared.feature_team_detail_impl.databinding.*
+import dev.holdbetter.shared.feature_team_detail_impl.databinding.DetailLoaderBinding
+import dev.holdbetter.shared.feature_team_detail_impl.databinding.DetailRefresherBinding
+import dev.holdbetter.shared.feature_team_detail_impl.databinding.LastMatchesBinding
+import dev.holdbetter.shared.feature_team_detail_impl.databinding.MatchCardBinding
+import dev.holdbetter.shared.feature_team_detail_impl.databinding.MatchHeaderBinding
+import dev.holdbetter.shared.feature_team_detail_impl.databinding.StatsBlockBinding
+import dev.holdbetter.shared.feature_team_detail_impl.databinding.TeamDetailFragmentBinding
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.datetime.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.*
+import java.util.Locale
 
 // TODO: Think about colors caching
 internal class TeamDetailViewImpl(
@@ -216,7 +247,8 @@ internal class TeamDetailViewImpl(
     private fun bindRefresher(teamColor: Int) {
         rootBinding.root.post {
             collapseRefresher()
-            rootBinding.root.background = ColorDrawable(teamColor)
+            refresherBinding.refreshPullerBackground.isVisible = true
+            refresherBinding.refreshPullerBackground.background = teamColor.toDrawable()
             rootBinding.root.setOnTouchListener(scrollViewTouchListener)
         }
     }
@@ -448,7 +480,9 @@ internal class TeamDetailViewImpl(
     }
 
     private fun onPullAction(translationY: Float) {
-        rootBinding.content.translationY = translationY
+        refresherBinding.refreshPullerBackground.updateLayoutParams {
+            height = translationY.toInt()
+        }
         refresherBinding.refreshLoader.isVisible = false
         refresherBinding.refreshPuller.isVisible = true
 
@@ -465,7 +499,9 @@ internal class TeamDetailViewImpl(
 
     private fun onRefreshAction(isPulledOver: Boolean, pullDistance: Float) {
         if (isPulledOver) {
-            rootBinding.content.translationY = pullDistance
+            refresherBinding.refreshPullerBackground.updateLayoutParams {
+                height = pullDistance.toInt()
+            }
             refresherBinding.refreshLoader.translationY =
                 pullDistance - refreshDimenPx - refreshMarginBottom
             refresherBinding.refreshLoader.isVisible = true
@@ -479,7 +515,9 @@ internal class TeamDetailViewImpl(
             refresherBinding.refreshPuller.translationY = 0f
             refresherBinding.refreshLoader.isVisible = false
             refresherBinding.refreshPuller.isVisible = false
-            rootBinding.content.translationY = 0f
+            refresherBinding.refreshPullerBackground.updateLayoutParams {
+                height = 0
+            }
         }
     }
 
@@ -496,21 +534,25 @@ internal class TeamDetailViewImpl(
     }
 
     private fun resetRefreshView() {
-        if (rootBinding.content.translationY != 0f) {
+        if (refresherBinding.refreshPullerBackground.layoutParams.height != 0) {
             refresherBinding.refreshPuller.translationY = 0f
             refresherBinding.refreshLoader.isVisible = false
             refresherBinding.refreshPuller.isVisible = false
-            rootBinding.content.translationY = 0f
+            refresherBinding.refreshPullerBackground.updateLayoutParams {
+                height = 0
+            }
         }
     }
 
     private fun collapseRefresher() {
-        val contentTranslation = rootBinding.content.translationY
-        if (contentTranslation != 0f) {
-            ValueAnimator.ofFloat(contentTranslation, 0f).apply {
+        val contentTranslation = refresherBinding.refreshPullerBackground.layoutParams.height
+        if (contentTranslation != 0) {
+            ValueAnimator.ofInt(contentTranslation, 0).apply {
                 doOnStart { refresherBinding.refreshLoader.isVisible = false }
                 addUpdateListener {
-                    rootBinding.content.translationY = it.animatedValue.toString().toFloat()
+                    refresherBinding.refreshPullerBackground.updateLayoutParams {
+                        height = it.animatedValue.toString().toInt()
+                    }
                 }
                 doOnEnd { resetRefreshView() }
             }.start()

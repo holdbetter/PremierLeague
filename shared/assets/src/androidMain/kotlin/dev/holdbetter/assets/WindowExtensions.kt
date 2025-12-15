@@ -1,44 +1,38 @@
 package dev.holdbetter.assets
 
-import android.view.Window
+import android.view.View
 import android.view.WindowManager
-import androidx.annotation.ColorInt
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
 
-fun Window.updateColors(
-    @ColorInt status: Int?,
-    @ColorInt navigation: Int?,
+fun WindowState.updateWindowView(
+    hideNavigationBar: Boolean,
     isLightText: Boolean
 ) {
-    addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    with(window) {
+        addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
-    val windowInsetsController = WindowCompat.getInsetsController(this, decorView)
+        // Run fullscreen and override optional systems insets (e.g Nothing OS Split Screen)
+        decorView.systemUiVisibility =
+            (decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
 
-    if (status == null) {
-        addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-    } else {
-        clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-    }
+        val windowInsetsController = WindowCompat.getInsetsController(this, decorView)
+        if (hideNavigationBar) {
+            windowInsetsController.systemBarsBehavior = BEHAVIOR_DEFAULT
+            windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars())
+            isNavigationHidden = true
+        } else {
+            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+            windowInsetsController.show(WindowInsetsCompat.Type.navigationBars())
+        }
 
-    if (navigation == null) {
-        windowInsetsController.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController.isAppearanceLightStatusBars = !isLightText
+        windowInsetsController.isAppearanceLightNavigationBars = !isLightText
 
-        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars())
-    } else {
-        clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-        windowInsetsController.show(WindowInsetsCompat.Type.navigationBars())
-    }
-
-    WindowInsetsControllerCompat(this, decorView).isAppearanceLightStatusBars = !isLightText
-    WindowInsetsControllerCompat(this, decorView).isAppearanceLightNavigationBars = !isLightText
-
-    status?.let { statusBarColor = status }
-    navigation?.let { navigationBarColor = navigation }
-
-    decorView.setOnApplyWindowInsetsListener { view, windowInsets ->
-        view.onApplyWindowInsets(windowInsets)
+        // Override listener from previous screen
+        decorView.setOnApplyWindowInsetsListener { view, windowInsets ->
+            view.onApplyWindowInsets(windowInsets)
+        }
     }
 }
