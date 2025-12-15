@@ -73,7 +73,7 @@ object Versions {
     const val kodeinVersion = "7.22.0"
     const val logbackVersion = "1.5.12"
 
-    const val kotlinSerializationVersion = "1.4.1" // TODO update
+    const val kotlinSerializationVersion = "1.9.0"
     const val kotlinCoroutinesVersion = "1.9.0"
     const val kotlinTimeVersion = "0.6.0"
     const val napierVersion = "2.7.1"

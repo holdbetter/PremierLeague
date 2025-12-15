@@ -14,6 +14,7 @@ subprojects {
         resolutionStrategy {
             force("androidx.core:core:1.15.0")
             force("androidx.appcompat:appcompat:1.7.0")
+            force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
         }
     }
 }

@@ -1,6 +1,5 @@
 package dev.holdbetter.outerApi.util
 
-import dev.holdbetter.common.util.NullableJsonTransformingSerializer
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -9,11 +8,12 @@ import kotlinx.serialization.builtins.nullable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.JsonTransformingSerializer
 import kotlinx.serialization.json.jsonPrimitive
 
 // TODO: Test
 class LivescoreDateConverter
-    : NullableJsonTransformingSerializer<Instant?>(Instant.serializer().nullable) {
+    : JsonTransformingSerializer<Instant?>(Instant.serializer().nullable) {
 
     private val year = 0 until 4
     private val month = 4 until 6
