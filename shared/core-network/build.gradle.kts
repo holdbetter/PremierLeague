@@ -5,13 +5,9 @@ plugins {
 }
 
 kotlin {
-    android {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
-        }
-    }
+    applyDefaultHierarchyTemplate()
+    jvmToolchain(21)
+    androidTarget()
 
     listOf(
         iosX64(),
@@ -30,6 +26,7 @@ kotlin {
             dependencies {
                 implementation(Deps.Network.ktorClient)
 
+                implementation(Deps.Common.dikt)
                 implementation(Deps.Common.kotlinSerialization)
 
                 implementation(project(":shared:common"))
@@ -44,31 +41,23 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(Deps.Network.ktorClientOkHttp)
+                implementation(Deps.Common.dikt)
             }
         }
-        val androidTest by getting
+        val androidUnitTest by getting
+        val androidInstrumentedTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val iosMain by creating {
+        val iosMain by getting {
             dependencies {
                 implementation(Deps.Network.ktorClientDarwin)
             }
-
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
         }
         val iosX64Test by getting
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
-        }
+        val iosTest by getting
         val jvmMain by getting {
             dependencies {
                 implementation(Deps.Network.ktorClientOkHttp)
@@ -76,6 +65,8 @@ kotlin {
                 implementation(Deps.Backend.exposedCore)
                 implementation(Deps.Backend.exposedDao)
                 implementation(Deps.Backend.exposedJdbc)
+
+                implementation(Deps.Common.dikt)
             }
         }
     }
@@ -83,9 +74,8 @@ kotlin {
 
 android {
     namespace = "dev.holdbetter.core_network"
-    compileSdk = 32
+    compileSdk = 36
     defaultConfig {
         minSdk = 26
-        targetSdk = 32
     }
 }

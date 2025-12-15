@@ -4,7 +4,7 @@ object Deps {
         const val ktorServerCore = "io.ktor:ktor-server-core-jvm:${Versions.ktorVersion}"
         const val ktorJson = "io.ktor:ktor-serialization-kotlinx-json-jvm:${Versions.ktorVersion}"
         const val ktorEngineNetty = "io.ktor:ktor-server-netty-jvm:${Versions.ktorVersion}"
-        const val ktorTest = "io.ktor:ktor-server-tests-jvm:${Versions.ktorVersion}"
+        const val ktorTest = "io.ktor:ktor-server-test-host:${Versions.ktorVersion}"
 
         const val exposedCore = "org.jetbrains.exposed:exposed-core:${Versions.exposedVersion}"
         const val exposedDao = "org.jetbrains.exposed:exposed-dao:${Versions.exposedVersion}"
@@ -35,6 +35,7 @@ object Deps {
         const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutinesVersion}"
         const val loggerNapier = "io.github.aakira:napier:${Versions.napierVersion}"
         const val kotlinTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinTimeVersion}"
+        const val dikt = "io.github.sergeshustoff.dikt:dikt:${Versions.diktVersion}"
     }
 
     object AndroidX {
@@ -66,37 +67,37 @@ object Deps {
 }
 
 object Versions {
-    const val ktorVersion = "2.2.2"
-    const val exposedVersion = "0.41.1"
-    const val postgresqlVersion = "42.5.1"
-    const val kodeinVersion = "7.18.0"
-    const val logbackVersion = "1.2.11"
+    const val ktorVersion = "3.0.3"
+    const val exposedVersion = "0.56.0"
+    const val postgresqlVersion = "42.7.4"
+    const val kodeinVersion = "7.22.0"
+    const val logbackVersion = "1.5.12"
 
-    const val kotlinSerializationVersion = "1.4.1"
-    const val kotlinCoroutinesVersion = "1.6.4"
-    const val kotlinTimeVersion = "0.4.0"
-    const val napierVersion = "2.6.1"
+    const val kotlinSerializationVersion = "1.4.1" // TODO update
+    const val kotlinCoroutinesVersion = "1.9.0"
+    const val kotlinTimeVersion = "0.6.0"
+    const val napierVersion = "2.7.1"
 
-    const val mviKotlinVersion = "3.1.0"
+    const val mviKotlinVersion = "4.0.0"
     const val glideVersion = "4.14.2"
-    const val firebaseVersion = "31.5.0"
+    const val firebaseVersion = "33.7.0"
 
-    const val coreKtxVersion = "1.8.0"
-    const val activityKtxVersion = "1.5.1"
-    const val fragmentKtxVersion = "1.5.5"
-    const val appcompatVersion = "1.5.1"
-    const val splashVersion = "1.0.0"
+    const val coreKtxVersion = "1.15.0"
+    const val activityKtxVersion = "1.9.3"
+    const val fragmentKtxVersion = "1.8.5"
+    const val appcompatVersion = "1.7.0"
+    const val splashVersion = "1.0.1"
     const val paletteVersion = "1.0.0"
-    const val constraintLayoutVersion = "2.1.4"
-    const val recyclerVersion = "1.2.0"
+    const val constraintLayoutVersion = "2.2.0"
+    const val recyclerVersion = "1.3.2"
     const val pullToRefreshVersion = "1.1.0"
-    const val navigationVersion = "2.5.3"
-    const val roomVersion = "2.4.3"
+    const val navigationVersion = "2.8.5"
+    const val roomVersion = "2.6.1"
 
-    const val diktVersion = "1.0.2"
-    const val kspVersion = "1.7.21-1.0.8"
+    const val diktVersion = "1.1.0-kotlin-2.0.20"
     const val googleServicesVersion = "4.3.15"
-    const val crashlyticsVersion = "2.9.5"
+    const val kspVersion = "2.1.0-1.0.29"
+    const val crashlyticsVersion = "3.0.2"
 }
 
 object Plugins {

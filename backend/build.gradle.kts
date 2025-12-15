@@ -1,5 +1,4 @@
 val kotlin_version: String by project
-//val compileKotlin: KotlinCompilationTask<*> by tasks
 
 val localBuild = "isLocalBuild"
 
@@ -12,11 +11,8 @@ plugins {
 group = "dev.holdbetter"
 version = "0.0.1"
 
-// usage only on Kotlin 1.8.0+
-// compileKotlin.compilerOptions.freeCompilerArgs.add("-Xdebug")
-
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(21)
 }
 
 application {
@@ -54,12 +50,16 @@ dependencies {
 
 tasks.register("buildLocalAndRun") {
     doLast {
-        exec { commandLine("../gradlew", ":backend:run") }
+        val execution = providers.exec { commandLine("../gradlew", ":backend:run") }
+        execution.result.get().assertNormalExitValue()
     }
 }
 
 tasks.register("buildLocalAndDebug") {
     doLast {
-        exec { commandLine("../gradlew", ":backend:run", "--debug-jvm") }
+        val execution = providers.exec {
+            commandLine("../gradlew", ":backend:run", "--debug-jvm")
+        }
+        execution.result.get().assertNormalExitValue()
     }
 }

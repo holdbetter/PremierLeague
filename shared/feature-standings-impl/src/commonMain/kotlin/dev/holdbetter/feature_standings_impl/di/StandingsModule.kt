@@ -6,14 +6,13 @@ import dev.holdbetter.shared.core_database.api.DatabaseApi
 import dev.holdbetter.shared.core_database.di.DatabaseModule
 import dev.holdbetter.shared.core_navigation.Router
 import dev.holdbetter.shared.core_navigation.di.NavigationModule
-import dev.shustoff.dikt.Create
-import dev.shustoff.dikt.UseModules
+import dev.shustoff.dikt.ProvidesMembers
+import dev.shustoff.dikt.resolve
 
-@UseModules(StandingsRepositoryModule::class)
 internal class StandingsModule(
     private val navigationModule: NavigationModule,
     private val databaseModule: DatabaseModule,
-    private val standingsRepositoryModule: StandingsRepositoryModule
+    @ProvidesMembers private val standingsRepositoryModule: StandingsRepositoryModule
 ) {
 
     val store: StandingsStore by lazy(::getStore)
@@ -24,6 +23,5 @@ internal class StandingsModule(
     val database: DatabaseApi
         get() = databaseModule.databaseApi
 
-    @Create
-    private fun getStore(): StandingsStoreImpl
+    private fun getStore(): StandingsStoreImpl = resolve()
 }
