@@ -10,8 +10,13 @@ import dev.holdbetter.interactor.DatabaseGateway
 import dev.holdbetter.interactor.LeagueDataSource
 import dev.holdbetter.interactor.NetworkGateway
 import dev.holdbetter.isLeapYear
-import io.ktor.utils.io.*
-import kotlinx.datetime.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
@@ -80,7 +85,7 @@ internal class LeagueDataSourceImpl(
             }
         } catch (e: Exception) {
             println("On league createOrUpdate exception")
-            e.printStack()
+            e.printStackTrace()
         }
     }
 

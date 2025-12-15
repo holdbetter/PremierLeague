@@ -50,16 +50,18 @@ dependencies {
 
 tasks.register("buildLocalAndRun") {
     doLast {
-        val execution = providers.exec { commandLine("../gradlew", ":backend:run") }
-        execution.result.get().assertNormalExitValue()
+        exec {
+            workingDir = project.rootDir
+            commandLine("./gradlew", ":backend:run")
+        }
     }
 }
 
 tasks.register("buildLocalAndDebug") {
     doLast {
-        val execution = providers.exec {
-            commandLine("../gradlew", ":backend:run", "--debug-jvm")
+        exec {
+            workingDir = project.rootDir
+            commandLine("./gradlew", ":backend:run", "--debug-jvm")
         }
-        execution.result.get().assertNormalExitValue()
     }
 }
