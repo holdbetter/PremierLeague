@@ -3,6 +3,7 @@ package dev.holdbetter.shared.feature_team_detail_impl
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -20,7 +21,7 @@ import dev.holdbetter.shared.feature_team_detail.DateHolder
 import dev.holdbetter.shared.feature_team_detail_impl.databinding.CalendarItemBinding
 import kotlinx.datetime.LocalDate
 import java.time.format.TextStyle
-import java.util.*
+import java.util.Locale
 import kotlin.properties.Delegates
 
 internal class DateAdapter(
@@ -39,13 +40,15 @@ internal class DateAdapter(
 
     private var dateColorDefault by Delegates.notNull<Int>()
     private val numbersSpan = CustomTypefaceSpan(
-        font = ResourcesCompat.getFont(context, assetsFont.raleway_regular),
+        font = runCatching { ResourcesCompat.getFont(context, assetsFont.raleway_regular) }
+            .getOrElse { Typeface.DEFAULT },
         size = 20.px,
         isSameNumbers = true
     )
 
     private val dayWeekSpan = CustomTypefaceSpan(
-        font = ResourcesCompat.getFont(context, assetsFont.raleway_bold),
+        font = runCatching { ResourcesCompat.getFont(context, assetsFont.raleway_bold) }
+            .getOrElse { Typeface.DEFAULT_BOLD },
         size = 11.px,
         isSameNumbers = false
     )
