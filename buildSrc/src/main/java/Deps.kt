@@ -70,7 +70,7 @@ object Versions {
     const val ktorVersion = "3.0.3"
     const val exposedVersion = "0.56.0"
     const val postgresqlVersion = "42.7.4"
-    const val kodeinVersion = "7.22.0"
+    const val kodeinVersion = "7.24.0"
     const val logbackVersion = "1.5.12"
 
     const val kotlinSerializationVersion = "1.9.0"
