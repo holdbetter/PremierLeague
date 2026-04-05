@@ -18,3 +18,11 @@ subprojects {
         }
     }
 }
+
+buildscript {
+    configurations.all {
+        resolutionStrategy {
+            force("org.apache.commons:commons-compress:1.26.0")
+        }
+    }
+}

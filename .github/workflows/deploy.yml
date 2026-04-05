@@ -1,0 +1,58 @@
+name: Deploy Backend to Dev Environment
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+    paths:
+      - 'backend/**'
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push via Ktor plugin
+        env:
+          GHCR_USERNAME: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_IMAGE: ghcr.io/${{ github.repository }}/backend:dev
+        run: ./gradlew :backend:publishImage
+
+      - name: Tag and push SHA
+        run: |
+          docker pull ghcr.io/${{ github.repository }}/backend:dev
+          docker tag ghcr.io/${{ github.repository }}/backend:dev \
+                     ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /opt/apps/premier-league-dev
+            docker compose pull
+            docker compose up -d
+            docker image prune -f

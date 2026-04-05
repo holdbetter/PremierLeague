@@ -19,6 +19,29 @@ application {
     mainClass.set("dev.holdbetter.ApplicationKt")
 }
 
+jib {
+    from {
+        image = "eclipse-temurin:21-jre"
+        platforms {
+            platform {
+                architecture = "amd64"
+                os = "linux"
+            }
+        }
+    }
+    to {
+        image = System.getenv("GHCR_IMAGE") ?: ""
+        auth {
+            username = System.getenv("GHCR_USERNAME") ?: ""
+            password = System.getenv("GHCR_TOKEN") ?: ""
+        }
+    }
+    container {
+        ports = listOf("8080")
+        mainClass = "dev.holdbetter.ApplicationKt"
+    }
+}
+
 repositories {
     mavenCentral()
 }
