@@ -6,15 +6,28 @@ import dev.holdbetter.shared.feature_team_detail.Match
 import dev.holdbetter.shared.feature_team_detail.TeamDetailRepository
 import dev.holdbetter.shared.feature_team_detail.TeamDetailStore
 import dev.holdbetter.shared.feature_team_detail.TeamDetailStore.State
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import dev.shustoff.dikt.Injectable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.AbstractFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 @OptIn(FlowPreview::class)
 internal class TeamDetailStoreImpl(
     teamId: Long,
     private val repository: TeamDetailRepository
-) : AbstractFlow<State>(), TeamDetailStore {
+) : AbstractFlow<State>(), TeamDetailStore, Injectable {
 
     private sealed interface Effect {
         object LoadingStarted : Effect

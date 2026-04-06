@@ -14,13 +14,13 @@ object DatabaseFactory {
 
     private val pgUser = System.getenv(PG_USER)
     private val pgPassword = System.getenv(PG_PASSWORD)
-    private val pgHost = System.getenv(PG_HOST)
+    private val pgHost = System.getenv(PG_HOST) ?: "holdbetter"
     private val pgPort = System.getenv(PG_PORT)
     private val pgDatabase = System.getenv(PG_DATABASE)
 
     fun init(mode: Mode) = if (mode.isDevelopment) {
         // local database connection
-        Database.connect(getPostgresSqlUrl(), DRIVER_CLASS_NAME)
+        Database.connect(getPostgresSqlUrl(pgHost = pgHost), DRIVER_CLASS_NAME)
     } else {
         // remote db connection
         Database.connect(

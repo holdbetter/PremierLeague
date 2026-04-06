@@ -4,11 +4,10 @@ import dev.holdbetter.core_di_api.folder.HasSharedDependencies
 import dev.holdbetter.core_di_impl.MutableModuleDependencies
 import dev.holdbetter.core_network.di.NetworkModule
 import dev.holdbetter.shared.core_database.di.DatabaseModule
-import dev.shustoff.dikt.UseModules
+import dev.shustoff.dikt.ProvidesMembers
 
-@UseModules(NetworkModule::class)
 internal class AppModule private constructor(
-    val networkModule: NetworkModule,
+    @ProvidesMembers val networkModule: NetworkModule,
     val databaseModule: DatabaseModule
 ) {
 

@@ -1,7 +1,12 @@
 package dev.holdbetter.shared.feature_team_detail_impl
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.BitmapShader
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.graphics.Shader
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.appcompat.content.res.AppCompatResources
@@ -39,12 +44,12 @@ class TiledConstraintLayout @JvmOverloads constructor(
     private val tileAngle =
         ResourcesCompat.getFloat(context.resources, R.dimen.match_card_tile_angle)
 
-    override fun dispatchDraw(canvas: Canvas?) {
+    override fun dispatchDraw(canvas: Canvas) {
         if (tileColor != null) {
-            canvas?.save()
-            canvas?.rotate(tileAngle)
-            canvas?.drawPaint(tileShaderPaint)
-            canvas?.restore()
+            canvas.save()
+            canvas.rotate(tileAngle)
+            canvas.drawPaint(tileShaderPaint)
+            canvas.restore()
             bitmap.recycle()
         }
         super.dispatchDraw(canvas)

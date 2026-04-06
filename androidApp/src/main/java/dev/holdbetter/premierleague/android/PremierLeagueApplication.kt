@@ -4,6 +4,7 @@ import android.app.Application
 import dev.holdbetter.core_di_impl.ModuleDependencies
 import dev.holdbetter.core_di_impl.ModuleProvider
 import dev.holdbetter.core_di_impl.MutableModuleDependencies
+import dev.holdbetter.core_network.ClientModuleProviderImpl
 import dev.holdbetter.core_network.di.NetworkModule
 import dev.holdbetter.premierleague.android.di.AppModule
 import dev.holdbetter.shared.core_database.database.LeagueUserDatabase
@@ -22,7 +23,7 @@ class PremierLeagueApplication : Application(), ModuleProvider {
         initLogger()
 
         AppModule.Factory.create(
-            networkModule = NetworkModule(),
+            networkModule = NetworkModule(ClientModuleProviderImpl().clientModule),
             databaseModule = DatabaseModule(LeagueUserDatabase.getInstance(this)),
             dependencies = _module
         )

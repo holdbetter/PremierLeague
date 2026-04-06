@@ -12,7 +12,7 @@ internal class ScrollViewTouchListener(
     @Px refreshMarginBottom: Int,
     @Px pullOffset: Int,
     onPullAction: (Float) -> Unit,
-    onRefreshAction: (Boolean, Float) -> Unit,
+    onRefreshAction: (isPulledOver: Boolean, Float) -> Unit,
     resetRefresh: () -> Unit
 ) : OnTouchListener {
 

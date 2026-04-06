@@ -8,7 +8,7 @@ internal object Standings : IdTable<String>("Standings") {
 
     val rank = integer("rank")
     val name = varchar("name", 30)
-    val image = varchar("image", 30)
+    val image = varchar("image", 60)
     val gamePlayed = integer("gamePlayed")
     val points = integer("points")
     val wins = integer("wins")

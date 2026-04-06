@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
+import android.graphics.Typeface
 import android.text.TextPaint
 import android.view.View
 import androidx.annotation.ColorInt
@@ -33,13 +34,15 @@ internal class MonthDecorator(
 
     private val monthPaint = TextPaint(basePaint).apply {
         textAlign = Paint.Align.CENTER
-        typeface = ResourcesCompat.getFont(context, assetsFont.raleway_regular)
+        typeface = runCatching { ResourcesCompat.getFont(context, assetsFont.raleway_bold) }
+            .getOrElse { Typeface.DEFAULT_BOLD }
         fontFeatureSettings = "lnum"
         textSize = 11.px
     }
 
     private val currentMonthPaint = TextPaint(monthPaint).apply {
-        typeface = ResourcesCompat.getFont(context, assetsFont.raleway_bold)
+        typeface = runCatching { ResourcesCompat.getFont(context, assetsFont.raleway_bold) }
+            .getOrElse { Typeface.DEFAULT_BOLD }
     }
 
     private val months = (1..12).monthsExponent

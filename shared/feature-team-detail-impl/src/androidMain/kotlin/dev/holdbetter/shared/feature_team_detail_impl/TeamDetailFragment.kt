@@ -4,12 +4,11 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import dev.holdbetter.assets.assetsColor
+import dev.holdbetter.assets.PremierFragment
 import dev.holdbetter.assets.isDarkMode
-import dev.holdbetter.assets.updateColors
+import dev.holdbetter.assets.updateWindowView
 import dev.holdbetter.core_di_impl.findModuleDependency
 import dev.holdbetter.shared.core_navigation.Destination
 import dev.holdbetter.shared.core_navigation.di.NavigationModule
@@ -19,7 +18,7 @@ import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 import kotlin.properties.Delegates
 
-class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
+class TeamDetailFragment : PremierFragment(R.layout.team_detail_fragment) {
 
     companion object {
         val tag = TeamDetailFragment::class.qualifiedName
@@ -38,10 +37,6 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
     private lateinit var component: TeamDetailComponent
     private lateinit var teamImage: String
     private var teamId by Delegates.notNull<Long>()
-
-    private val leagueBackground by lazy {
-        requireContext().getColor(assetsColor.leagueBackground)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,9 +101,8 @@ class TeamDetailFragment : Fragment(R.layout.team_detail_fragment) {
     }
 
     private fun bindViewColors(activity: Activity) {
-        activity.window?.updateColors(
-            status = leagueBackground,
-            navigation = null,
+        windowState.updateWindowView(
+            hideNavigationBar = true,
             isLightText = activity.isDarkMode()
         )
     }

@@ -1,5 +1,4 @@
 val kotlin_version: String by project
-//val compileKotlin: KotlinCompilationTask<*> by tasks
 
 val localBuild = "isLocalBuild"
 
@@ -12,15 +11,35 @@ plugins {
 group = "dev.holdbetter"
 version = "0.0.1"
 
-// usage only on Kotlin 1.8.0+
-// compileKotlin.compilerOptions.freeCompilerArgs.add("-Xdebug")
-
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(21)
 }
 
 application {
     mainClass.set("dev.holdbetter.ApplicationKt")
+}
+
+jib {
+    from {
+        image = "eclipse-temurin:21-jre"
+        platforms {
+            platform {
+                architecture = "amd64"
+                os = "linux"
+            }
+        }
+    }
+    to {
+        image = System.getenv("GHCR_IMAGE") ?: ""
+        auth {
+            username = System.getenv("GHCR_USERNAME") ?: ""
+            password = System.getenv("GHCR_TOKEN") ?: ""
+        }
+    }
+    container {
+        ports = listOf("8080")
+        mainClass = "dev.holdbetter.ApplicationKt"
+    }
 }
 
 repositories {
@@ -54,12 +73,18 @@ dependencies {
 
 tasks.register("buildLocalAndRun") {
     doLast {
-        exec { commandLine("./gradlew", ":premierLeagueService:run", "--args=\"localBuild\"") }
+        exec {
+            workingDir = project.rootDir
+            commandLine("./gradlew", ":backend:run")
+        }
     }
 }
 
 tasks.register("buildLocalAndDebug") {
     doLast {
-        exec { commandLine("./gradlew", ":premierLeagueService:run", "--debug-jvm", "--args=\"localBuild\"") }
+        exec {
+            workingDir = project.rootDir
+            commandLine("./gradlew", ":backend:run", "--debug-jvm")
+        }
     }
 }

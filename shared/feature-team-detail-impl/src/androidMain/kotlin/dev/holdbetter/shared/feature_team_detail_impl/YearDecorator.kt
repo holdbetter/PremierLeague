@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.Typeface
 import android.text.TextPaint
 import android.view.View
 import androidx.annotation.ColorInt
@@ -35,7 +36,8 @@ internal class YearDecorator(context: Context, @ColorInt textColor: Int) : ItemD
 
     private val textPaint = TextPaint().apply {
         textAlign = Paint.Align.CENTER
-        typeface = ResourcesCompat.getFont(context, assetsFont.raleway_medium)
+        typeface = runCatching { ResourcesCompat.getFont(context, assetsFont.raleway_medium) }
+            .getOrElse { Typeface.DEFAULT }
         textSize = 10.px
         color = textColor
     }

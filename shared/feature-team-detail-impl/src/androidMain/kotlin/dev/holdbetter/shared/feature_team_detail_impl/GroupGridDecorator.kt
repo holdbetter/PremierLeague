@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.Typeface
 import android.text.TextPaint
 import android.util.SizeF
 import android.view.View
@@ -79,7 +80,8 @@ internal class GroupGridDecorator(
 
     private val headerTextPaint = TextPaint().apply {
         isAntiAlias = true
-        typeface = ResourcesCompat.getFont(context, assetsFont.raleway_medium)
+        typeface = runCatching { ResourcesCompat.getFont(context, assetsFont.raleway_bold) }
+            .getOrElse { Typeface.DEFAULT_BOLD }
         color = context.getColor(assetsColor.leagueTextColor)
         textSize = groupHeaderTextSize
     }

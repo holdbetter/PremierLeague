@@ -47,7 +47,7 @@
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:overScrollMode="never"
-            android:paddingTop="56dp"
+            tools:paddingTop="56dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -58,7 +58,7 @@
         <TextView
             android:id="@+id/header_text"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="@dimen/results_header_height"
             android:layout_gravity="center_vertical"
             android:background="@drawable/standings_header_background"
             android:gravity="center_vertical"
@@ -70,9 +70,19 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/status_bar"
             app:layout_constraintWidth_percent=".8"
             tools:ignore="SpUsage" />
+
+        <View
+            android:id="@+id/status_bar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/leagueColorPrimary"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

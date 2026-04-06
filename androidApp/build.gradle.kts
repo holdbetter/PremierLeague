@@ -8,15 +8,15 @@ plugins {
 
 android {
     namespace = "dev.holdbetter.premierleague.android"
-    compileSdk = 32
+    compileSdk = 36
     defaultConfig {
         applicationId = "dev.holdbetter.premierleague.android"
         minSdk = 26
-        targetSdk = 32
+        targetSdk = 36
         versionCode = 2
         versionName = "0.1.1"
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -27,11 +27,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "21"
     }
 }
 

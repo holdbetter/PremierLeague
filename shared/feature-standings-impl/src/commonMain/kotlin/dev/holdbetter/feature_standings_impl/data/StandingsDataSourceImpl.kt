@@ -2,14 +2,16 @@ package dev.holdbetter.feature_standings_impl.data
 
 import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.common.util.decode
+import dev.holdbetter.core_di_api.folder.Dikt
 import dev.holdbetter.core_network.LeagueBackendService
 import dev.holdbetter.core_network.NetworkInteractor
+import dev.shustoff.dikt.InjectableSingleInScope
 import kotlinx.serialization.json.Json
 
 internal class StandingsDataSourceImpl(
     override val decoder: Json,
     override val networkInteractor: NetworkInteractor
-) : StandingsDataSource {
+) : StandingsDataSource, InjectableSingleInScope<Dikt> {
 
     override val paths by lazy {
         arrayOf(

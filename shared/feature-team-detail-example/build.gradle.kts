@@ -1,17 +1,16 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    id(Plugins.dikt)
 }
 
 android {
     namespace = "dev.holdbetter.shared.feature_team_detail_example"
-    compileSdk = 32
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "dev.holdbetter.shared.feature_team_detail_example"
         minSdk = 26
-        targetSdk = 32
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -28,11 +27,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "21"
     }
 }
 

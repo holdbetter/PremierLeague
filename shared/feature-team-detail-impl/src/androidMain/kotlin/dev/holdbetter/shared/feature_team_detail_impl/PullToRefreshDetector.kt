@@ -9,7 +9,7 @@ internal class PullToRefreshDetector(
     refreshMarginBottom: Int,
     pullOffset: Int,
     private val onPullAction: (Float) -> Unit,
-    private val onRefreshAction: (Boolean, Float) -> Unit,
+    private val onRefreshAction: (isPulledOver: Boolean, Float) -> Unit,
     private val resetAction: () -> Unit
 ) {
 
