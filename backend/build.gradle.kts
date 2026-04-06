@@ -1,3 +1,5 @@
+import io.ktor.plugin.features.DockerImageRegistry
+
 val kotlin_version: String by project
 
 val localBuild = "isLocalBuild"
@@ -21,7 +23,6 @@ application {
 
 jib {
     from {
-        image = "eclipse-temurin:21-jre"
         platforms {
             platform {
                 architecture = "amd64"
@@ -29,16 +30,25 @@ jib {
             }
         }
     }
-    to {
-        image = System.getenv("GHCR_IMAGE") ?: ""
-        auth {
-            username = System.getenv("GHCR_USERNAME") ?: ""
-            password = System.getenv("GHCR_TOKEN") ?: ""
-        }
-    }
     container {
         ports = listOf("8080")
         mainClass = "dev.holdbetter.ApplicationKt"
+    }
+}
+
+ktor {
+    docker {
+        jreVersion.set(JavaVersion.VERSION_21)
+        localImageName.set("backend")
+        imageTag.set("dev")
+
+        externalRegistry.set(
+            GhcrRegistry(
+                username = providers.environmentVariable("GHCR_USERNAME"),
+                githubToken = providers.environmentVariable("GHCR_TOKEN"),
+                imageName = providers.environmentVariable("GHCR_IMAGE"),
+            )
+        )
     }
 }
 
@@ -87,4 +97,13 @@ tasks.register("buildLocalAndDebug") {
             commandLine("./gradlew", ":backend:run", "--debug-jvm")
         }
     }
+}
+
+private class GhcrRegistry(
+    override val username: Provider<String>,
+    githubToken: Provider<String>,
+    imageName: Provider<String>,
+) : DockerImageRegistry {
+    override val password: Provider<String> = githubToken
+    override val toImage: Provider<String> = imageName
 }
