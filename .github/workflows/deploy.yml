@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - 'backend/**'
+      - '.github/workflows/deploy.yml'
 
 jobs:
   deploy:
