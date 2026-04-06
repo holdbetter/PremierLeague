@@ -31,19 +31,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set image name
+        run: echo "IMAGE_BASE=ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')/backend" >> $GITHUB_ENV
+
       - name: Build and push via Ktor plugin
         env:
           GHCR_USERNAME: ${{ github.actor }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GHCR_IMAGE: ghcr.io/${{ github.repository }}/backend:dev
+          GHCR_IMAGE: ${{ env.IMAGE_BASE }}:dev
         run: ./gradlew :backend:publishImage
 
       - name: Tag and push SHA
         run: |
-          docker pull ghcr.io/${{ github.repository }}/backend:dev
-          docker tag ghcr.io/${{ github.repository }}/backend:dev \
-                     ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
-          docker push ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
+          docker pull ghcr.io/${{ env.IMAGE_BASE }}:dev
+          docker tag ghcr.io/${{ env.IMAGE_BASE }}:dev \
+                     ghcr.io/${{ env.IMAGE_BASE }}:${{ github.sha }}
+          docker push ghcr.io/${{ env.IMAGE_BASE }}:${{ github.sha }}
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1
