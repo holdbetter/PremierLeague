@@ -20,26 +20,29 @@ object DatabaseFactory {
 
     fun init(mode: Mode) = if (mode.isDevelopment) {
         // local database connection
-        Database.connect(getPostgresSqlUrl(pgHost = pgHost), DRIVER_CLASS_NAME)
+        Database.connect(
+            url = getPostgresSqlUrl(pgHost = pgHost),
+            driver = DRIVER_CLASS_NAME,
+            user = pgUser,
+            password = pgPassword
+        )
     } else {
         // remote db connection
         Database.connect(
-            getPostgresSqlUrl(
-                pgUser = pgUser,
-                pgPassword = pgPassword,
+            url = getPostgresSqlUrl(
                 pgHost = pgHost,
                 pgPort = pgPort,
                 pgDatabase = pgDatabase
-            )
+            ),
+            user = pgUser,
+            password = pgPassword
         )
     }
 
     // TODO: Test
     private fun getPostgresSqlUrl(
-        pgUser: String = "holdbetter",
-        pgPassword: String = "",
         pgHost: String = "localhost",
         pgPort: String = "5432",
         pgDatabase: String = "holdbetter"
-    ) = "jdbc:postgresql://$pgHost:$pgPort/$pgDatabase?user=$pgUser&password=$pgPassword"
+    ) = "jdbc:postgresql://$pgHost:$pgPort/$pgDatabase"
 }
