@@ -1,6 +1,7 @@
 name: Deploy Backend to Dev Environment
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [closed]
     branches: [main]
