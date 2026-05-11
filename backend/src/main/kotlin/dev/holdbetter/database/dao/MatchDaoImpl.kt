@@ -38,7 +38,7 @@ internal class MatchDaoImpl(
 
     override suspend fun updateMatches(matches: List<MatchdayDTO>) {
         database.query(dispatcher) {
-            Matches.batchReplace(
+            Matches.batchUpsert(
                 data = matches,
                 shouldReturnGeneratedValues = false
             ) { statementMapper(it) }
