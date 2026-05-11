@@ -4,7 +4,6 @@ object Deps {
         const val ktorServerCore = "io.ktor:ktor-server-core-jvm:${Versions.ktorVersion}"
         const val ktorJson = "io.ktor:ktor-serialization-kotlinx-json-jvm:${Versions.ktorVersion}"
         const val ktorEngineNetty = "io.ktor:ktor-server-netty-jvm:${Versions.ktorVersion}"
-        const val ktorTest = "io.ktor:ktor-server-test-host:${Versions.ktorVersion}"
 
         const val exposedCore = "org.jetbrains.exposed:exposed-core:${Versions.exposedVersion}"
         const val exposedDao = "org.jetbrains.exposed:exposed-dao:${Versions.exposedVersion}"
@@ -64,6 +63,14 @@ object Deps {
         const val roomKsp = "androidx.room:room-compiler:${Versions.roomVersion}"
         const val roomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
     }
+
+    object Test {
+        const val ktorTest = "io.ktor:ktor-server-test-host:${Versions.ktorVersion}"
+        const val junitParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junitVersion}"
+        const val junitEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junitVersion}"
+        const val junitApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junitVersion}"
+        const val kotlinJunit = "test-junit5"
+    }
 }
 
 object Versions {
@@ -98,6 +105,9 @@ object Versions {
     const val googleServicesVersion = "4.3.15"
     const val kspVersion = "2.1.0-1.0.29"
     const val crashlyticsVersion = "3.0.2"
+
+    // Test
+    const val junitVersion = "5.10.2"
 }
 
 object Plugins {

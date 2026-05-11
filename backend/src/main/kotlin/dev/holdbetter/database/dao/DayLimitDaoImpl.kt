@@ -4,9 +4,8 @@ import dev.holdbetter.database.Mapper.toModel
 import dev.holdbetter.database.entity.DayLimitEntity
 import dev.holdbetter.database.query
 import dev.holdbetter.database.table.DayLimits
-import dev.holdbetter.database.table.MonthLimits
 import dev.holdbetter.innerApi.model.DayLimit
-import dev.holdbetter.presenter.DayLimitMap
+import dev.holdbetter.presenter.limits.DayLimitMap
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.sql.Database
@@ -82,6 +81,6 @@ internal class DayLimitDaoImpl(
         this[DayLimits.firstMatchStartOrDefault] = limit.firstMatchStartOrDefault
         this[DayLimits.plannedDayLimit] = limit.plannedDayLimit
         this[DayLimits.remainedDayLimit] = limit.remainedDayLimit
-        this[DayLimits.updateRate] = limit.updateRate
+        this[DayLimits.updateRate] = limit.updateRate.toFloat()
     }
 }

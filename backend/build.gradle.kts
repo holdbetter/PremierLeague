@@ -73,12 +73,20 @@ dependencies {
     implementation(Deps.Backend.kodeinJvm)
 
     implementation(Deps.Backend.logback)
-    testImplementation(Deps.Backend.ktorTest)
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+
+    testImplementation(Deps.Test.ktorTest)
+    testImplementation(Deps.Test.junitParams)
+    testImplementation(Deps.Test.junitApi)
+    testImplementation(kotlin(Deps.Test.kotlinJunit))
+    testRuntimeOnly(Deps.Test.junitEngine)
 
     implementation(project(":shared:common"))
     implementation(project(":shared:core-network"))
     implementation(project(":shared:core-di-api"))
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 tasks.register("buildLocalAndRun") {

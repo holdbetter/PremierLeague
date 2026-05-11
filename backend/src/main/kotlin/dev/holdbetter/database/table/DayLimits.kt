@@ -16,7 +16,7 @@ internal object DayLimits : IdTable<LocalDate>("DayLimit") {
     val firstMatchStartOrDefault = timestamp("firstMatchStartOrDefault")
     val plannedDayLimit = integer("plannedDayLimit")
     val remainedDayLimit = integer("remainedDayLimit").check { it greaterEq 0 }
-    val updateRate = integer("updateRate")
+    val updateRate = float("updateRate")
 
     override val primaryKey = PrimaryKey(id)
 }

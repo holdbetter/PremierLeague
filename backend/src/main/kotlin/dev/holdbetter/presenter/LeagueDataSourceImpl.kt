@@ -7,9 +7,11 @@ import dev.holdbetter.core_network.model.Country
 import dev.holdbetter.core_network.model.League
 import dev.holdbetter.innerApi.model.DayLimit
 import dev.holdbetter.interactor.DatabaseGateway
+import dev.holdbetter.interactor.DayLimitsGenerator
 import dev.holdbetter.interactor.LeagueDataSource
 import dev.holdbetter.interactor.NetworkGateway
 import dev.holdbetter.isLeapYear
+import dev.holdbetter.presenter.limits.GetRemainedMonthLimitUseCase
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDateTime
@@ -21,12 +23,14 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 internal typealias MonthAndYear = Pair<Int, Int>
-internal typealias SortedMatchesGroupedByDayAndSeasonalMonth = Map<MonthAndYear, Map<Int, List<MatchdayDTO>>>
+internal typealias MatchesGroupedByDayAndSeasonalMonth = Map<MonthAndYear, Map<Int, List<MatchdayDTO>>>
 
 // TODO: Test
 internal class LeagueDataSourceImpl(
     override val network: NetworkGateway,
-    override val database: DatabaseGateway
+    override val database: DatabaseGateway,
+    private val dayLimitsGenerator: DayLimitsGenerator,
+    private val remainedMonthLimitUseCase: GetRemainedMonthLimitUseCase
 ) : LeagueDataSource,
     Network by network,
     Database by database {
@@ -52,6 +56,7 @@ internal class LeagueDataSourceImpl(
             nextDayLimit = database.getDayLimitsForDate(nextDay)
         )
     }
+
     override fun calculateDelay(
         today: LocalDateTime,
         todayLimit: DayLimit,
@@ -103,9 +108,9 @@ internal class LeagueDataSourceImpl(
         if (!databaseGateway.hasDayLimits()) {
             notStartedMatches.run(::groupMatchesByMonthAndByDay)
                 .run {
-                    LimitsResolver.generateDayLimits(
+                    dayLimitsGenerator.generateDayLimits(
                         groupedMatches = this,
-                        databaseGateway = databaseGateway,
+                        limitsStore = remainedMonthLimitUseCase,
                         leapYear = isLeapYear
                     )
                 }
@@ -113,9 +118,9 @@ internal class LeagueDataSourceImpl(
         } else {
             notStartedMatches.run { groupMatchesByMonthAndByDay(this, true) }
                 .run {
-                    LimitsResolver.generateDayLimits(
+                    dayLimitsGenerator.generateDayLimits(
                         groupedMatches = this,
-                        databaseGateway = databaseGateway,
+                        limitsStore = remainedMonthLimitUseCase,
                         leapYear = isLeapYear
                     )
                 }
@@ -141,7 +146,7 @@ internal class LeagueDataSourceImpl(
     private fun groupMatchesByMonthAndByDay(
         matches: List<MatchdayDTO>,
         excludeUntilToday: Boolean = false
-    ): SortedMatchesGroupedByDayAndSeasonalMonth {
+    ): MatchesGroupedByDayAndSeasonalMonth {
         val today = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
         return matches.filter { match -> match.startDate != null }
             .dropWhile {
@@ -155,9 +160,7 @@ internal class LeagueDataSourceImpl(
             .mapValues { monthAndMatches ->
                 monthAndMatches.value.groupBy { match ->
                     match.startDate!!.toLocalDateTime(TimeZone.UTC).dayOfMonth
-                }.toList()
-                    .sortedBy { dayMatches -> dayMatches.second.count() }
-                    .toMap()
+                }
             }
     }
 }

@@ -1,7 +1,7 @@
 package dev.holdbetter.database.dao
 
 import dev.holdbetter.innerApi.model.DayLimit
-import dev.holdbetter.presenter.DayLimitMap
+import dev.holdbetter.presenter.limits.DayLimitMap
 import kotlinx.datetime.LocalDate
 
 internal interface DayLimitDao : ExposedDao {
