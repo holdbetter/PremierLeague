@@ -57,9 +57,16 @@ internal class LeagueDataSourceImpl(
         todayLimit: DayLimit,
         nextDayLimit: DayLimit
     ): Duration {
+        println("today: ${today.toInstant(TimeZone.UTC)}")
+        println("firstMatchStart ${todayLimit.firstMatchStartOrDefault}")
         return if (todayLimit.remainedDayLimit > 0) {
             if (todayLimit.gameDayDuration != Duration.ZERO) {
-                todayLimit.updateRate.minutes
+                val dateDiff = today.toInstant(TimeZone.UTC) - todayLimit.firstMatchStartOrDefault
+                if (dateDiff.isNegative()) {
+                    dateDiff.absoluteValue
+                } else {
+                    todayLimit.updateRate.minutes
+                }
             } else {
                 nextDayLimit.firstMatchStartOrDefault
                     .minus(today.toInstant(TimeZone.UTC))
