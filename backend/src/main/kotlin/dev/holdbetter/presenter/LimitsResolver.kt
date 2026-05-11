@@ -54,6 +54,8 @@ internal object LimitsResolver {
             val nonMatchDayCount = countNotMatchDays(monthAndMatchesByDay, today, leapYear)
             val remainedLimit = databaseGateway.getRemainedMonthLimit(month, year)
 
+            println("generating for $month $year")
+
             dayLimitMap.fillLimitsForMonth(
                 monthGroup = monthAndMatchesByDay.value,
                 nonMatchDayCount = nonMatchDayCount,
@@ -95,6 +97,13 @@ internal object LimitsResolver {
         monthLimit: Int
     ): MutableDayLimitMap {
         var restart = true
+        val d1 = monthGroup.entries.firstOrNull()?.value?.firstOrNull()
+        println("month: ${d1?.startDate}")
+        monthGroup.forEach {
+            it.value.forEach { m ->
+                println(m)
+            }
+        }
         restart@ while (restart) {
             var resultMonthLimit = monthLimit - nonMatchDayCount
             for (playDay in monthGroup) {
@@ -139,6 +148,8 @@ internal object LimitsResolver {
         ?: (gameDayDuration(firstMatchDate, lastMatchDate) to MAX_UPDATE_RATE)
 
     private fun MutableDayLimitMap.decreaseRate(monthNumber: Int) {
+        println("decrease rate: $this")
+        println("decrease rate: $monthNumber")
         val maxRateDateEntry = findMaxRateEntryInCurrentMonth(monthNumber)
         this[maxRateDateEntry.key] = decreaseRate(maxRateDateEntry)
     }

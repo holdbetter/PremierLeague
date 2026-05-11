@@ -101,6 +101,7 @@ internal class LeagueDataSourceImpl(
         }
 
         if (!databaseGateway.hasDayLimits()) {
+            println("has limits")
             notStartedMatches.run(::groupMatchesByMonthAndByDay)
                 .run {
                     LimitsResolver.generateDayLimits(
@@ -111,6 +112,7 @@ internal class LeagueDataSourceImpl(
                 }
                 .also { databaseGateway.fillDayLimits(it) }
         } else {
+            println("no limits")
             notStartedMatches.run { groupMatchesByMonthAndByDay(this, true) }
                 .run {
                     LimitsResolver.generateDayLimits(
