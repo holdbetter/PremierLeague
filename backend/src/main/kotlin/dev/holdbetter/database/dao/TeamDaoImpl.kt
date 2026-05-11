@@ -58,7 +58,7 @@ internal class TeamDaoImpl(
 
     override suspend fun updateTeams(teams: List<TeamRankDTO>) {
         database.query(dispatcher) {
-            Standings.batchReplace(
+            Standings.batchUpsert(
                 data = teams,
                 shouldReturnGeneratedValues = false
             ) { statementMapper(it) }
