@@ -57,6 +57,9 @@ internal class LeagueDataSourceImpl(
         todayLimit: DayLimit,
         nextDayLimit: DayLimit
     ): Duration {
+        println("today: ${today.toInstant(TimeZone.UTC)}")
+        println("today limit ${todayLimit.remainedDayLimit}")
+        println("firstMatchStart ${todayLimit.firstMatchStartOrDefault}")
         return if (todayLimit.remainedDayLimit > 0) {
             if (todayLimit.gameDayDuration != Duration.ZERO) {
                 val dateDiff = today.toInstant(TimeZone.UTC) - todayLimit.firstMatchStartOrDefault
