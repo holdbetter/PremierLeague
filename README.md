@@ -5,7 +5,10 @@ An open-source full-stack application with English football league scores built 
 ![big_picture](https://user-images.githubusercontent.com/47643827/233084402-a84f5331-a881-4c8f-8f81-5800c4b9b1ec.png)
 
 ### DISCLAIMER
-Hey! It's offline for now. The app has to connect to my web-server which wasn't free at all. So it's better to have chatgpt subscription nowadays than pay for the webserver to keep my app online ha-ha.
+Hey! This repository in development right now, but core-features are developed. 
+It has active backend working in dev environment. 
+Some new approaches could be separated into different branches e.g branch with Compose and old XML UI version branch (current main).
+Check the status below. If it's online in Production Environment then you can just download package.
 
 Was online at 2022/2023 season
 
@@ -13,7 +16,7 @@ Was online at 2023/2024 season
 
 Offline 2024/2025 season
 
-And also development was stopped too (at 2023 tbh) since I am pretty busy on my full-time job. But the first thing I am going to do is testing and Compose UI.
+Online in Dev Environment since May'26 (In Development)
 
 ### Stack
 
