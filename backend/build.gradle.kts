@@ -72,8 +72,6 @@ dependencies {
     implementation(Deps.Backend.kodein)
     implementation(Deps.Backend.kodeinJvm)
 
-    implementation(Deps.Backend.logback)
-
     testImplementation(Deps.Test.ktorTest)
     testImplementation(Deps.Test.junitParams)
     testImplementation(Deps.Test.junitApi)

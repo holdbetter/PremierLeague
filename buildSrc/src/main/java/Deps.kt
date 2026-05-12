@@ -14,8 +14,6 @@ object Deps {
         const val kodeinJvm = "org.kodein.di:kodein-di-framework-ktor-server-jvm:${Versions.kodeinVersion}"
 
         const val postgreSql = "org.postgresql:postgresql:${Versions.postgresqlVersion}"
-
-        const val logback = "ch.qos.logback:logback-classic:${Versions.logbackVersion}"
     }
 
     object Architecture {
