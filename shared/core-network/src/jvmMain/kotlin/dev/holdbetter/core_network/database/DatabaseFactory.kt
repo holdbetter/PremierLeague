@@ -16,12 +16,12 @@ object DatabaseFactory {
     private val pgPassword = System.getenv(PG_PASSWORD)
     private val pgHost = System.getenv(PG_HOST) ?: "holdbetter"
     private val pgPort = System.getenv(PG_PORT)
-    private val pgDatabase = System.getenv(PG_DATABASE)
+    private val pgDatabase = System.getenv(PG_DATABASE) ?: "holdbetter"
 
     fun init(mode: Mode) = if (mode.isDevelopment) {
         // local database connection
         Database.connect(
-            url = getPostgresSqlUrl(pgHost = pgHost),
+            url = getPostgresSqlUrl(pgHost = pgHost, pgDatabase = pgDatabase),
             driver = DRIVER_CLASS_NAME,
             user = pgUser,
             password = pgPassword
@@ -43,6 +43,6 @@ object DatabaseFactory {
     private fun getPostgresSqlUrl(
         pgHost: String = "localhost",
         pgPort: String = "5432",
-        pgDatabase: String = "holdbetter"
+        pgDatabase: String
     ) = "jdbc:postgresql://$pgHost:$pgPort/$pgDatabase"
 }

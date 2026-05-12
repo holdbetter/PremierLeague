@@ -8,5 +8,5 @@ data class DayLimit(
     val plannedDayLimit: Int,
     val firstMatchStartOrDefault: Instant,
     val remainedDayLimit: Int,
-    val updateRate: Int
+    val updateRate: Double
 )

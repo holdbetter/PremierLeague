@@ -8,6 +8,7 @@ import dev.holdbetter.core_network.di.NetworkModule
 import dev.holdbetter.core_network.model.Country
 import dev.holdbetter.core_network.model.League
 import dev.holdbetter.interactor.DatabaseGateway
+import dev.holdbetter.interactor.DayLimitsGenerator
 import dev.holdbetter.interactor.LeagueDataSource
 import dev.holdbetter.interactor.LeagueRepository
 import dev.holdbetter.interactor.NetworkGateway
@@ -16,6 +17,9 @@ import dev.holdbetter.presenter.DatabaseGatewayImpl
 import dev.holdbetter.presenter.LeagueDataSourceImpl
 import dev.holdbetter.presenter.LeagueRepositoryImpl
 import dev.holdbetter.presenter.NetworkGatewayImpl
+import dev.holdbetter.presenter.limits.DayLimitsGeneratorImpl
+import dev.holdbetter.presenter.limits.GetRemainedMonthLimitUseCase
+import dev.holdbetter.presenter.limits.GetRemainedMonthLimitUseCaseImpl
 import io.ktor.server.application.Application
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +47,16 @@ fun Application.enableKodein() {
 }
 
 private fun moduleApplication() = DI.Module(name = "application") {
-    bind<LeagueDataSource>() with singleton { LeagueDataSourceImpl(instance(), instance()) }
+    bind<DayLimitsGenerator>() with singleton { DayLimitsGeneratorImpl() }
+    bind<GetRemainedMonthLimitUseCase>() with singleton { GetRemainedMonthLimitUseCaseImpl(instance()) }
+    bind<LeagueDataSource>() with singleton {
+        LeagueDataSourceImpl(
+            network = instance(),
+            database = instance(),
+            dayLimitsGenerator = instance(),
+            remainedMonthLimitUseCase = instance()
+        )
+    }
     bind<LeagueRepository>() with singleton { LeagueRepositoryImpl(instance()) }
 }
 

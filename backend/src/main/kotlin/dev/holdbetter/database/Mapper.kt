@@ -1,7 +1,9 @@
 package dev.holdbetter.database
 
 import dev.holdbetter.common.GameResult
-import dev.holdbetter.common.GameResult.*
+import dev.holdbetter.common.GameResult.DRAW
+import dev.holdbetter.common.GameResult.LOSE
+import dev.holdbetter.common.GameResult.WIN
 import dev.holdbetter.common.MatchdayDTO
 import dev.holdbetter.common.TeamRankDTO
 import dev.holdbetter.common.TeamWithMatchesDTO
@@ -13,7 +15,9 @@ import dev.holdbetter.database.entity.Team
 import dev.holdbetter.database.table.MonthLimits
 import dev.holdbetter.innerApi.model.DayLimit
 import dev.holdbetter.innerApi.model.MonthLimit
-import dev.holdbetter.presenter.LimitsResolver
+import dev.holdbetter.interactor.DayLimitsGenerator.Config.SAFE_DAY_TO_DAY_UPDATE_RATE_IN_HOURS
+import dev.holdbetter.interactor.DayLimitsGenerator.Config.SAFE_DAY_TO_DAY_UPDATE_TIME_HOURS
+import dev.holdbetter.interactor.DayLimitsGenerator.Config.SAFE_DAY_TO_DAY_UPDATE_TIME_MINUTES
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
@@ -96,7 +100,7 @@ internal object Mapper {
                 plannedDayLimit = plannedDayLimit,
                 firstMatchStartOrDefault = firstMatchStartOrDefault,
                 remainedDayLimit = remainedDayLimit,
-                updateRate = updateRate
+                updateRate = updateRate.toDouble()
             )
         }
     }
@@ -112,7 +116,7 @@ internal object Mapper {
                     plannedDayLimit = plannedDayLimit,
                     firstMatchStartOrDefault = firstMatchStartOrDefault,
                     remainedDayLimit = remainedDayLimit,
-                    updateRate = updateRate
+                    updateRate = updateRate.toDouble()
                 )
             }
         } else {
@@ -120,14 +124,14 @@ internal object Mapper {
                 gameDayDuration = Duration.ZERO,
                 plannedDayLimit = 0,
                 firstMatchStartOrDefault = dateOnNullResult.atTime(
-                    LimitsResolver.SAFE_DAY_TO_DAY_UPDATE_TIME_HOURS,
-                    LimitsResolver.SAFE_DAY_TO_DAY_UPDATE_TIME_MINUTES
+                    SAFE_DAY_TO_DAY_UPDATE_TIME_HOURS,
+                    SAFE_DAY_TO_DAY_UPDATE_TIME_MINUTES
                 ).toInstant(TimeZone.UTC),
                 remainedDayLimit = 0,
-                updateRate = LimitsResolver.SAFE_DAY_TO_DAY_UPDATE_RATE_IN_HOURS
+                updateRate = SAFE_DAY_TO_DAY_UPDATE_RATE_IN_HOURS
                     .hours
                     .inWholeMinutes
-                    .toInt()
+                    .toDouble()
             )
         }
     }
