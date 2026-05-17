@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    id(Plugins.androidLibrary)
     id(Plugins.ksp)
 }
 

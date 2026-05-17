@@ -1,9 +1,19 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
     kotlin("android")
     id(Plugins.dikt)
+    id(Plugins.composeMultiplatform)
+    id(Plugins.composeCompiler)
     id(Plugins.googleServices).version(Versions.googleServicesVersion)
     id(Plugins.crashlytics).version(Versions.crashlyticsVersion)
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
 }
 
 android {
@@ -15,6 +25,8 @@ android {
         targetSdk = 36
         versionCode = 2
         versionName = "0.1.1"
+
+        buildConfigField("Boolean", "IS_COMPOSE", "true")
     }
     packaging {
         resources {
@@ -30,8 +42,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlinOptions {
-        jvmTarget = "21"
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -44,7 +56,16 @@ dependencies {
     implementation(Deps.AndroidX.fragmentKtx)
     implementation(Deps.AndroidX.navigationKtx)
     implementation(Deps.AndroidX.navigationRuntimeKtx)
+    implementation(Deps.AndroidX.navigationRuntimeKtx)
     implementation(Deps.Common.loggerNapier)
+
+    // Meta Compose
+    implementation(Deps.Compose.composeUiToolingPreview)
+    debugImplementation(Deps.Compose.composeUiTooling)
+
+    // Compose
+    implementation(Deps.AndroidX.activityCompose)
+
 
     implementation(project.dependencies.platform(Deps.AndroidX.firebaseBom))
     implementation(Deps.AndroidX.firebaseAnalytics)
@@ -62,4 +83,5 @@ dependencies {
     implementation(project(":shared:core-di-api"))
     implementation(project(":shared:core-di-impl"))
     implementation(project(":shared:core-database"))
+    implementation(project(":shared:compose:feature-standings"))
 }

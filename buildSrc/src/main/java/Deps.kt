@@ -35,9 +35,24 @@ object Deps {
         const val dikt = "io.github.sergeshustoff.dikt:dikt:${Versions.diktVersion}"
     }
 
+    object Js {
+        const val browserWrapper = "org.jetbrains.kotlin-wrappers:kotlin-browser:${Versions.kotlinWrappers}"
+    }
+
+    object Compose {
+        const val composeRuntime = "org.jetbrains.compose.runtime:runtime:${Versions.composeMultiplatform}"
+        const val composeFoundation = "org.jetbrains.compose.foundation:foundation:${Versions.composeMultiplatform}"
+        const val composeMaterial3 = "org.jetbrains.compose.material3:material3:${Versions.material3}"
+        const val composeUi = "org.jetbrains.compose.ui:ui:${Versions.composeMultiplatform}"
+        const val composeComponentResources = "org.jetbrains.compose.components:components-resources:${Versions.composeMultiplatform}"
+        const val composeUiToolingPreview = "org.jetbrains.compose.ui:ui-tooling-preview:${Versions.composeMultiplatform}"
+        const val composeUiTooling = "org.jetbrains.compose.ui:ui-tooling:${Versions.composeMultiplatform}"
+    }
+
     object AndroidX {
         const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
         const val activityKtx = "androidx.activity:activity-ktx:${Versions.activityKtxVersion}"
+        const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtxVersion}"
         const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompatVersion}"
         const val splash = "androidx.core:core-splashscreen:${Versions.splashVersion}"
@@ -60,6 +75,9 @@ object Deps {
         const val room = "androidx.room:room-runtime:${Versions.roomVersion}"
         const val roomKsp = "androidx.room:room-compiler:${Versions.roomVersion}"
         const val roomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
+
+        const val viewModelCompose = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.androidxLifecycle}"
+        const val runtimeCompose = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:${Versions.androidxLifecycle}"
     }
 
     object Test {
@@ -72,12 +90,18 @@ object Deps {
 }
 
 object Versions {
+    const val kotlinVersion = "2.3.21"
+    const val androidGradlePlugin = "8.9.1"
+    const val composeMultiplatform = "1.11.0"
+    const val material3 = "1.11.0-alpha07"
+
     const val ktorVersion = "3.0.3"
     const val exposedVersion = "0.56.0"
     const val postgresqlVersion = "42.7.4"
     const val kodeinVersion = "7.24.0"
     const val logbackVersion = "1.5.12"
 
+    const val kotlinWrappers = "2026.5.3"
     const val kotlinSerializationVersion = "1.9.0"
     const val kotlinCoroutinesVersion = "1.9.0"
     const val kotlinTimeVersion = "0.6.0"
@@ -89,6 +113,7 @@ object Versions {
 
     const val coreKtxVersion = "1.15.0"
     const val activityKtxVersion = "1.9.3"
+    const val activityCompose = "1.13.0"
     const val fragmentKtxVersion = "1.8.5"
     const val appcompatVersion = "1.7.0"
     const val splashVersion = "1.0.1"
@@ -98,10 +123,12 @@ object Versions {
     const val pullToRefreshVersion = "1.1.0"
     const val navigationVersion = "2.8.5"
     const val roomVersion = "2.6.1"
+    const val androidxLifecycle = "2.11.0-beta01"
 
+    const val metroVersion = "1.1.0-kotlin-2.0.20"
     const val diktVersion = "1.1.0-kotlin-2.0.20"
     const val googleServicesVersion = "4.3.15"
-    const val kspVersion = "2.1.0-1.0.29"
+    const val kspVersion = "2.3.7"
     const val crashlyticsVersion = "3.0.2"
 
     // Test
@@ -110,6 +137,13 @@ object Versions {
 
 object Plugins {
     const val dikt = "io.github.sergeshustoff.dikt"
+    const val metro = "dev.zacsweers.metro"
+    const val serialization = "org.jetbrains.kotlin.plugin.serialization"
+    const val androidApplication = "com.android.application"
+    const val androidLibrary = "com.android.library"
+    const val kotlinJvm = "org.jetbrains.kotlin.jvm"
+    const val composeMultiplatform = "org.jetbrains.compose"
+    const val composeCompiler = "org.jetbrains.kotlin.plugin.compose"
     const val ksp = "com.google.devtools.ksp"
     const val googleServices = "com.google.gms.google-services"
     const val crashlytics = "com.google.firebase.crashlytics"
