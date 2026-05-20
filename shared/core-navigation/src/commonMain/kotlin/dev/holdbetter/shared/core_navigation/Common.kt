@@ -5,3 +5,5 @@ expect class NavigationController
 expect class Deeplink
 
 internal expect fun getRouter(navigationController: NavigationController): Router
+
+typealias RouterProvider = (NavigationController) -> Router

@@ -1,12 +1,18 @@
+import com.android.build.api.dsl.androidLibrary
+
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    id(Plugins.androidMultiplatformLibrary)
 }
 
 kotlin {
     applyDefaultHierarchyTemplate()
     jvmToolchain(21)
-    androidTarget()
+    androidLibrary {
+        namespace = "dev.holdbetter.coreMvi"
+        compileSdk = 36
+        minSdk = 26
+    }
     
     listOf(
         iosX64(),
@@ -33,8 +39,6 @@ kotlin {
             }
         }
         val androidMain by getting
-        val androidUnitTest by getting
-        val androidInstrumentedTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -43,13 +47,5 @@ kotlin {
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
         val iosTest by getting
-    }
-}
-
-android {
-    namespace = "dev.holdbetter.coreMvi"
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 26
     }
 }

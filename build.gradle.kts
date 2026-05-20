@@ -1,20 +1,23 @@
 plugins {
     //trick: for the same plugin versions in all sub-modules
-    id("com.android.application").version("8.9.1").apply(false)
-    id("com.android.library").version("8.9.1").apply(false)
-    kotlin("android").version("2.1.0").apply(false)
-    kotlin("multiplatform").version("2.1.0").apply(false)
-    id("org.jetbrains.kotlin.plugin.serialization").version("2.1.0").apply(false)
-    id(Plugins.dikt).version(Versions.diktVersion).apply(false)
+    id(Plugins.androidApplication).version(Versions.androidGradlePlugin).apply(false)
+    id(Plugins.androidMultiplatformLibrary).version(Versions.androidGradlePlugin).apply(false)
+    kotlin("android").version(Versions.kotlinVersion).apply(false)
+    kotlin("multiplatform").version(Versions.kotlinVersion).apply(false)
+    id(Plugins.serialization).version(Versions.kotlinVersion).apply(false)
     id(Plugins.ksp).version(Versions.kspVersion).apply(false)
+    id(Plugins.kotlinJvm).version(Versions.kotlinVersion).apply(false)
+    id(Plugins.composeMultiplatform).version(Versions.composeMultiplatform).apply(false)
+    id(Plugins.composeCompiler).version(Versions.kotlinVersion).apply(false)
+    id(Plugins.metro).version(Versions.metroVersion).apply(false)
 }
 
 subprojects {
     configurations.all {
         resolutionStrategy {
-            force("androidx.core:core:1.15.0")
-            force("androidx.appcompat:appcompat:1.7.0")
-            force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+            force("androidx.core:core:${Versions.coreKtxVersion}")
+            force(Deps.AndroidX.appcompat)
+            force(Deps.Common.kotlinSerialization)
         }
     }
 }

@@ -6,7 +6,10 @@ import dev.holdbetter.shared.feature_team_detail.Match
 import dev.holdbetter.shared.feature_team_detail.TeamDetailRepository
 import dev.holdbetter.shared.feature_team_detail.TeamDetailStore
 import dev.holdbetter.shared.feature_team_detail.TeamDetailStore.State
-import dev.shustoff.dikt.Injectable
+import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailStoreFactory
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -24,10 +27,11 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 @OptIn(FlowPreview::class)
+@AssistedInject
 internal class TeamDetailStoreImpl(
-    teamId: Long,
+    @Assisted teamId: Long,
     private val repository: TeamDetailRepository
-) : AbstractFlow<State>(), TeamDetailStore, Injectable {
+) : AbstractFlow<State>(), TeamDetailStore {
 
     private sealed interface Effect {
         object LoadingStarted : Effect
@@ -193,5 +197,10 @@ internal class TeamDetailStoreImpl(
     private fun startup(teamId: Long): Flow<Effect> = flow {
         emit(Effect.LoadingStarted)
         emitAll(load(teamId))
+    }
+
+    @AssistedFactory
+    interface Factory : TeamDetailStoreFactory {
+        override fun create(teamId: Long): TeamDetailStoreImpl
     }
 }

@@ -1,13 +1,19 @@
+import com.android.build.api.dsl.androidLibrary
+
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
-    id(Plugins.dikt)
+    id(Plugins.androidMultiplatformLibrary)
+    id(Plugins.metro)
 }
 
 kotlin {
     applyDefaultHierarchyTemplate()
     jvmToolchain(21)
-    androidTarget()
+    androidLibrary {
+        namespace = "dev.holdbetter.core_network"
+        compileSdk = 36
+        minSdk = 26
+    }
 
     listOf(
         iosX64(),
@@ -26,7 +32,6 @@ kotlin {
             dependencies {
                 implementation(Deps.Network.ktorClient)
 
-                implementation(Deps.Common.dikt)
                 implementation(Deps.Common.kotlinSerialization)
 
                 implementation(project(":shared:common"))
@@ -41,11 +46,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(Deps.Network.ktorClientOkHttp)
-                implementation(Deps.Common.dikt)
             }
         }
-        val androidUnitTest by getting
-        val androidInstrumentedTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -65,17 +67,7 @@ kotlin {
                 implementation(Deps.Backend.exposedCore)
                 implementation(Deps.Backend.exposedDao)
                 implementation(Deps.Backend.exposedJdbc)
-
-                implementation(Deps.Common.dikt)
             }
         }
-    }
-}
-
-android {
-    namespace = "dev.holdbetter.core_network"
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 26
     }
 }

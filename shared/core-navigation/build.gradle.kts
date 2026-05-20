@@ -1,12 +1,23 @@
+import com.android.build.api.dsl.androidLibrary
+
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    id(Plugins.androidMultiplatformLibrary)
+    id(Plugins.metro)
 }
 
 kotlin {
     applyDefaultHierarchyTemplate()
     jvmToolchain(21)
-    androidTarget()
+    androidLibrary {
+        namespace = "dev.holdbetter.shared.core_navigation"
+        compileSdk = 36
+        minSdk = 26
+
+        androidResources {
+            enable = true
+        }
+    }
     
     listOf(
         iosX64(),
@@ -33,12 +44,6 @@ kotlin {
                 implementation(Deps.AndroidX.navigationFeatureModule)
             }
         }
-        val androidUnitTest by getting {
-            dependencies {
-                implementation(Deps.AndroidX.navigationTests)
-            }
-        }
-        val androidInstrumentedTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -47,13 +52,5 @@ kotlin {
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
         val iosTest by getting
-    }
-}
-
-android {
-    namespace = "dev.holdbetter.shared.core_navigation"
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 26
     }
 }

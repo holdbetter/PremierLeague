@@ -13,15 +13,17 @@ import dev.holdbetter.assets.InsetsHandler
 import dev.holdbetter.assets.PremierFragment
 import dev.holdbetter.assets.assetsColor
 import dev.holdbetter.assets.updateWindowView
-import dev.holdbetter.core_di_impl.findModuleDependency
+import dev.holdbetter.core_di_api.folder.inject
+import dev.holdbetter.core_di_impl.injector
 import dev.holdbetter.feature_standings_impl.di.StandingsModule
-import dev.holdbetter.feature_standings_impl.di.StandingsRepositoryModule
-import dev.holdbetter.shared.core_navigation.di.NavigationModule
+import dev.zacsweers.metro.Inject
 
 class StandingsFragment : PremierFragment(R.layout.standings_fragment) {
 
-    private lateinit var component: StandingsComponent
+    @Inject
     private lateinit var module: StandingsModule
+
+    private lateinit var component: StandingsComponent
 
     private val primaryColor by lazy {
         requireActivity().getColor(assetsColor.leagueColorPrimary)
@@ -50,13 +52,7 @@ class StandingsFragment : PremierFragment(R.layout.standings_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        module = StandingsModule(
-            navigationModule = NavigationModule(findNavController()),
-            databaseModule = findModuleDependency(),
-            standingsRepositoryModule = StandingsRepositoryModule(
-                networkModule = findModuleDependency()
-            )
-        )
+        injector().inject(this)
 
         component = StandingsComponent(module.store)
     }
@@ -73,8 +69,8 @@ class StandingsFragment : PremierFragment(R.layout.standings_fragment) {
             StandingsViewImpl(
                 lifecycleScope = lifecycleScope,
                 view = view,
-                router = module.router,
-                databaseApi = module.database
+                router = module.routerProvider(findNavController()),
+                databaseApi = module.databaseApi
             )
         )
     }

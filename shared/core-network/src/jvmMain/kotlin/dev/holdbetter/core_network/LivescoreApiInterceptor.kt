@@ -1,21 +1,21 @@
 package dev.holdbetter.core_network
 
-import dev.holdbetter.core_di_api.folder.Dikt
 import dev.holdbetter.core_network.model.Category
 import dev.holdbetter.core_network.model.Credit
 import dev.holdbetter.core_network.model.Parameter
 import dev.holdbetter.core_network.model.RemoteLivescoreConfig
-import dev.shustoff.dikt.InjectableSingleInScope
+import dev.zacsweers.metro.Inject
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
 // TODO: Test
+@Inject
 internal class LivescoreApiInterceptor(
     private val credentials: Credit,
     private val category: Category
-) : Interceptor, InjectableSingleInScope<Dikt> {
+) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()

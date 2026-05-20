@@ -1,6 +1,7 @@
 package dev.holdbetter.premierleague.android
 
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorDestinationBuilder
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.get
+import dev.holdbetter.compose.feature_standings.App
 import dev.holdbetter.feature_standings_impl.StandingsFragment
 import dev.holdbetter.shared.core_navigation.Destination
 import dev.holdbetter.shared.core_navigation.createGraph
@@ -35,14 +37,20 @@ internal class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        val splashAnimationDelay = lifecycleScope.async(Dispatchers.IO) {
-            delay(800)
+        if (BuildConfig.IS_COMPOSE) {
+            setContent {
+                App()
+            }
+        } else {
+            val splashAnimationDelay = lifecycleScope.async(Dispatchers.IO) {
+                delay(800)
+            }
+            splash.setKeepOnScreenCondition { !splashAnimationDelay.isCompleted }
+
+            setContentView(R.layout.activity_main)
+
+            createNavigationGraph()
         }
-        splash.setKeepOnScreenCondition { !splashAnimationDelay.isCompleted }
-
-        setContentView(R.layout.activity_main)
-
-        createNavigationGraph()
     }
 
     private fun createNavigationGraph() {
