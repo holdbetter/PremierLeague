@@ -3,7 +3,6 @@ package dev.holdbetter.shared.feature_team_detail_impl.data
 import dev.holdbetter.common.Status
 import dev.holdbetter.common.util.isGameOver
 import dev.holdbetter.common.util.isRunning
-import dev.holdbetter.core_di_api.folder.Dikt
 import dev.holdbetter.core_network.model.TeamId
 import dev.holdbetter.shared.feature_team_detail.Match
 import dev.holdbetter.shared.feature_team_detail.MonthResult
@@ -11,11 +10,12 @@ import dev.holdbetter.shared.feature_team_detail.TeamDetailRepository
 import dev.holdbetter.shared.feature_team_detail.TeamDetailStore
 import dev.holdbetter.shared.feature_team_detail.initCalendar
 import dev.holdbetter.shared.feature_team_detail_impl.domain.Mapper
-import dev.shustoff.dikt.InjectableSingleInScope
+import dev.zacsweers.metro.Inject
 
+@Inject
 internal class TeamDetailRepositoryImpl(
     private val teamDetailDataSource: TeamDetailDataSource
-) : TeamDetailRepository, InjectableSingleInScope<Dikt> {
+) : TeamDetailRepository {
 
     override suspend fun getTeamDetail(teamId: Long): TeamDetailStore.State.Data.TeamDetail {
         val id = teamId.toString()

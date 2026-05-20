@@ -1,11 +1,11 @@
 package dev.holdbetter.core_network
 
-import dev.holdbetter.core_di_api.folder.Dikt
-import dev.shustoff.dikt.InjectableSingleInScope
+import dev.zacsweers.metro.Inject
 import okhttp3.Interceptor
 import okhttp3.Response
 
-internal class OkHttpInterceptor : Interceptor, InjectableSingleInScope<Dikt> {
+@Inject
+internal class OkHttpInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()

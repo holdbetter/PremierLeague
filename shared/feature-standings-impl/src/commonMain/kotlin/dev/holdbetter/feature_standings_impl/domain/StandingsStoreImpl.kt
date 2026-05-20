@@ -5,7 +5,7 @@ import dev.holdbetter.feature_standings_api.StandingsRepository
 import dev.holdbetter.feature_standings_api.StandingsStore
 import dev.holdbetter.feature_standings_api.StandingsStore.Intent
 import dev.holdbetter.feature_standings_api.StandingsStore.State
-import dev.shustoff.dikt.Injectable
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -22,9 +22,10 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
+@Inject
 internal class StandingsStoreImpl(
     private val repository: StandingsRepository
-) : AbstractFlow<State>(), StandingsStore, Injectable {
+) : AbstractFlow<State>(), StandingsStore {
 
     private sealed interface Effect {
         object LoadingStarted : Effect

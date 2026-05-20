@@ -1,18 +1,23 @@
-import org.gradle.kotlin.dsl.kotlin
+import com.android.build.api.dsl.androidLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform")
-    id(Plugins.androidLibrary)
+    id(Plugins.androidMultiplatformLibrary)
     id(Plugins.composeMultiplatform)
     id(Plugins.composeCompiler)
 }
 
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+    applyDefaultHierarchyTemplate()
+    jvmToolchain(21)
+    androidLibrary {
+        namespace = "dev.holdbetter.compose.feature_standings"
+        compileSdk = 36
+        minSdk = 26
+
+        androidResources {
+            enable = true
         }
     }
 
@@ -35,21 +40,6 @@ kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
-    }
-
-    android {
-        namespace = "dev.holdbetter.compose.feature_standings"
-        compileSdk = 36
-
-        defaultConfig {
-            minSdk = 26
-        }
-
-        testOptions {
-            unitTests {
-                isIncludeAndroidResources = true
-            }
-        }
     }
 
     sourceSets {

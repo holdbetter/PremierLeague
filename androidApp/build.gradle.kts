@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     id("com.android.application")
     kotlin("android")
-    id(Plugins.dikt)
+    id(Plugins.metro)
     id(Plugins.composeMultiplatform)
     id(Plugins.composeCompiler)
     id(Plugins.googleServices).version(Versions.googleServicesVersion)
@@ -26,7 +26,7 @@ android {
         versionCode = 2
         versionName = "0.1.1"
 
-        buildConfigField("Boolean", "IS_COMPOSE", "true")
+        buildConfigField("Boolean", "IS_COMPOSE", "false")
     }
     packaging {
         resources {

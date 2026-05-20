@@ -1,13 +1,20 @@
+import com.android.build.api.dsl.androidLibrary
+
 plugins {
     kotlin("multiplatform")
-    id(Plugins.androidLibrary)
+    id(Plugins.androidMultiplatformLibrary)
+    id(Plugins.metro)
     id(Plugins.ksp)
 }
 
 kotlin {
     applyDefaultHierarchyTemplate()
     jvmToolchain(21)
-    androidTarget()
+    androidLibrary {
+        namespace = "dev.holdbetter.shared.core_database"
+        compileSdk = 36
+        minSdk = 26
+    }
     
     listOf(
         iosX64(),
@@ -38,8 +45,6 @@ kotlin {
                 implementation(Deps.AndroidX.roomKtx)
             }
         }
-        val androidUnitTest by getting
-        val androidInstrumentedTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -51,14 +56,6 @@ kotlin {
     }
 }
 
-android {
-    namespace = "dev.holdbetter.shared.core_database"
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 26
-    }
-
-    dependencies {
-        ksp(Deps.AndroidX.roomKsp)
-    }
+dependencies {
+    add("kspAndroid", Deps.AndroidX.roomKsp)
 }

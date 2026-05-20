@@ -9,11 +9,11 @@ import androidx.navigation.fragment.findNavController
 import dev.holdbetter.assets.PremierFragment
 import dev.holdbetter.assets.isDarkMode
 import dev.holdbetter.assets.updateWindowView
-import dev.holdbetter.core_di_impl.findModuleDependency
+import dev.holdbetter.core_di_api.folder.inject
+import dev.holdbetter.core_di_impl.injector
 import dev.holdbetter.shared.core_navigation.Destination
-import dev.holdbetter.shared.core_navigation.di.NavigationModule
 import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailModule
-import dev.holdbetter.shared.feature_team_detail_impl.di.TeamDetailRepositoryModule
+import dev.zacsweers.metro.Inject
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 import kotlin.properties.Delegates
@@ -33,7 +33,9 @@ class TeamDetailFragment : PremierFragment(R.layout.team_detail_fragment) {
         }
     }
 
+    @Inject
     private lateinit var module: TeamDetailModule
+
     private lateinit var component: TeamDetailComponent
     private lateinit var teamImage: String
     private var teamId by Delegates.notNull<Long>()
@@ -49,17 +51,10 @@ class TeamDetailFragment : PremierFragment(R.layout.team_detail_fragment) {
             arguments?.getString(Destination.TeamDetail.Arguments.TEAM_IMAGE)
         ).run { URLDecoder.decode(this, StandardCharsets.UTF_8.toString()) }
 
-        module = TeamDetailModule(
-            teamId = teamId,
-            navigationModule = NavigationModule(findNavController()),
-            teamDetailRepositoryModule = TeamDetailRepositoryModule(
-                networkModule = findModuleDependency(),
-                databaseModule = findModuleDependency()
-            )
-        )
+        injector().inject(this)
 
         component = TeamDetailComponent(
-            module.store
+            module.teamDetailStoreFactory.create(teamId)
         )
     }
 
@@ -75,7 +70,7 @@ class TeamDetailFragment : PremierFragment(R.layout.team_detail_fragment) {
                 lifecycleScope = lifecycleScope,
                 view = view,
                 isDarkMode = activity.isDarkMode(),
-                router = module.router
+                router = module.routerProvider(findNavController())
             )
         )
     }

@@ -32,7 +32,6 @@ object Deps {
         const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutinesVersion}"
         const val loggerNapier = "io.github.aakira:napier:${Versions.napierVersion}"
         const val kotlinTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinTimeVersion}"
-        const val dikt = "io.github.sergeshustoff.dikt:dikt:${Versions.diktVersion}"
     }
 
     object Js {
@@ -90,8 +89,8 @@ object Deps {
 }
 
 object Versions {
-    const val kotlinVersion = "2.3.21"
-    const val androidGradlePlugin = "8.9.1"
+    const val kotlinVersion = "2.3.0"
+    const val androidGradlePlugin = "8.13.2"
     const val composeMultiplatform = "1.11.0"
     const val material3 = "1.11.0-alpha07"
 
@@ -111,7 +110,7 @@ object Versions {
     const val glideVersion = "4.14.2"
     const val firebaseVersion = "33.7.0"
 
-    const val coreKtxVersion = "1.15.0"
+    const val coreKtxVersion = "1.18.0"
     const val activityKtxVersion = "1.9.3"
     const val activityCompose = "1.13.0"
     const val fragmentKtxVersion = "1.8.5"
@@ -122,11 +121,10 @@ object Versions {
     const val recyclerVersion = "1.3.2"
     const val pullToRefreshVersion = "1.1.0"
     const val navigationVersion = "2.8.5"
-    const val roomVersion = "2.6.1"
+    const val roomVersion = "2.8.2"
     const val androidxLifecycle = "2.11.0-beta01"
 
-    const val metroVersion = "1.1.0-kotlin-2.0.20"
-    const val diktVersion = "1.1.0-kotlin-2.0.20"
+    const val metroVersion = "1.1.1"
     const val googleServicesVersion = "4.3.15"
     const val kspVersion = "2.3.7"
     const val crashlyticsVersion = "3.0.2"
@@ -136,11 +134,11 @@ object Versions {
 }
 
 object Plugins {
-    const val dikt = "io.github.sergeshustoff.dikt"
     const val metro = "dev.zacsweers.metro"
     const val serialization = "org.jetbrains.kotlin.plugin.serialization"
     const val androidApplication = "com.android.application"
     const val androidLibrary = "com.android.library"
+    const val androidMultiplatformLibrary = "com.android.kotlin.multiplatform.library"
     const val kotlinJvm = "org.jetbrains.kotlin.jvm"
     const val composeMultiplatform = "org.jetbrains.compose"
     const val composeCompiler = "org.jetbrains.kotlin.plugin.compose"

@@ -3,8 +3,9 @@ package dev.holdbetter.di
 import dev.holdbetter.core_network.ClientModuleProviderImpl
 import dev.holdbetter.core_network.di.ClientModule
 import dev.holdbetter.core_network.di.ClientModuleProvider
-import dev.holdbetter.core_network.di.DatabaseModule
-import dev.holdbetter.core_network.di.NetworkModule
+import dev.holdbetter.core_network.di.DatabaseBindingContainer
+import dev.holdbetter.core_network.di.NetworkGraph
+import dev.holdbetter.core_network.di.NetworkGraphFactory
 import dev.holdbetter.core_network.model.Country
 import dev.holdbetter.core_network.model.League
 import dev.holdbetter.interactor.DatabaseGateway
@@ -12,6 +13,7 @@ import dev.holdbetter.interactor.DayLimitsGenerator
 import dev.holdbetter.interactor.LeagueDataSource
 import dev.holdbetter.interactor.LeagueRepository
 import dev.holdbetter.interactor.NetworkGateway
+import dev.holdbetter.isDevelopment
 import dev.holdbetter.outerApi.util.LivescoreUnwrapper
 import dev.holdbetter.presenter.DatabaseGatewayImpl
 import dev.holdbetter.presenter.LeagueDataSourceImpl
@@ -76,17 +78,17 @@ private fun moduleSerialization() = DI.Module(name = "serialization") {
 }
 
 private fun moduleDatabase() = DI.Module(name = "database") {
-    bind<DatabaseModule>() with singleton { DatabaseModule() }
-    bind<Database>() with singleton { instance<DatabaseModule>().database }
+    bind<DatabaseBindingContainer>() with singleton { DatabaseBindingContainer(isDevelopment) }
+    bind<Database>() with singleton { instance<DatabaseBindingContainer>().provideDatabase() }
     bind<DatabaseGateway>() with singleton { DatabaseGatewayImpl(instance("default"), instance()) }
 }
 
 private fun moduleNetwork() = DI.Module(name = "network") {
     bind<ClientModuleProvider>() with singleton { ClientModuleProviderImpl(instance()) }
     bind<ClientModule>() with singleton { instance<ClientModuleProvider>().clientModule }
-    bind<NetworkModule>() with eagerSingleton { NetworkModule(instance()) }
+    bind<NetworkGraph>() with eagerSingleton { NetworkGraphFactory.create(instance()) }
     bind<NetworkGateway>() with singleton {
-        with(instance<NetworkModule>()) {
+        with(instance<NetworkGraph>()) {
             NetworkGatewayImpl(decoder, networkInteractor, instance())
         }
     }

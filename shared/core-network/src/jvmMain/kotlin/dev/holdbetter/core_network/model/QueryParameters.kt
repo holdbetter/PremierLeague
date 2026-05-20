@@ -1,10 +1,8 @@
 package dev.holdbetter.core_network.model
 
-import dev.shustoff.dikt.Injectable
-
 @JvmInline
 value class Category(override val value: String = RemoteLivescoreConfig.SPORT_CATEGORY) :
-    Parameter, Injectable {
+    Parameter {
     override val name: String
         get() = "Category"
 }

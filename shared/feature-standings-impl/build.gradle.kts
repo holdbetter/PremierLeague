@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
-    id(Plugins.dikt)
+    id(Plugins.androidLibrary)
+    id(Plugins.metro)
 }
 
 kotlin {
@@ -26,7 +26,6 @@ kotlin {
                 implementation(Deps.Common.kotlinSerialization)
                 implementation(Deps.Common.loggerNapier)
 
-                implementation(Deps.Common.dikt)
 
                 implementation(project(":shared:feature-standings-api"))
                 implementation(project(":shared:core-mvi"))
@@ -57,8 +56,6 @@ kotlin {
                 implementation(Deps.AndroidX.navigationRuntimeKtx)
             }
         }
-        val androidUnitTest by getting
-        val androidInstrumentedTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting

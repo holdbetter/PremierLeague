@@ -1,3 +1,0 @@
-package dev.holdbetter.core_di_api.folder
-
-interface HasSharedDependencies
