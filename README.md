@@ -22,9 +22,9 @@ Online in Dev Environment since May'26 (In Development)
 
 💬 Backend: Ktor (Server) + Flow/Coroutines (Network) + Ktor (Network) + Kodein (DI) + Exposed (ORM) + PostgreSQL (DB) + kotlinx.serialization (Data)
 
-🧱 Multiplatform: Custom Simple MVI (Model-View-Intent, inspired by arkivanov), Flow/Coroutines, Clean- Architecture ([What?](https://github.com/holdbetter/PremierLeague/tree/main#clean-)), Ktor + Abstraction (Network), DI.kt (DI), Napier (Logging), Deeplink Navigation, Local databases
+🧱 Multiplatform: Custom Simple MVI (Model-View-Intent, inspired by arkivanov), Flow/Coroutines, Clean- Architecture ([What?](https://github.com/holdbetter/PremierLeague/tree/main#clean-)), Ktor + Abstraction (Network), Metro (DI), Napier (Logging), Deeplink Navigation, Local databases
 
-📱 Android: Palette (Colors) + Glide + Room with ksp + Dynamic Navigation Component on routes + DI.kt (DI) + Coroutines/Flow + ViewBinding (xml) and bunch of custom views
+📱 Android: Palette (Colors) + Glide + Room with ksp + Dynamic Navigation Component on routes + Metro (DI) + Coroutines/Flow + ViewBinding (xml) and bunch of custom views
 
 🎨 Figma: Components + Themes + Prototypes
 
@@ -81,13 +81,13 @@ You are welcome for asking any questions about the project!
 - [ ]  Analytics
 - [ ]  Connectivity-aware
 - [ ]  Backend authentication
-- [ ]  K2 migration
+- [x]  K2 migration
 - [ ]  MVICore branch
-- [ ]  Android Compose branch
 - [ ]  Decompose branch
-- [ ]  Compose Multiplatform
-- [ ]  Web client (2024)
-- [ ]  iOS client - SwiftUI or Compose (2024)
+- [ ]  Android Compose branch (In Progress)
+- [ ]  Compose Multiplatform (In Progress)
+- [ ]  Web client (In Progress)
+- [ ]  iOS client - SwiftUI or Compose
 
 ## Architecture
 
@@ -95,9 +95,9 @@ This chapter describes how the project is designed and explains how the main mul
 
 ### About
 
-The project uses multimodule structure not only because it's KMM (Kotlin Multimodule). It’s like “microservices” - if you are not familiar with multimodule term.
+The project uses multimodule structure not only because it's KMP (Kotlin Multiplatform). It’s like “microservices” - if you are not familiar with multimodule term.
 
-All modules except `androidApp` and `backend` are KMM shared modules. Backend is JVM module with Ktor Server on board. AndroidApp is an application module of Android platform.
+All modules except `androidApp` and `backend` are KMP shared modules. Backend is JVM module with Ktor Server on board. AndroidApp is an application module of Android platform.
 
 Any *-example module is independent android application which exposes one feature to play with.
 
@@ -112,39 +112,6 @@ I’m using feature-separated structure. Communication between modules expressed
   
   ![PremierLeague Module Map](https://user-images.githubusercontent.com/47643827/232858640-8293af19-d076-4e60-ba0e-6085e38c9ff7.png)
 </details>
-
-### Clean-
-
-I’m aware of Clean architecture, but it doesn’t fit well with modern approaches since it adds a lot of boilerplate. I do use it, but not the way it was introduced.
-
-For example, things like RxJava and Flow changed the way you communicate between Clean layers. Also I am avoiding use-cases, because my project mostly has `Repository` with one method and I prefer keep it simple.
-
-As a result I don’t call it “Clean architurecture” even if I am applying it’s rules.
-
-### Network (Shared Business Logic Example)
-
-As you could see `core-network` module is shared module and it consists of 4 modules: common - contains shared code and others are platform-specific modules: Android, iOS, JVM. The last is using by backend service. So all project parts (even backend) consume same module, same logic and same API.
-
-I’ve designed 2 UML diagrams which describe communication between entities.
-
-First illustrates how platform-specific parts are implemented and how DI would provide it to feature-modules. If it seems hard to investigate please follow to second diagram.
-
-Multiplatform Shared Network Logic Implementation: [(pdf)](https://drive.google.com/file/d/1D-e0a82YKKUSuwUjkkrLNCJciqb0w0Ym/view?usp=share_link)
-
-<details>
-  <summary>Another big image chart:</summary>
-
-  ![multiplatformNetworkSharedUMLi](https://user-images.githubusercontent.com/47643827/232858684-d9bf05ac-8d64-4147-ad51-2ba4d84dfdcf.png)
-
-</details>
-
-The second diagram shows how feature module consumes network module. At the diagram, feature module is common module, it defines business logic with repository to receive data from network or database and return it to UI. 
-
-Although common module isn’t platform specific it provides repository to the presentation layer. Presentation (UI) is platform-specific so features common module implicitly exposes implementation code that’s why `android-network`  presented on chart.
-
-Multiplatform Shared Network Logic Usage: [(pdf)](https://drive.google.com/file/d/1D-e0a82YKKUSuwUjkkrLNCJciqb0w0Ym/view?usp=share_link)
-
-![multiplatformNetworkSharedUsageUMLi](https://user-images.githubusercontent.com/47643827/232858890-09b6887f-88bc-4046-99f1-1e33f4b6aa31.png)
 
 ### Build and Run
 
