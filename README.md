@@ -1,6 +1,6 @@
 # ![logo48](https://user-images.githubusercontent.com/47643827/232855048-dfc5ef01-71b1-4ab5-9a60-2b03986c3a87.svg) Premier League: standings, scores, teams 
 
-An open-source full-stack application with English football league scores built with Kotlin Multiplatform (KMP). 
+An open-source full-stack application with English football league scores built with Kotlin Multiplatform (KMP) and Compose Multiplatform (CMP). 
 
 **This project DOESN'T contain AI-generated code.**
 
