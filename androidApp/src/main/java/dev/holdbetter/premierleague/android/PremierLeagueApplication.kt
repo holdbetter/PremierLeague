@@ -1,6 +1,7 @@
 package dev.holdbetter.premierleague.android
 
 import android.app.Application
+import dev.holdbetter.compose.feature_standings.StandingsRoute
 import dev.holdbetter.core_di_api.folder.InjectorOwner
 import dev.holdbetter.core_network.di.AndroidClientGraph
 import dev.holdbetter.core_network.di.NetworkGraph
@@ -23,6 +24,8 @@ class PremierLeagueApplication : Application(), InjectorOwner {
                 databaseGraph = createGraphFactory<AndroidDatabaseGraph.Factory>().create(this),
             )
     }
+
+    val StandingsRoute: StandingsRoute by appGraph::standingsRoute
 
     override val injectors by appGraph::injectors
 

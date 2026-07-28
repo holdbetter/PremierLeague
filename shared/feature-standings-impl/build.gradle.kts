@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     id(Plugins.androidLibrary)
@@ -17,6 +19,15 @@ kotlin {
         it.binaries.framework {
             baseName = "feature-standings-impl"
         }
+    }
+
+    js {
+        browser()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
     }
 
     sourceSets {

@@ -26,7 +26,7 @@ android {
         versionCode = 2
         versionName = "0.1.1"
 
-        buildConfigField("Boolean", "IS_COMPOSE", "false")
+        buildConfigField("Boolean", "IS_COMPOSE", "true")
     }
     packaging {
         resources {
@@ -61,11 +61,14 @@ dependencies {
 
     // Meta Compose
     implementation(Deps.Compose.composeUiToolingPreview)
+    implementation(Deps.AndroidX.composeTracing)
     debugImplementation(Deps.Compose.composeUiTooling)
 
     // Compose
     implementation(Deps.AndroidX.activityCompose)
-
+    implementation(Deps.Compose.composeMaterial3)
+    implementation(Deps.Compose.composeUi)
+    implementation(Deps.Compose.composeFoundation)
 
     implementation(project.dependencies.platform(Deps.AndroidX.firebaseBom))
     implementation(Deps.AndroidX.firebaseAnalytics)
@@ -84,4 +87,5 @@ dependencies {
     implementation(project(":shared:core-di-impl"))
     implementation(project(":shared:core-database"))
     implementation(project(":shared:compose:feature-standings"))
+    implementation(project(":shared:compose:design-system"))
 }

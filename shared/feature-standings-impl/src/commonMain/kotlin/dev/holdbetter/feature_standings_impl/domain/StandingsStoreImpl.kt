@@ -6,24 +6,12 @@ import dev.holdbetter.feature_standings_api.StandingsStore
 import dev.holdbetter.feature_standings_api.StandingsStore.Intent
 import dev.holdbetter.feature_standings_api.StandingsStore.State
 import dev.zacsweers.metro.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.AbstractFlow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 @OptIn(FlowPreview::class)
 @Inject
-internal class StandingsStoreImpl(
+class StandingsStoreImpl(
     private val repository: StandingsRepository
 ) : AbstractFlow<State>(), StandingsStore {
 
