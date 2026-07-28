@@ -175,4 +175,4 @@ Android app runs from preconfigured standard Gradle task. You have to inject you
 
 ### p.s What project isn’t about?
 
-I’m focused on new things, so if I experienced in some topic, I am not interested in implementing and maintaining such features. That’s why clients are not connectivity-aware; They don't have retry policy, exception handling.
+I’m focused on new things, so if I am experienced in some topic, I am not interested in implementing and maintaining such features. That’s why clients are not connectivity-aware; They don't have retry policy, exception handling.
