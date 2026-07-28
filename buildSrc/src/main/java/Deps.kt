@@ -46,6 +46,9 @@ object Deps {
         const val composeComponentResources = "org.jetbrains.compose.components:components-resources:${Versions.composeMultiplatform}"
         const val composeUiToolingPreview = "org.jetbrains.compose.ui:ui-tooling-preview:${Versions.composeMultiplatform}"
         const val composeUiTooling = "org.jetbrains.compose.ui:ui-tooling:${Versions.composeMultiplatform}"
+
+        const val coil = "io.coil-kt.coil3:coil-compose:${Versions.coil3}"
+        const val coilNetwork = "io.coil-kt.coil3:coil-network-ktor3:${Versions.coil3}"
     }
 
     object AndroidX {
@@ -77,6 +80,9 @@ object Deps {
 
         const val viewModelCompose = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.androidxLifecycle}"
         const val runtimeCompose = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:${Versions.androidxLifecycle}"
+        const val coil = "io.ktor:ktor-client-android:${Versions.ktorVersion}"
+
+        const val composeTracing = "androidx.compose.runtime:runtime-tracing:1.11.1"
     }
 
     object Test {
@@ -89,10 +95,11 @@ object Deps {
 }
 
 object Versions {
-    const val kotlinVersion = "2.3.0"
+    const val kotlinVersion = "2.3.21"
     const val androidGradlePlugin = "8.13.2"
     const val composeMultiplatform = "1.11.0"
     const val material3 = "1.11.0-alpha07"
+    const val coil3 = "3.4.0"
 
     const val ktorVersion = "3.0.3"
     const val exposedVersion = "0.56.0"

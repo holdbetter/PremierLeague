@@ -92,7 +92,6 @@ internal class StandingsViewImpl(
     private fun content(model: Model) {
         with(binding) {
             contentReadyGroup.isVisible = !model.isLoading
-
             pullToRefresh.isEnabled = model.isRefreshEnabled
             if (model.standings != null) pullToRefresh.isRefreshing = false
         }

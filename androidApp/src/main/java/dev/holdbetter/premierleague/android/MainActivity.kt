@@ -4,7 +4,11 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavGraphBuilder
@@ -13,7 +17,7 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorDestinationBuilder
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.get
-import dev.holdbetter.compose.feature_standings.App
+import dev.holdbetter.compose.design_system.LeagueTheme
 import dev.holdbetter.feature_standings_impl.StandingsFragment
 import dev.holdbetter.shared.core_navigation.Destination
 import dev.holdbetter.shared.core_navigation.createGraph
@@ -38,8 +42,16 @@ internal class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (BuildConfig.IS_COMPOSE) {
+            // TODO: consider to replace with universal method in composable screens
+            WindowCompat.getInsetsController(window, window.decorView)
+                .isAppearanceLightStatusBars = false
+
             setContent {
-                App()
+                LeagueTheme {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        (application as PremierLeagueApplication).StandingsRoute()
+                    }
+                }
             }
         } else {
             val splashAnimationDelay = lifecycleScope.async(Dispatchers.IO) {
