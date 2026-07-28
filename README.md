@@ -68,7 +68,7 @@ Hey, my name is Vilen.
 
 I am Android developer with 7+ year programming experience. I am passionate about UI/UX design and enjoy trying new things. This project expresses me well 😎
 
-It mainly developed for educational purposes. To be honest I am a tennis fan.
+This app mainly developed for educational purposes to help other developers in their work. And for me to test modern approaches in real world scenarios. To be honest I am a tennis fan.
 
 You are welcome for asking any questions about the project!
 
