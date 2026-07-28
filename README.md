@@ -11,7 +11,7 @@ Hey! Repository is under development right now, but core-features are ready, che
 
 #### Active Branches
 
-| Name | Description | Versions |
+| Name | Core description | Versions |
 |---|---|---|
 | `dev` | Migrating whole codebase to Compose with new approaches. Introduced Metro. Custom MVI rewritten in Compose. Standings Screen in Compose. iOS in Progress. | `minSdk = 26`, `targetSdk = 36`, `kotlin = 2.3.21`, `gradle-version = 8.13`, `agp = 8.13.2` |
 | `released/xml-dikt-di-kmp`| Production ready Backend and Android App. UI built with Android Views (XML). Used DI.kt as Dependency Injection framework. | `minSdk = 26`, `targetSdk = 36`, `kotlin = 2.1.0`, `gradle-version = 8.11.1`, `agp = 8.9.1` |
