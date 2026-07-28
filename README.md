@@ -28,7 +28,7 @@ Hey! Repository is under development right now, but core-features are ready, che
 
 ### Stack
 
-**Please refer to Active Branch to check relevant to the branch stack**
+**Please refer to Active Branch to check relevant branch stack**
 
 💬 Backend: Ktor (Server) + Flow/Coroutines (Network) + Ktor (Network) + Kodein (DI) + Exposed (ORM) + PostgreSQL (DB) + kotlinx.serialization (Data)
 
