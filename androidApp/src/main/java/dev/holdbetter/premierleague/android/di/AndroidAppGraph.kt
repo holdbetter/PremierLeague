@@ -13,7 +13,7 @@ import dev.zacsweers.metro.Includes
 import dev.zacsweers.metro.Provides
 
 @DependencyGraph(scope = AppScope::class, additionalScopes = [InjectorScope::class])
-interface AppGraph : InjectorOwner {
+interface AndroidAppGraph : InjectorOwner {
 
     val standingsRoute: StandingsRoute
 
@@ -26,6 +26,6 @@ interface AppGraph : InjectorOwner {
             @Provides application: Application,
             @Includes networkGraph: NetworkGraph,
             @Includes databaseGraph: DatabaseGraph
-        ): AppGraph
+        ): AndroidAppGraph
     }
 }

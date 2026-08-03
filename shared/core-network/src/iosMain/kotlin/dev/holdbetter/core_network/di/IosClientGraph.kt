@@ -7,7 +7,7 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
-import io.ktor.client.HttpClient
+import io.ktor.client.*
 import kotlinx.serialization.json.Json
 
 @DependencyGraph(AppScope::class)
@@ -22,6 +22,7 @@ abstract class IosClientGraph : ClientModule {
         ignoreUnknownKeys = true
     }
 
+    @SingleIn(AppScope::class)
     @Provides
     private fun provideHttpClient(): HttpClient {
         return DarwinHttpClientFactory.createClient()

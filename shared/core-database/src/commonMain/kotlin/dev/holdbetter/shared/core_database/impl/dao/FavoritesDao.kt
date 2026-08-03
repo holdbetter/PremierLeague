@@ -1,11 +1,11 @@
-package dev.holdbetter.shared.core_database.dao
+package dev.holdbetter.shared.core_database.impl.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room3.Dao
+import androidx.room3.Delete
+import androidx.room3.Insert
+import androidx.room3.Query
 import dev.holdbetter.shared.core_database.api.FavoritesApi
-import dev.holdbetter.shared.core_database.entity.UserFavoritesEntity
+import dev.holdbetter.shared.core_database.impl.entity.UserFavoritesEntity
 
 @Dao
 abstract class FavoritesDao : FavoritesApi {

@@ -5,7 +5,7 @@ import dev.holdbetter.compose.feature_standings.StandingsRoute
 import dev.holdbetter.core_di_api.folder.InjectorOwner
 import dev.holdbetter.core_network.di.AndroidClientGraph
 import dev.holdbetter.core_network.di.NetworkGraph
-import dev.holdbetter.premierleague.android.di.AppGraph
+import dev.holdbetter.premierleague.android.di.AndroidAppGraph
 import dev.holdbetter.shared.core_database.di.AndroidDatabaseGraph
 import dev.zacsweers.metro.createGraph
 import dev.zacsweers.metro.createGraphFactory
@@ -14,8 +14,8 @@ import io.github.aakira.napier.Napier
 
 class PremierLeagueApplication : Application(), InjectorOwner {
 
-    private val appGraph: AppGraph by lazy {
-        createGraphFactory<AppGraph.Factory>()
+    private val appGraph: AndroidAppGraph by lazy {
+        createGraphFactory<AndroidAppGraph.Factory>()
             .create(
                 application = this,
                 networkGraph = createGraphFactory<NetworkGraph.Factory>().create(
