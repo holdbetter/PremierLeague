@@ -28,6 +28,7 @@ dependencyResolutionManagement {
 rootProject.name = "PremierLeague"
 include(":androidApp")
 include(":backend")
+include(":shared:app")
 include(":shared:common")
 include(":shared:core-mvi")
 include(":shared:core-network")

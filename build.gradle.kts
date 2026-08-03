@@ -10,6 +10,7 @@ plugins {
     id(Plugins.composeMultiplatform).version(Versions.composeMultiplatform).apply(false)
     id(Plugins.composeCompiler).version(Versions.kotlinVersion).apply(false)
     id(Plugins.metro).version(Versions.metroVersion).apply(false)
+    id(Plugins.room3).version(Versions.room3Version).apply(false)
 }
 
 subprojects {

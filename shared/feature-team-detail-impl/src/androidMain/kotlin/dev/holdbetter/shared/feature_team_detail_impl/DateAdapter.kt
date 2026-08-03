@@ -20,8 +20,9 @@ import dev.holdbetter.assets.px
 import dev.holdbetter.shared.feature_team_detail.DateHolder
 import dev.holdbetter.shared.feature_team_detail_impl.databinding.CalendarItemBinding
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toJavaDayOfWeek
 import java.time.format.TextStyle
-import java.util.Locale
+import java.util.*
 import kotlin.properties.Delegates
 
 internal class DateAdapter(
@@ -144,6 +145,7 @@ internal class DateAdapter(
             val (date, isColored, isSelected) = dateHolder
 
             val dayWeek = date.dayOfWeek
+                .toJavaDayOfWeek()
                 .getDisplayName(TextStyle.FULL_STANDALONE, Locale.ENGLISH)
                 .substring(0..2)
                 .lowercase()

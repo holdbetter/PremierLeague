@@ -32,6 +32,10 @@ object Deps {
         const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutinesVersion}"
         const val loggerNapier = "io.github.aakira:napier:${Versions.napierVersion}"
         const val kotlinTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinTimeVersion}"
+
+        const val sqlite = "androidx.sqlite:sqlite-bundled:${Versions.sqlite}"
+        const val room3 = "androidx.room3:room3-runtime:${Versions.room3Version}"
+        const val room3Compiler = "androidx.room3:room3-compiler:${Versions.room3Version}"
     }
 
     object Js {
@@ -74,9 +78,6 @@ object Deps {
         const val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-ktx"
         const val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
 
-        const val room = "androidx.room:room-runtime:${Versions.roomVersion}"
-        const val roomKsp = "androidx.room:room-compiler:${Versions.roomVersion}"
-        const val roomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
 
         const val viewModelCompose = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.androidxLifecycle}"
         const val runtimeCompose = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:${Versions.androidxLifecycle}"
@@ -101,7 +102,7 @@ object Versions {
     const val material3 = "1.11.0-alpha07"
     const val coil3 = "3.4.0"
 
-    const val ktorVersion = "3.0.3"
+    const val ktorVersion = "3.1.0"
     const val exposedVersion = "0.56.0"
     const val postgresqlVersion = "42.7.4"
     const val kodeinVersion = "7.24.0"
@@ -110,7 +111,7 @@ object Versions {
     const val kotlinWrappers = "2026.5.3"
     const val kotlinSerializationVersion = "1.9.0"
     const val kotlinCoroutinesVersion = "1.9.0"
-    const val kotlinTimeVersion = "0.6.0"
+    const val kotlinTimeVersion = "0.7.1"
     const val napierVersion = "2.7.1"
 
     const val mviKotlinVersion = "4.0.0"
@@ -128,8 +129,10 @@ object Versions {
     const val recyclerVersion = "1.3.2"
     const val pullToRefreshVersion = "1.1.0"
     const val navigationVersion = "2.8.5"
-    const val roomVersion = "2.8.2"
     const val androidxLifecycle = "2.11.0-beta01"
+
+    const val room3Version = "3.0.1"
+    const val sqlite = "2.7.0"
 
     const val metroVersion = "1.1.1"
     const val googleServicesVersion = "4.3.15"
@@ -152,4 +155,5 @@ object Plugins {
     const val ksp = "com.google.devtools.ksp"
     const val googleServices = "com.google.gms.google-services"
     const val crashlytics = "com.google.firebase.crashlytics"
+    const val room3 = "androidx.room3"
 }

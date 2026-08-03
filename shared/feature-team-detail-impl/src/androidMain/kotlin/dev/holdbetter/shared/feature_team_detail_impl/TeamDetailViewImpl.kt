@@ -23,50 +23,24 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
-import dev.holdbetter.assets.accentColor
-import dev.holdbetter.assets.assetsColor
-import dev.holdbetter.assets.assetsDrawable
-import dev.holdbetter.assets.cardEndColor
-import dev.holdbetter.assets.cardStartColor
-import dev.holdbetter.assets.createPalette
-import dev.holdbetter.assets.generateTeamColor
-import dev.holdbetter.assets.getActionDrawable
-import dev.holdbetter.assets.getFutureBitmap
-import dev.holdbetter.assets.load
-import dev.holdbetter.assets.px
-import dev.holdbetter.assets.tileColor
+import dev.holdbetter.assets.*
 import dev.holdbetter.common.Status
 import dev.holdbetter.common.util.isRunning
 import dev.holdbetter.coreMvi.AbstractMviView
 import dev.holdbetter.shared.core_navigation.Router
-import dev.holdbetter.shared.feature_team_detail.DateHolder
-import dev.holdbetter.shared.feature_team_detail.Match
-import dev.holdbetter.shared.feature_team_detail.MonthResult
-import dev.holdbetter.shared.feature_team_detail.Team
-import dev.holdbetter.shared.feature_team_detail.TeamDetailStore
-import dev.holdbetter.shared.feature_team_detail.TeamDetailView
+import dev.holdbetter.shared.feature_team_detail.*
 import dev.holdbetter.shared.feature_team_detail.TeamDetailView.Event
 import dev.holdbetter.shared.feature_team_detail.TeamDetailView.Model
-import dev.holdbetter.shared.feature_team_detail_impl.databinding.DetailLoaderBinding
-import dev.holdbetter.shared.feature_team_detail_impl.databinding.DetailRefresherBinding
-import dev.holdbetter.shared.feature_team_detail_impl.databinding.LastMatchesBinding
-import dev.holdbetter.shared.feature_team_detail_impl.databinding.MatchCardBinding
-import dev.holdbetter.shared.feature_team_detail_impl.databinding.MatchHeaderBinding
-import dev.holdbetter.shared.feature_team_detail_impl.databinding.StatsBlockBinding
-import dev.holdbetter.shared.feature_team_detail_impl.databinding.TeamDetailFragmentBinding
+import dev.holdbetter.shared.feature_team_detail_impl.databinding.*
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.Month
+import kotlinx.datetime.*
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.Locale
+import java.util.*
 
 // TODO: Think about colors caching
 internal class TeamDetailViewImpl(
@@ -272,7 +246,7 @@ internal class TeamDetailViewImpl(
                 itemPosition - realPosition
             }
 
-            val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+            val now = kotlin.time.Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
             val nowPosition = calendar.indexOfFirst { it.date == now }
             val resultPosition = if (nowPosition != -1) {
                 nowPosition + offset
