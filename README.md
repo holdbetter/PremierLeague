@@ -1,19 +1,33 @@
 # ![logo48](https://user-images.githubusercontent.com/47643827/232855048-dfc5ef01-71b1-4ab5-9a60-2b03986c3a87.svg) Premier League: standings, scores, teams 
 
-An open-source full-stack application with English football league scores built with Kotlin Multiplatform (KMP)
+An open-source full-stack application with English football league scores built with Kotlin Multiplatform (KMP) and Compose Multiplatform (CMP). 
+
+**This project DOESN'T contain AI-generated code.**
 
 ![big_picture](https://user-images.githubusercontent.com/47643827/233084402-a84f5331-a881-4c8f-8f81-5800c4b9b1ec.png)
 
+<img width="4218" height="1446" alt="Frame 88(2)" src="https://github.com/user-attachments/assets/a88f66fc-62f4-49cd-a435-146b597969c7" />
+
+
 ### DISCLAIMER
-Hey! This branch under development right now, check other branches in main branch.
+Hey! Repository is under development right now, but core-features are ready, check [Active Branches?](https://github.com/holdbetter/PremierLeague/tree/main#active-branches).
 
-Was online at 2022/2023 season
+#### Active Branches
 
-Was online at 2023/2024 season
+| Name | Core description | Versions |
+|---|---|---|
+| `dev` | Migrating whole codebase to Compose with new approaches. Introduced Metro. Custom MVI rewritten in Compose. Standings Screen in Compose (Android + iOS). Detail screen is in Progress. | `minSdk = 26`, `targetSdk = 36`, `kotlin = 2.3.21`, `gradle-version = 8.13`, `agp = 8.13.2` |
+| `released/xml-dikt-di-kmp`| Production ready Backend and Android App. UI built with Android Views (XML). Used DI.kt as Dependency Injection framework. | `minSdk = 26`, `targetSdk = 36`, `kotlin = 2.1.0`, `gradle-version = 8.11.1`, `agp = 8.9.1` |
 
-Offline 2024/2025 season
+#### Working Status History
 
-Online in Dev Environment since May'26 (In Development)
+| Season | Status |
+|---|---|
+| 2022/2023 | Online |
+| 2023/2024 | Online |
+| 2024/2025 | Offline |
+| 2025/2026 | Offline |
+| Since May 2026 | Online in Dev Env |
 
 ### Stack
 
