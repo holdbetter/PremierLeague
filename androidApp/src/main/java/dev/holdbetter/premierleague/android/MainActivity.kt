@@ -48,9 +48,7 @@ internal class MainActivity : AppCompatActivity() {
 
             setContent {
                 LeagueTheme {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        (application as PremierLeagueApplication).StandingsRoute()
-                    }
+                    (application as PremierLeagueApplication).StandingsRoute()
                 }
             }
         } else {

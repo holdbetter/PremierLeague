@@ -1,10 +1,16 @@
 package dev.holdbetter.compose.design_system
 
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.Modifier
 
 @Composable
 fun LeagueTheme(
@@ -15,13 +21,20 @@ fun LeagueTheme(
     val typography = createTypography()
     val textStyle = createLeagueTextStyle(colors, typography)
 
+    val indicator = ripple(
+        color = colors.separator
+    )
+
     CompositionLocalProvider(
         LocalColorsProvider provides colors,
         LocalTextStyleProvider provides textStyle,
         LocalTypographyProvider provides typography,
-        LocalContentColor provides colors.textColor
+        LocalContentColor provides colors.textColor,
+        LocalIndication provides indicator
     ) {
-        content()
+        Box(modifier = Modifier.fillMaxSize().background(colors.background)) {
+            content()
+        }
     }
 }
 
