@@ -5,10 +5,7 @@ An open-source full-stack application with English football league scores built 
 ![big_picture](https://user-images.githubusercontent.com/47643827/233084402-a84f5331-a881-4c8f-8f81-5800c4b9b1ec.png)
 
 ### DISCLAIMER
-Hey! This repository in development right now, but core-features are developed. 
-It has active backend working in dev environment. 
-Some new approaches could be separated into different branches e.g branch with Compose and old XML UI version branch (current main).
-Check the status below. If it's online in Production Environment then you can just download package.
+Hey! This branch under development right now, check other branches in main branch.
 
 Was online at 2022/2023 season
 
@@ -20,21 +17,23 @@ Online in Dev Environment since May'26 (In Development)
 
 ### Stack
 
-💬 Backend: Ktor (Server) + Flow/Coroutines (Network) + Ktor (Network) + Kodein (DI) + Exposed (ORM) + PostgreSQL (DB) + kotlinx.serialization (Data)
+💬 Backend: Ktor (Server), Flow/Coroutines, Ktor (Network), Kodein (DI), Exposed (ORM), PostgreSQL (DB), kotlinx.serialization (Data, REST)
 
-🧱 Multiplatform: Custom Simple MVI (Model-View-Intent, inspired by arkivanov), Flow/Coroutines, Clean- Architecture ([What?](https://github.com/holdbetter/PremierLeague/tree/main#clean-)), Ktor + Abstraction (Network), Metro (DI), Napier (Logging), Deeplink Navigation, Local databases
-
-📱 Android: Palette (Colors) + Glide + Room with ksp + Dynamic Navigation Component on routes + Metro (DI) + Coroutines/Flow + ViewBinding (xml) and bunch of custom views
+🧱 Multiplatform: Compose, Custom MVI (Model-View-Intent, inspired by arkivanov), Flow/Coroutines, Clean- Architecture ([What?](https://github.com/holdbetter/PremierLeague/tree/main#clean-)), Ktor + Abstraction (Network), Metro (DI), Napier (Logging), Room3, Coil
 
 🎨 Figma: Components + Themes + Prototypes
 
-Also, you can just open `Deps.kt` file, but consider there are some unused constants (e.g MVICore, I’m not using it for now)
+Also, you can just open `Deps.kt` file, but aware that there are some unused constants (e.g MVICore, I’m not using it for now)
 
 ### Tech features
+
 - Multiplatform abstractions at network, database, navigation, UI, DI layers
-- Automatically colored UI based on team logo colors with custom adjusting on UI components demand
+- Multiplatform UI implementation: screens, styles
+- Simple Custom MVI Architecture over Composable
+- Backend included and uses shared models contact
 - Light and Dark theme are supported
-- Module separation: core and feature module scheme
+- Automatically colored UI, based on team logo colors with custom adjusting on UI components demand
+- Modules separation: Core and Feature modules scheme
 - Only cross-platform libraries / dependencies
 
 ### User features
@@ -45,12 +44,6 @@ Also, you can just open `Deps.kt` file, but consider there are some unused const
 - Watch live scores
 - Team matches calendar
 - Explore history at current season
-
-### Demonstration and access
-
-[Download apk](https://drive.google.com/file/d/1slZFDtRe3QMZI1i6tcjgce4gGQymuq7b/view?usp=sharing)
-
-[Watch demo](https://drive.google.com/file/d/1AKfiUJE2AHi7hqUM2WzLDsO2P_rV8qVO/view?usp=share_link)
 
 ### Credits
 
@@ -84,10 +77,10 @@ You are welcome for asking any questions about the project!
 - [x]  K2 migration
 - [ ]  MVICore branch
 - [ ]  Decompose branch
-- [ ]  Android Compose branch (In Progress)
-- [ ]  Compose Multiplatform (In Progress)
+- [x]  Android Compose branch
+- [x]  Compose Multiplatform
 - [ ]  Web client (In Progress)
-- [ ]  iOS client - SwiftUI or Compose
+- [x]  iOS client - SwiftUI or Compose
 
 ## Architecture
 
@@ -95,11 +88,9 @@ This chapter describes how the project is designed and explains how the main mul
 
 ### About
 
-The project uses multimodule structure not only because it's KMP (Kotlin Multiplatform). It’s like “microservices” - if you are not familiar with multimodule term.
+The project uses multimodule structure not only because it's KMP (Kotlin Multiplatform). It’s like “microservices”.
 
-All modules except `androidApp` and `backend` are KMP shared modules. Backend is JVM module with Ktor Server on board. AndroidApp is an application module of Android platform.
-
-Any *-example module is independent android application which exposes one feature to play with.
+Backend is JVM module with Ktor Server on board. AndroidApp is an application module of Android platform.
 
 The project itself working with gradle `kotlin-dsl` plugin, so there is `buildSrc` module, it resolves dependencies across modules.
 
@@ -125,11 +116,11 @@ To build and run backend service you need prerequisites an API key and PostgreSQ
 
 **********Debug**********
 
-Alternatively, run gradle command in Android Studio to create configuration and debug it after
+Alternatively, run gradle command in your IDE to create configuration and debug it after
 
 #### Other
 
-Android app and feature example configs runs as it is from “Run configurations” menu, no additional steps required
+Android app as runs as it is from “Run configurations” menu. Setup your backend domain (or localhost) at LeagueBackendService.kt
 
 ### p.s What project isn’t about?
 
