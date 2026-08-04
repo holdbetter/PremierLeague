@@ -9,11 +9,13 @@ Hey! Repository is under development right now, but it has released (ready-to-go
 
 ![big_picture](https://user-images.githubusercontent.com/47643827/233084402-a84f5331-a881-4c8f-8f81-5800c4b9b1ec.png)
 
+<img width="4218" height="1446" alt="Frame 88(2)" src="https://github.com/user-attachments/assets/36921819-3d1e-4ce3-9d68-f05be5f9adf9" />
+
 #### Active Branches
 
 | Name | Core description | Versions |
 |---|---|---|
-| `dev` | Codebase migrated to Compose with new approaches. Introduced Metro (DI). Custom MVI rewritten in Compose. Standings Screen in Compose. iOS in Progress. | `minSdk = 26`, `targetSdk = 36`, `kotlin = 2.3.21`, `gradle-version = 8.13`, `agp = 8.13.2` |
+| `dev` | Codebase migrated to Compose with new approaches. Introduced Metro (DI). Custom MVI rewritten in Compose. Standings Screen in Compose (Android + iOS). | `minSdk = 26`, `targetSdk = 36`, `kotlin = 2.3.21`, `gradle-version = 8.13`, `agp = 8.13.2` |
 | `released/xml-dikt-di-kmp`| Production ready Backend and Android App. UI built with Android Views (XML). Used DI.kt as Dependency Injection framework. | `minSdk = 26`, `targetSdk = 36`, `kotlin = 2.1.0`, `gradle-version = 8.11.1`, `agp = 8.9.1` |
 
 #### Working Status History
