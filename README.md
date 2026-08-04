@@ -10,7 +10,7 @@ An open-source full-stack application with English football league scores built 
 
 
 ### DISCLAIMER
-Hey! Repository is under development right now, but core-features are ready, check [Active Branches?](https://github.com/holdbetter/PremierLeague/tree/main#active-branches).
+Hey! Repository is under development right now, but it has released (ready-to-go) branches, check [Active Branches](https://github.com/holdbetter/PremierLeague/tree/main#active-branches)
 
 #### Active Branches
 
